@@ -46,12 +46,55 @@ public class Character : MonoBehaviour
         InitializeStats();
     }
 
+    private void OnEnable()
+    {
+        Power.OnStatsUpdated += UpdatePower;
+        Accuracy.OnStatsUpdated += UpdateAccuracy;
+        Constitution.OnStatsUpdated += UpdateAccuracy;
+        Speed.OnStatsUpdated += UpdateSpeed;
+        Luck.OnStatsUpdated += UpdateLuck;
+    }
+
+    private void OnDisable()
+    {
+        Power.OnStatsUpdated -= UpdatePower;
+        Accuracy.OnStatsUpdated -= UpdateAccuracy;
+        Constitution.OnStatsUpdated -= UpdateAccuracy;
+        Speed.OnStatsUpdated -= UpdateSpeed;
+        Luck.OnStatsUpdated -= UpdateLuck;
+    }
+
     void InitializeStats()
     {
         Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
         ArmorRating.BaseValue = Constitution.Value * armorModifier;
         Damage.BaseValue = Power.Value * damageModifier;
-        //ArmorRating.AddModifier(new StatModifier(armor.armorValue, StatModType.Flat, this));
+    }
+
+    void UpdatePower()
+    {
+        Damage.BaseValue = Power.Value * damageModifier;
+    }
+
+    void UpdateAccuracy()
+    {
+
+    }
+
+    void UpdateConstitution()
+    {
+        Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
+        ArmorRating.BaseValue = Constitution.Value * armorModifier;
+    }
+
+    void UpdateSpeed()
+    {
+
+    }
+
+    void UpdateLuck()
+    {
+        
     }
 }
 //Set the ArmorRating stat to cumulative armorValue from all armor
