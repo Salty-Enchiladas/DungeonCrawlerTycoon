@@ -1,6 +1,9 @@
-﻿public class Weapon : Equipment
+﻿using UnityEngine;
+
+public class Weapon : Equipment
 {
     public enum ActionType { Damage, Heal}
+    [Space, Header("Weapon Values")]
     public ActionType actionType;
 
     public int weaponDamage;

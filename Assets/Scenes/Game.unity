@@ -486,13 +486,11 @@ MonoBehaviour:
     BaseValue: 2
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 5
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!114 &247504910
 MonoBehaviour:
@@ -506,9 +504,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 2
   targetCount: 2
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!1 &343962365
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,9 +558,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 1
   targetCount: 1
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!114 &343962368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,13 +594,11 @@ MonoBehaviour:
     BaseValue: 3
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 5
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!1 &705507993
 GameObject:
@@ -725,9 +735,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 1
   targetCount: 1
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!114 &924975872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,13 +771,11 @@ MonoBehaviour:
     BaseValue: 3
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 5
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!1 &963194225
 GameObject:
@@ -961,6 +976,62 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1237223481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1237223483}
+  - component: {fileID: 1237223482}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1237223482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237223481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055070a62dea99c42b73fa231cf3aa78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rarities:
+  - rarity: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - rarity: 1
+    color: {r: 0.1886729, g: 0.9150943, b: 0.15970986, a: 1}
+  - rarity: 2
+    color: {r: 0.18396229, g: 0.56142455, b: 1, a: 1}
+  - rarity: 3
+    color: {r: 0.5786099, g: 0, b: 1, a: 1}
+  - rarity: 4
+    color: {r: 1, g: 0.6136042, b: 0, a: 1}
+  - rarity: 5
+    color: {r: 1, g: 0.07075471, b: 0.07075471, a: 1}
+--- !u!4 &1237223483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237223481}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1335265318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,13 +1136,11 @@ MonoBehaviour:
     BaseValue: 4
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 10
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!114 &1580610610
 MonoBehaviour:
@@ -1085,9 +1154,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 1
   targetCount: 1
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!114 &1580610611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,9 +1176,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 1
   targetCount: 1
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!1 &1890979441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,13 +1244,11 @@ MonoBehaviour:
     BaseValue: 2
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 5
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!114 &1890979444
 MonoBehaviour:
@@ -1181,9 +1262,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 1
   targetCount: 1
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!1 &2024121557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,13 +1462,11 @@ MonoBehaviour:
     BaseValue: 1
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 5
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!114 &2049438160
 MonoBehaviour:
@@ -1394,9 +1480,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 0
   weaponDamage: 1
   targetCount: 1
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0
 --- !u!1 &2058822982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,13 +1548,11 @@ MonoBehaviour:
     BaseValue: 1
   Luck:
     BaseValue: 1
-  DamageResistance:
-    BaseValue: 0
   Health:
     BaseValue: 5
-  WeaponAccuracy:
+  ArmorRating:
     BaseValue: 0
-  CritChance:
+  Damage:
     BaseValue: 0
 --- !u!114 &2058822985
 MonoBehaviour:
@@ -1475,6 +1566,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
   actionType: 1
   weaponDamage: 1
   targetCount: 3
+  armorValue: 0
+  power: 0
+  accuracy: 0
+  constitution: 0
+  speed: 0
+  luck: 0

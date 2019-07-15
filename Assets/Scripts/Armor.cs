@@ -1,6 +1,10 @@
-﻿public class Armor : Equipment
+﻿using UnityEngine;
+
+public class Armor : Equipment
 {
     public enum ArmorType { Light, Medium, Heavy}
+
+    [Space, Header("Weapon Values")]
     public ArmorType armorType;
 
     public int armorValue;
