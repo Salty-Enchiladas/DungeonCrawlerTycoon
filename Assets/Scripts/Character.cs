@@ -2,6 +2,19 @@
 
 public class Character : MonoBehaviour
 {
+    static readonly int baseHitChance = 60;
+    static readonly int maximumArmor = 100;
+
+    static readonly float accuracyHitChanceRatio = 2.0f;
+    static readonly float criticalHitChanceRatio = 1.0f;
+
+    public static readonly float criticalDamageModifier = 2.0f;
+    static readonly float damageModifier = 1.0f;
+    static readonly float armorModifier = 1.0f;
+    static readonly float constitutionHealthMultiplier = 5.0f;
+
+    public static readonly Weapon unarmedWeapon;
+
     public enum Allegiance {  Player, Enemy }
     public Allegiance allegiance;
 
@@ -16,12 +29,29 @@ public class Character : MonoBehaviour
     public CharacterStat Speed;
     public CharacterStat Luck;
 
-    public CharacterStat DamageResistance;
     public CharacterStat Health;
-    public CharacterStat WeaponAccuracy;
-    public CharacterStat CritChance;
+    public CharacterStat ArmorRating;
+    public CharacterStat Damage;
+
+    public float DamageResistance { get { return ((Constitution.Value * armorModifier) + ArmorRating.Value) / maximumArmor; } }
+    public float HitChance { get { return Accuracy.Value * accuracyHitChanceRatio; } }
+    public float CritChance { get { return Accuracy.Value * criticalHitChanceRatio; } }
 
     CharacterStat TravelSpeed;
     CharacterStat DropChance;
     CharacterStat ShopDiscount;
+
+    private void Start()
+    {
+        InitializeStats();
+    }
+
+    void InitializeStats()
+    {
+        Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
+        ArmorRating.BaseValue = Constitution.Value * armorModifier;
+        Damage.BaseValue = Power.Value * damageModifier;
+        //ArmorRating.AddModifier(new StatModifier(armor.armorValue, StatModType.Flat, this));
+    }
 }
+//Set the ArmorRating stat to cumulative armorValue from all armor

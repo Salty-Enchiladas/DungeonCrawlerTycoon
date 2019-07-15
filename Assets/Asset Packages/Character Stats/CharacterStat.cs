@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 [Serializable]
 public class CharacterStat
 {
+	public delegate void StatActions();
+	public event StatActions OnStatsUpdated;
 	public float BaseValue;
 
 	protected bool isDirty = true;
@@ -40,6 +42,7 @@ public class CharacterStat
 	{
 		isDirty = true;
 		statModifiers.Add(mod);
+		OnStatsUpdated?.Invoke();
 	}
 
 	public virtual bool RemoveModifier(StatModifier mod)
@@ -47,7 +50,8 @@ public class CharacterStat
 		if (statModifiers.Remove(mod))
 		{
 			isDirty = true;
-			return true;
+            OnStatsUpdated?.Invoke();
+            return true;
 		}
 		return false;
 	}
@@ -59,7 +63,8 @@ public class CharacterStat
 		if (numRemovals > 0)
 		{
 			isDirty = true;
-			return true;
+            OnStatsUpdated?.Invoke();
+            return true;
 		}
 		return false;
 	}

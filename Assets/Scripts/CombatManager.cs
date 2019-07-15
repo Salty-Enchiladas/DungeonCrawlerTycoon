@@ -6,18 +6,6 @@ using System.Collections;
 
 public static class CombatManager
 {
-    static readonly int baseHitChance = 60;
-    static readonly int maximumArmor = 100;
-
-    static readonly float accuracyHitChanceRatio = 2.0f;
-    static readonly float criticalHitChanceRatio = 1.0f;
-
-    static readonly float criticalDamageModifier = 2.0f;
-    static readonly float damageModifier = 1.0f;
-    static readonly float armorModifier = 1.0f;
-
-    static readonly Weapon unarmedWeapon;
-
     public static IEnumerator SimulateFight(Team playerTeam, Team enemyTeam)
     {
         //Key = Speed stat | Value = List of characters with same Speed stat 
@@ -194,23 +182,23 @@ public static class CombatManager
         int roll = Random.Range(1, 101);
 
         //Character hits
-        if (roll <= baseHitChance + ((int)character.Accuracy.Value * accuracyHitChanceRatio))
+        if (roll <= character.HitChance)
         {
             Debug.Log(character.name + "'s attack hit " + target.name + "!");
 
-            float damage = weapon.weaponDamage + ((int)character.Power.Value * damageModifier);
+            float damage = weapon.weaponDamage + character.Damage.Value;
             roll = Random.Range(1, 101);
 
             //Character crits
-            if (roll <= (int)character.Accuracy.Value * criticalHitChanceRatio)
+            if (roll <= character.CritChance)
             {
                 Debug.Log(character.name + "'s attack was a crit!");
-                damage *= criticalDamageModifier;
+                damage *= Character.criticalDamageModifier;
             }
-            Debug.Log(target.name + " resisted " + (target.DamageResistance.Value + (target.Constitution.Value * armorModifier)) / maximumArmor + " damage.");
+            Debug.Log(target.name + " resisted " + target.DamageResistance + " damage.");
 
             //Apply armor resistance to damage value
-            damage -= (target.DamageResistance.Value + (target.Constitution.Value * armorModifier)) / maximumArmor;
+            damage -= target.DamageResistance;
             Debug.Log(character.name + " did " + damage + " damage to " + target.name);
 
             //Apply damage to target
@@ -252,16 +240,15 @@ public static class CombatManager
             int roll = Random.Range(1, 101);
 
             //Character hits
-            if (roll <= baseHitChance + ((int)character.Accuracy.Value * accuracyHitChanceRatio))
+            if (roll <= character.HitChance)
             {
-                float healAmount = weapon.weaponDamage + ((int)character.Power.Value * damageModifier);
+                float healAmount = weapon.weaponDamage + character.Damage.Value;
 
                 roll = Random.Range(1, 101);
 
                 //Character crits
-                if (roll <= (int)character.Accuracy.Value * criticalHitChanceRatio)
-                    healAmount *= criticalDamageModifier;
-
+                if (roll <= character.CritChance)
+                    healAmount *= Character.criticalDamageModifier;
 
                 //Figures out how much health the character is missing to avoid overhealing
                 float missingHealth = lowestCharacter.Health.BaseValue - lowestCharacter.Health.BaseValue;
