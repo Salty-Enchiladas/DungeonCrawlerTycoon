@@ -28,12 +28,12 @@ public class Armor : Equipment
 
     public override void UnEquip()
     {
-        character = null;
         character.ArmorRating.RemoveAllModifiersFromSource(this);
         character.Power.RemoveAllModifiersFromSource(this);
         character.Accuracy.RemoveAllModifiersFromSource(this);
         character.Constitution.RemoveAllModifiersFromSource(this);
         character.Speed.RemoveAllModifiersFromSource(this);
         character.Luck.RemoveAllModifiersFromSource(this);
+        character = null;
     }
 }

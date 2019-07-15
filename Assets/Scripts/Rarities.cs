@@ -28,6 +28,8 @@ public class Rarity
 {
     public RarityType rarity;
     public Color color;
+    public int statCount;
+    public float rarityChance;
 }
 
 public enum RarityType

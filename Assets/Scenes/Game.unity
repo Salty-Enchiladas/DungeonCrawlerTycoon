@@ -505,6 +505,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 2
   targetCount: 2
@@ -559,6 +562,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 1
   targetCount: 1
@@ -736,6 +742,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 1
   targetCount: 1
@@ -1008,16 +1017,28 @@ MonoBehaviour:
   rarities:
   - rarity: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    statCount: 0
+    rarityChance: 100
   - rarity: 1
     color: {r: 0.1886729, g: 0.9150943, b: 0.15970986, a: 1}
+    statCount: 4
+    rarityChance: 30
   - rarity: 2
     color: {r: 0.18396229, g: 0.56142455, b: 1, a: 1}
+    statCount: 8
+    rarityChance: 10
   - rarity: 3
     color: {r: 0.5786099, g: 0, b: 1, a: 1}
+    statCount: 12
+    rarityChance: 5
   - rarity: 4
     color: {r: 1, g: 0.6136042, b: 0, a: 1}
+    statCount: 16
+    rarityChance: 2
   - rarity: 5
     color: {r: 1, g: 0.07075471, b: 0.07075471, a: 1}
+    statCount: 20
+    rarityChance: 0.1
 --- !u!4 &1237223483
 Transform:
   m_ObjectHideFlags: 0
@@ -1155,6 +1176,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 1
   targetCount: 1
@@ -1177,6 +1201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 1
   targetCount: 1
@@ -1263,6 +1290,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 1
   targetCount: 1
@@ -1481,6 +1511,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 0
   weaponDamage: 1
   targetCount: 1
@@ -1567,6 +1600,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
+  rarity: 0
+  maxStackCount: 0
+  price: 0
   actionType: 1
   weaponDamage: 1
   targetCount: 3
