@@ -483,7 +483,7 @@ MonoBehaviour:
   Constitution:
     BaseValue: 1
   Speed:
-    BaseValue: 1
+    BaseValue: 2
   Luck:
     BaseValue: 1
   DamageResistance:
@@ -579,7 +579,7 @@ MonoBehaviour:
   Constitution:
     BaseValue: 1
   Speed:
-    BaseValue: 1
+    BaseValue: 3
   Luck:
     BaseValue: 1
   DamageResistance:
@@ -751,7 +751,7 @@ MonoBehaviour:
   Constitution:
     BaseValue: 1
   Speed:
-    BaseValue: 1
+    BaseValue: 3
   Luck:
     BaseValue: 1
   DamageResistance:
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   Constitution:
     BaseValue: 2
   Speed:
-    BaseValue: 1
+    BaseValue: 4
   Luck:
     BaseValue: 1
   DamageResistance:
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   Constitution:
     BaseValue: 1
   Speed:
-    BaseValue: 1
+    BaseValue: 2
   Luck:
     BaseValue: 1
   DamageResistance:

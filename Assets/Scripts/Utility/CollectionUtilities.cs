@@ -41,7 +41,9 @@ namespace OuterRimStudios.Utilities
 
             List<T> tempList = new List<T>();
 
-            for (int i = amount; i > 0; i--)
+            int availableAmt = amount > list.Count ? list.Count : amount;
+
+            for (int i = availableAmt; i > 0; i--)
             {
                 T t = GetRandomItem(origList);
                 tempList.Add(t);
@@ -70,7 +72,9 @@ namespace OuterRimStudios.Utilities
 
             List<T> tempList = new List<T>();
 
-            for (int i = amount; i > 0; i--)
+            int availableAmt = amount > array.Length ? array.Length : amount;
+
+            for (int i = availableAmt; i > 0; i--)
             {
                 T t = GetRandomItem(origList);
                 tempList.Add(t);

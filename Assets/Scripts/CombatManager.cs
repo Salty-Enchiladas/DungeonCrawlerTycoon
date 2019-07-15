@@ -2,6 +2,7 @@
 using UnityEngine;
 using OuterRimStudios.Utilities;
 using System.Linq;
+using System.Collections;
 
 public static class CombatManager
 {
@@ -17,73 +18,97 @@ public static class CombatManager
 
     static readonly Weapon unarmedWeapon;
 
-    public static bool SimulateFight(Team playerTeam, Team enemyTeam)
+    public static IEnumerator SimulateFight(Team playerTeam, Team enemyTeam)
     {
         //Key = Speed stat | Value = List of characters with same Speed stat 
-        Dictionary<int, List<Character>> combatants = new Dictionary<int, List<Character>>();
+        SortedDictionary<int, List<Character>> combatants = new SortedDictionary<int, List<Character>>(new SpeedComp());
         AddCombatants(ref combatants, playerTeam);
         AddCombatants(ref combatants, enemyTeam);
 
         foreach(KeyValuePair<int, List<Character>> keyValuePair in combatants)
         {
-            Debug.Log("------------");
-            Debug.Log("--> " + keyValuePair.Key + " <--");
-
-            foreach (Character _character in keyValuePair.Value)
-                Debug.Log(_character.name);
-            Debug.Log("------------");
+            Debug.Log("-- " + keyValuePair.Key + " --");
+            foreach (Character c in keyValuePair.Value)
+                Debug.Log(c.name);
         }
-        
+
         //________GENERATE LOOT TABLE INFO_________
 
-        while(CheckTeamStatus(playerTeam))
+        for(;;)
         {
-            if(!CheckTeamStatus(enemyTeam))
-                return true;
-                
+            Debug.Log("Simulating...");
+
+            if (!CheckTeamStatus(playerTeam) || !CheckTeamStatus(enemyTeam))
+            {
+                Debug.Log("Player team alive = " + CheckTeamStatus(playerTeam));
+                Debug.Log("Enemy team alive = " + CheckTeamStatus(enemyTeam));
+                yield break;
+            }
+
             List<Character> combatOrder = new List<Character>();
             combatOrder = GetCombatOrder(combatants);
 
+            Debug.Log("------Combat Order------");
+            foreach (Character c in combatOrder)
+            {
+                Debug.Log(c.name);
+            }
+            Debug.Log("------------");
+
             //Loops through each Character in the combatOrder to take thier turn
-            foreach(Character character in combatOrder)
+            foreach (Character character in combatOrder)
             {
                 if (character.Health.Value <= 0) continue;
                 //Check for potion use here
 
+                Debug.Log(character.name + "'s Turn!");
+
                 //Attacks with the character's primary weapon
-                if(character.primaryWeapon.actionType == Weapon.ActionType.Damage)
+                if (character.primaryWeapon.actionType == Weapon.ActionType.Damage)
                 {
                     //Finds a list of targets at random according to the character's allegiance and how many target's this weapon hits
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.primaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.primaryWeapon.targetCount);
 
+                    Debug.Log(character.name + " is attacking: ");
+
+                    foreach (Character c in targets)
+                        Debug.Log(c.name);
+
                     //Deals damage to all targets
                     foreach (Character target in targets)
-                        DealDamage(ref combatants, character, character.primaryWeapon, target, playerTeam, enemyTeam);
+                        DealDamage(character, character.primaryWeapon, target, playerTeam, enemyTeam);
                 }
                 else if (character.primaryWeapon.actionType == Weapon.ActionType.Heal)  //If the weapon heals this will heal as many targets as the weapon dictates
                 {
-                    Heal(ref combatants, character, character.primaryWeapon, playerTeam, enemyTeam);
+                    Heal(character, character.primaryWeapon, playerTeam, enemyTeam);
                 }
 
                 //if the Character is dual wielding weapons they will try to attack or heal with their offhand
-                if(character.secondaryWeapon && character.secondaryWeapon.actionType == Weapon.ActionType.Damage)
+                if (character.secondaryWeapon && character.secondaryWeapon.actionType == Weapon.ActionType.Damage)
                 {
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.secondaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.secondaryWeapon.targetCount);
 
+                    Debug.Log(character.name + " is attacking: ");
+
+                    foreach (Character c in targets)
+                        Debug.Log(c.name);
+
                     foreach (Character target in targets)
-                        DealDamage(ref combatants, character, character.secondaryWeapon, target, playerTeam, enemyTeam);
+                        DealDamage(character, character.secondaryWeapon, target, playerTeam, enemyTeam);
                 }
                 else if (character.secondaryWeapon && character.secondaryWeapon.actionType == Weapon.ActionType.Heal)
                 {
-                    Heal(ref combatants, character, character.secondaryWeapon, playerTeam, enemyTeam);
+                    Heal(character, character.secondaryWeapon, playerTeam, enemyTeam);
                 }
             }
+
+            yield return new WaitForEndOfFrame();
         }
 
-        return false;
+        //yield return new WaitUntil(() => Simulating(ref combatants, playerTeam, enemyTeam));
     }
 
-    static void AddCombatants(ref Dictionary<int, List<Character>> combatants, Team team)
+    static void AddCombatants(ref SortedDictionary<int, List<Character>> combatants, Team team)
     {
         //This organizes the combtants list so that all characters with similar speeds share the same key
         foreach (Character character in team.characters)
@@ -96,9 +121,10 @@ public static class CombatManager
     }
 
     //Sorts combat order based on speed
-    static List<Character> GetCombatOrder(Dictionary<int, List<Character>> _combatants)
+    static List<Character> GetCombatOrder(SortedDictionary<int, List<Character>> _combatants)
     {
         List<Character> combatOrder = new List<Character>();
+        Debug.Log("combatants: " + _combatants.Count);
         //cohort refers to the characters that have the same speed value
         foreach(KeyValuePair<int, List<Character>> cohort in _combatants)
         {
@@ -106,16 +132,41 @@ public static class CombatManager
             if(cohort.Value.Count > 1)
             {
                 //Roll for initiative
+                List<Character> cohortList = new List<Character>();
+
+                Debug.Log("<><><><>");
+                foreach (Character c in cohort.Value)
+                {
+                    cohortList.Add(c);
+                    Debug.Log("Adding " + c.name + " to cohortList.");
+                }
+
                 int characterCount = cohort.Value.Count;
+
                 for (int i = characterCount; i > 0; i--)
                 {
-                    Character selectedChar = CollectionUtilities.GetRandomItem(cohort.Value);
-                    cohort.Value.Remove(selectedChar);
-                    combatOrder.Add(selectedChar);
+                    Character selectedChar = CollectionUtilities.GetRandomItem(cohortList);
+                    if (selectedChar.HealthPercentage > 0)
+                    {
+                        Debug.Log(selectedChar.name + " selected. Removing from cohort list.");
+
+                        cohortList.Remove(selectedChar);
+                        Debug.Log("Remaining In Cohort List");
+
+                        foreach (Character c in cohort.Value)
+                        {
+                            Debug.Log(c.name);
+                        }
+                        combatOrder.Add(selectedChar);
+                    }
                 }
+                Debug.Log("<><><><>");
             }
             else    //Only one person with specific speed stat
-                combatOrder.Add(cohort.Value[0]);
+            {
+                if(cohort.Value[0].HealthPercentage > 0)
+                    combatOrder.Add(cohort.Value[0]);
+            }
         }
 
         return combatOrder;
@@ -126,8 +177,10 @@ public static class CombatManager
     static bool CheckTeamStatus(Team team)
     {
         bool teamAlive = false;
+        Debug.Log("team size: " + team.characters.Count);
         foreach(Character character in team.characters)
         {
+            Debug.Log(character.name + "'s HP: " + character.Health.Value);
             if(character.Health.Value > 0)
                 teamAlive = true;
         }
@@ -135,7 +188,7 @@ public static class CombatManager
         return teamAlive;
     }
 
-    static void DealDamage(ref Dictionary<int, List<Character>> combatants, Character character, Weapon weapon, Character target, Team playerTeam, Team enemyTeam)
+    static void DealDamage(Character character, Weapon weapon, Character target, Team playerTeam, Team enemyTeam)
     {
         //Roll for hit
         int roll = Random.Range(1, 101);
@@ -143,33 +196,40 @@ public static class CombatManager
         //Character hits
         if (roll <= baseHitChance + ((int)character.Accuracy.Value * accuracyHitChanceRatio))
         {
+            Debug.Log(character.name + "'s attack hit " + target.name + "!");
+
             float damage = weapon.weaponDamage + ((int)character.Power.Value * damageModifier);
             roll = Random.Range(1, 101);
 
             //Character crits
             if (roll <= (int)character.Accuracy.Value * criticalHitChanceRatio)
+            {
+                Debug.Log(character.name + "'s attack was a crit!");
                 damage *= criticalDamageModifier;
+            }
+            Debug.Log(target.name + " resisted " + (target.DamageResistance.Value + (target.Constitution.Value * armorModifier)) / maximumArmor + " damage.");
 
             //Apply armor resistance to damage value
             damage -= (target.DamageResistance.Value + (target.Constitution.Value * armorModifier)) / maximumArmor;
+            Debug.Log(character.name + " did " + damage + " damage to " + target.name);
+
             //Apply damage to target
             target.Health.AddModifier(new StatModifier(-damage, StatModType.Flat));
 
             //If Target is dead remove from team and combatants
             if (target.Health.Value <= 0)
             {
+                Debug.Log(target.name + " Died!");
                 Team team = target.allegiance == Character.Allegiance.Player ? playerTeam : enemyTeam;
                 team.characters.Remove(target);
-                combatants[(int)target.Speed.Value].Remove(target);
-
-                //If there is no one else with the same Speed value in the combatants list, remove this value from the dictionary
-                if (combatants[(int)target.Speed.Value].Count <= 0)
-                    combatants.Remove((int)target.Speed.Value);
             }
+            else
+                Debug.Log(target.name + "'s health is " + target.Health.Value);
         }
+        else Debug.Log(character.name + "'s attack missed!");
     }
     
-    static void Heal(ref Dictionary<int, List<Character>> combatants, Character character, Weapon weapon, Team playerTeam, Team enemyTeam)
+    static void Heal(Character character, Weapon weapon, Team playerTeam, Team enemyTeam)
     {
         Team friendlyTeam = character.allegiance == Character.Allegiance.Player ? playerTeam : enemyTeam;
 
@@ -221,11 +281,25 @@ public static class CombatManager
             Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
 
             Weapon unarmedWeapon = new Weapon();
-            DealDamage(ref combatants, character, unarmedWeapon, target, playerTeam, enemyTeam);
+            DealDamage(character, unarmedWeapon, target, playerTeam, enemyTeam);
         }
     }
 }
 
-//Press play and hit fight to see the error
+//Used to sort the list based on Character Speed
+public class SpeedComp : IComparer<int>
+{
+    public int Compare(int a, int b)
+    {
+        /*  Default return values:
+            1   : Greater Than
+            0   : Equal
+            -1  : Less Than
+        */
+        //Return the inverse value of the normal compare because we are sorting in descending order
+        return -a.CompareTo(b);
+    }
+}
+
 //Move the readonly static modifiers to Character.cs
 //Set the Health and Armor stats at Start in Character

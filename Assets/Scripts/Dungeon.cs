@@ -9,13 +9,6 @@ public class Dungeon : PointOfInterest
 
     public void SimulateFight()
     {
-        if(CombatManager.SimulateFight(playerTeam, enemyTeam))
-        {
-            print("Win!");
-        }
-        else
-        {
-            print("Lose!");
-        }
+        StartCoroutine(CombatManager.SimulateFight(playerTeam, enemyTeam));
     }
 }
