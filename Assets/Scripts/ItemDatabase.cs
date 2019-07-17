@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class ItemDatabase : MonoBehaviour
 {
+    public static ItemDatabase Instance;
+
     public List<Weapons> weapons;
     public List<Armors> armors;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 }
 
 [System.Serializable]
@@ -38,40 +45,40 @@ public enum WeaponTypes
     Staff,
     Sword,
     Tome,
-    TwoHandedAxe,
-    TwoHandedMace,
-    TwoHandedSword
+    GreatAxe,
+    Maul,
+    GreatSword
 }
 public enum ArmorTypes
 {
-    LightBelt,
-    LightBoots,
-    LightBracers,
-    LightChectplate,
-    LightCloak,
-    LightGloves,
-    LightHelmet,
-    LightLegplate,
-    LightShoulderpads,
+    Light_Belt,
+    Light_Boots,
+    Light_Bracers,
+    Light_Chectplate,
+    Light_Cloak,
+    Light_Gloves,
+    Light_Helmet,
+    Light_Legplate,
+    Light_Shoulderpads,
 
-    MediumBelt,
-    MediumBoots,
-    MediumBracers,
-    MediumChectplate,
-    MediumCloak,
-    MediumGloves,
-    MediumHelmet,
-    MediumLegplate,
-    MediumShoulderpads,
+    Medium_Belt,
+    Medium_Boots,
+    Medium_Bracers,
+    Medium_Chectplate,
+    Medium_Cloak,
+    Medium_Gloves,
+    Medium_Helmet,
+    Medium_Legplate,
+    Medium_Shoulderpads,
 
-    HeavyBelt,
-    HeavyBoots,
-    HeavyBracers,
-    HeavyChectplate,
-    HeavyGloves,
-    HeavyHelmet,
-    HeavyLegplate,
-    HeavyShoulderpads,
+    Heavy_Belt,
+    Heavy_Boots,
+    Heavy_Bracers,
+    Heavy_Chectplate,
+    Heavy_Gloves,
+    Heavy_Helmet,
+    Heavy_Legplate,
+    Heavy_Shoulderpads,
 
     Necklace,
     Rings
