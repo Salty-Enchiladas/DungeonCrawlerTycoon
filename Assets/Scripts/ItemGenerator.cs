@@ -1,12 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 using TMPro;
 using OuterRimStudios.Utilities;
 
 public class ItemGenerator : MonoBehaviour
 {
+    public ItemDatabase itemDatabase;
+    public Rarities rarities;
+
+    [Space]
     public TextMeshProUGUI itemName;
     public TextMeshProUGUI itemInfo;
     public TextMeshProUGUI extraStat;
@@ -35,24 +41,67 @@ public class ItemGenerator : MonoBehaviour
         Speed.gameObject.SetActive(false);
         Luck.gameObject.SetActive(false);
 
-        itemName.text = "Helm of Wrath";
 
-        Rarity rarity = Rarities.GetRandomRarity();
+        Rarity rarity = rarities.GetRandomRarity();
 
         itemName.color = rarity.color;
         itemInfo.color = rarity.color;
 
-        itemInfo.text = rarity.rarity.ToString() + " Heavy Helmet";
+        int roll = Random.Range(0, 101);
 
-        extraStat.text = "24 Armor";
-        target.gameObject.SetActive(false);
+        string itemType;
+        int statMin;
+        int statMax;
+
+        if (roll <= 45)
+        {
+            int typeRoll = Random.Range(0, Enum.GetNames(typeof(WeaponCategories)).Length);
+            WeaponDatabase weaponDatabase = new WeaponDatabase();
+            if(typeRoll == 0)
+                weaponDatabase = itemDatabase.oneHandedWeapons[Random.Range(0, itemDatabase.oneHandedWeapons.Count)];
+            else if (typeRoll == 1)
+                weaponDatabase = itemDatabase.twoHandedWeapons[Random.Range(0, itemDatabase.twoHandedWeapons.Count)];
+            else
+                weaponDatabase = itemDatabase.offHandWeapons[Random.Range(0, itemDatabase.offHandWeapons.Count)];
+
+            WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
+            itemType = " " + weaponDatabase.weaponType;
+            icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
+            extraStat.text = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1) + " Damage";
+            statMin = weaponValues.minStats;
+            statMax = weaponValues.maxStats;
+        }
+        else
+        {
+            int typeRoll = Random.Range(0, Enum.GetNames(typeof(ArmorCategories)).Length);
+            ArmorDatabase armorDatabase = new ArmorDatabase();
+            if (typeRoll == 0)
+                armorDatabase = itemDatabase.accessories[Random.Range(0, itemDatabase.accessories.Count)];
+            else if (typeRoll == 1)
+                armorDatabase = itemDatabase.lightArmor[Random.Range(0, itemDatabase.lightArmor.Count)];
+            else if (typeRoll == 2)
+                armorDatabase = itemDatabase.mediumArmor[Random.Range(0, itemDatabase.mediumArmor.Count)];
+            else
+                armorDatabase = itemDatabase.heavyArmor[Random.Range(0, itemDatabase.heavyArmor.Count)];
+
+            ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, rarity.rarity);
+            itemType = " " + armorDatabase.armorTypes;
+            itemType = itemType.Replace('_', ' ');
+            icon.sprite = CollectionUtilities.GetRandomItem(armorDatabase.armorIcons);
+            extraStat.text = Random.Range(armorValues.minArmor, armorValues.maxArmor + 1) + " Armor";
+            statMin = armorValues.minStats;
+            statMax = armorValues.maxStats;
+        }
+
+        itemName.text = itemType;
+        itemInfo.text = rarity.rarity.ToString() + itemType;
 
         List<int> tempStats = new List<int>() { 1, 2, 3, 4, 5 };
         List<int> stats = CollectionUtilities.GetRandomItems(tempStats, rarity.statCount);
 
         print(rarity.rarity.ToString());
 
-        int statCount = Random.Range(rarity.statPointMin, rarity.statPointMax + 1);
+        int statCount = Random.Range(statMin, statMax + 1);
         for (int i = 0; i < statCount; i++)
         {
             int stat = CollectionUtilities.GetRandomItem(stats);
@@ -113,8 +162,8 @@ public class ItemGenerator : MonoBehaviour
         itemName.text = "Helm of Wrath";
         itemInfo.text = "Rare Heavy Helmet";
 
-        itemName.color = Rarities.GetRarityColor(RarityType.Rare);
-        itemInfo.color = Rarities.GetRarityColor(RarityType.Rare);
+        itemName.color = rarities.GetRarityColor(RarityType.Rare);
+        itemInfo.color = rarities.GetRarityColor(RarityType.Rare);
 
         extraStat.text = "24 Armor";
         target.gameObject.SetActive(false);

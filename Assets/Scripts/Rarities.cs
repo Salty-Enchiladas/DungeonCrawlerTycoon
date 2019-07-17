@@ -2,39 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rarities : MonoBehaviour
+[CreateAssetMenu(fileName = "Rarities")]
+public class Rarities : ScriptableObject
 {
-    public static Rarities Instance;
     public Rarity[] rarities;
 
-    private void Awake()
+    public Rarity GetRandomRarity()
     {
-        Instance = this;
-    }
-
-    public static Rarity GetRandomRarity()
-    {
-        for(int i = Instance.rarities.Length -1; i > 0; i--)
+        for(int i = rarities.Length -1; i > 0; i--)
         {
             float roll = Random.Range(0f, 101f);
 
-            if (roll <= Instance.rarities[i].rarityChance)
-                return Instance.rarities[i];
+            if (roll <= rarities[i].rarityChance)
+                return rarities[i];
         }
 
-        return Instance.rarities[0];
+        return rarities[0];
     }
 
-    public static Rarity GetRarity(int index)
+    public Rarity GetRarity(int index)
     {
-        if (Instance.rarities.Length > index && index >= 0)
-            return Instance.rarities[index];
+        if (rarities.Length > index && index >= 0)
+            return rarities[index];
         else return null;
     }
 
-    public static Color GetRarityColor(RarityType rarity)
+    public Color GetRarityColor(RarityType rarity)
     {
-        foreach (Rarity _rarity in Instance.rarities)
+        foreach (Rarity _rarity in rarities)
         {
             if (rarity == _rarity.rarity)
                 return _rarity.color;
@@ -49,8 +44,6 @@ public class Rarity
     public RarityType rarity;
     public Color color;
     public int statCount;
-    public int statPointMin;
-    public int statPointMax;
     public float rarityChance;
 }
 

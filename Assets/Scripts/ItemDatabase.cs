@@ -2,31 +2,95 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDatabase : MonoBehaviour
+[CreateAssetMenu(fileName = "ItemDatabase")]
+public class ItemDatabase : ScriptableObject
 {
-    public static ItemDatabase Instance;
+    public List<WeaponDatabase> oneHandedWeapons;
+    public List<WeaponDatabase> twoHandedWeapons;
+    public List<WeaponDatabase> offHandWeapons;
 
-    public List<Weapons> weapons;
-    public List<Armors> armors;
+    public List<ArmorDatabase> accessories;
+    public List<ArmorDatabase> lightArmor;
+    public List<ArmorDatabase> mediumArmor;
+    public List<ArmorDatabase> heavyArmor;
 
-    private void Awake()
+    public List<WeaponValues> weaponValues;
+    public List<ArmorValues> armorValues;
+
+    public WeaponValues GetWeaponValues(WeaponCategories weaponCategory, RarityType rarityType)
     {
-        Instance = this;
+        foreach (WeaponValues weaponValue in weaponValues)
+        {
+            if (weaponValue.weaponCategory == weaponCategory && weaponValue.rarityType == rarityType)
+                return weaponValue;
+        }
+
+        return weaponValues[0];
+    }
+
+    public ArmorValues GetArmorValues(ArmorCategories armorCategory, RarityType rarityType)
+    {
+        foreach(ArmorValues armorValue in armorValues)
+        {
+            if (armorValue.armorCategory == armorCategory && armorValue.rarityType == rarityType)
+                return armorValue;
+        }
+
+        return armorValues[0];
     }
 }
 
 [System.Serializable]
-public class Weapons
+public class WeaponDatabase
 {
+    public WeaponCategories weaponCategory;
     public WeaponTypes weaponType;
     public List<Sprite> weaponIcons;
 }
 
 [System.Serializable]
-public class Armors
+public class WeaponValues
 {
+    public WeaponCategories weaponCategory;
+    public RarityType rarityType;
+    public int targetCount;
+    public int minDamage;
+    public int maxDamage;
+    public int minStats;
+    public int maxStats;
+}
+
+[System.Serializable]
+public class ArmorDatabase
+{
+    public ArmorCategories armorCategory;
     public ArmorTypes armorTypes;
     public List<Sprite> armorIcons;
+}
+
+[System.Serializable]
+public class ArmorValues
+{
+    public ArmorCategories armorCategory;
+    public RarityType rarityType;
+    public int minArmor;
+    public int maxArmor;
+    public int minStats;
+    public int maxStats;
+}
+
+public enum WeaponCategories
+{
+    OneHanded,
+    TwoHanded,
+    OffHand
+}
+public enum ArmorCategories
+{
+    Accessory,
+    Light,
+    Medium,
+    Heavy
 }
 
 public enum WeaponTypes
@@ -47,39 +111,20 @@ public enum WeaponTypes
     Tome,
     GreatAxe,
     Maul,
-    GreatSword
+    GreatSword,
+    Wands
 }
 public enum ArmorTypes
 {
-    Light_Belt,
-    Light_Boots,
-    Light_Bracers,
-    Light_Chectplate,
-    Light_Cloak,
-    Light_Gloves,
-    Light_Helmet,
-    Light_Legplate,
-    Light_Shoulderpads,
-
-    Medium_Belt,
-    Medium_Boots,
-    Medium_Bracers,
-    Medium_Chectplate,
-    Medium_Cloak,
-    Medium_Gloves,
-    Medium_Helmet,
-    Medium_Legplate,
-    Medium_Shoulderpads,
-
-    Heavy_Belt,
-    Heavy_Boots,
-    Heavy_Bracers,
-    Heavy_Chectplate,
-    Heavy_Gloves,
-    Heavy_Helmet,
-    Heavy_Legplate,
-    Heavy_Shoulderpads,
-
+    Belt,
+    Boots,
+    Bracers,
+    Chestplate,
+    Cloak,
+    Gloves,
+    Helmet,
+    Legplate,
+    Pauldrons,
     Necklace,
     Rings
 }

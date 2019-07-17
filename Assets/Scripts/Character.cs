@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     public static readonly float criticalDamageModifier = 2.0f;
     static readonly float damageModifier = 1.0f;
     static readonly float armorModifier = 1.0f;
-    static readonly float constitutionHealthMultiplier = 5.0f;
+    static readonly float constitutionHealthMultiplier = 10.0f;
 
     public static readonly Weapon unarmedWeapon;
 
