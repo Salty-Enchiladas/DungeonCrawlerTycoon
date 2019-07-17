@@ -67,7 +67,16 @@ public class ItemGenerator : MonoBehaviour
             WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
             itemType = " " + weaponDatabase.weaponType;
             icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
-            extraStat.text = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1) + " Damage";
+
+            if(weaponValues.minDamage != 0)
+            {
+                extraStat.gameObject.SetActive(true);
+                extraStat.text = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1) + " Damage";
+            }
+            else
+                extraStat.gameObject.SetActive(false);
+
+
             statMin = weaponValues.minStats;
             statMax = weaponValues.maxStats;
         }
@@ -88,7 +97,15 @@ public class ItemGenerator : MonoBehaviour
             itemType = " " + armorDatabase.armorTypes;
             itemType = itemType.Replace('_', ' ');
             icon.sprite = CollectionUtilities.GetRandomItem(armorDatabase.armorIcons);
-            extraStat.text = Random.Range(armorValues.minArmor, armorValues.maxArmor + 1) + " Armor";
+
+            if (armorValues.minArmor != 0)
+            {
+                extraStat.gameObject.SetActive(true);
+                extraStat.text = Random.Range(armorValues.minArmor, armorValues.maxArmor + 1) + " Armor";
+            }
+            else
+                extraStat.gameObject.SetActive(false);
+
             statMin = armorValues.minStats;
             statMax = armorValues.maxStats;
         }
