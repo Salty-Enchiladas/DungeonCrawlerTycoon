@@ -27,6 +27,16 @@ public class Rarities : ScriptableObject
         else return null;
     }
 
+    public Rarity GetRarity(RarityType rarity)
+    {
+        foreach (Rarity _rarity in rarities)
+        {
+            if (rarity == _rarity.rarity)
+                return _rarity;
+        }
+        return rarities[0];
+    }
+
     public Color GetRarityColor(RarityType rarity)
     {
         foreach (Rarity _rarity in rarities)

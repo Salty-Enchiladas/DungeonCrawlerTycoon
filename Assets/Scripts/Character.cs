@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
@@ -18,20 +19,24 @@ public class Character : MonoBehaviour
     public enum Allegiance {  Player, Enemy }
     public Allegiance allegiance;
 
-    public Armor armor;
+    public Armor[] armor;
     public Weapon primaryWeapon;
     public Weapon secondaryWeapon;
+
+    [Space]
+    public Image characterIcon;
+
     public float HealthPercentage{get{ return Health.Value / Health.BaseValue;}}
 
-    public CharacterStat Power;
-    public CharacterStat Accuracy;
-    public CharacterStat Constitution;
-    public CharacterStat Speed;
-    public CharacterStat Luck;
+    public CharacterStat Power { get; private set; }
+    public CharacterStat Accuracy { get; private set; }
+    public CharacterStat Constitution { get; private set; }
+    public CharacterStat Speed { get; private set; }
+    public CharacterStat Luck { get; private set; }
 
-    public CharacterStat Health;
-    public CharacterStat ArmorRating;
-    public CharacterStat Damage;
+    public CharacterStat Health { get; private set; }
+    public CharacterStat ArmorRating { get; private set; }
+    public CharacterStat Damage { get; private set; }
 
     public float DamageResistance { get { return ((Constitution.Value * armorModifier) + ArmorRating.Value) / maximumArmor; } }
     public float HitChance { get { return Accuracy.Value * accuracyHitChanceRatio; } }
@@ -66,6 +71,12 @@ public class Character : MonoBehaviour
 
     void InitializeStats()
     {
+        Power.BaseValue = 1;
+        Accuracy.BaseValue = 1;
+        Constitution.BaseValue = 1;
+        Speed.BaseValue = 1;
+        Luck.BaseValue = 1;
+
         Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
         ArmorRating.BaseValue = Constitution.Value * armorModifier;
         Damage.BaseValue = Power.Value * damageModifier;

@@ -46,13 +46,18 @@ public static class CombatManager
             //Loops through each Character in the combatOrder to take thier turn
             foreach (Character character in combatOrder)
             {
-                if (character.Health.Value <= 0) continue;
+                if (character.HealthPercentage <= 0) continue;
                 //Check for potion use here
 
                 Debug.Log(character.name + "'s Turn!");
 
-                //Attacks with the character's primary weapon
-                if (character.primaryWeapon.actionType == Weapon.ActionType.Damage)
+                if(!character.primaryWeapon)
+                {
+                    Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
+                    Weapon unarmedWeapon = new Weapon();
+                    DealDamage(character, unarmedWeapon, target, playerTeam, enemyTeam);
+                }
+                else if (character.primaryWeapon.actionType == Weapon.ActionType.Damage) //Attacks with the character's primary weapon
                 {
                     //Finds a list of targets at random according to the character's allegiance and how many target's this weapon hits
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.primaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.primaryWeapon.targetCount);
@@ -168,8 +173,8 @@ public static class CombatManager
         Debug.Log("team size: " + team.characters.Count);
         foreach(Character character in team.characters)
         {
-            Debug.Log(character.name + "'s HP: " + character.Health.Value);
-            if(character.Health.Value > 0)
+            Debug.Log(character.name + "'s HP: " + character.HealthPercentage);
+            if(character.HealthPercentage > 0)
                 teamAlive = true;
         }
         

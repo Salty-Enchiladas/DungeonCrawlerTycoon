@@ -38,6 +38,34 @@ public class ItemDatabase : ScriptableObject
 
         return armorValues[0];
     }
+
+    public ArmorDatabase GetArmorDatabase(ArmorCategories armorCategory, ArmorTypes armorType)
+    {
+        switch(armorCategory)
+        {
+            case ArmorCategories.Accessory:
+                foreach(ArmorDatabase armorDatabase in accessories)
+                    if (armorType == armorDatabase.armorTypes)
+                        return armorDatabase;
+                break;
+            case ArmorCategories.Light:
+                foreach (ArmorDatabase armorDatabase in lightArmor)
+                    if (armorType == armorDatabase.armorTypes)
+                        return armorDatabase;
+                break;
+            case ArmorCategories.Medium:
+                foreach (ArmorDatabase armorDatabase in mediumArmor)
+                    if (armorType == armorDatabase.armorTypes)
+                        return armorDatabase;
+                break;
+            case ArmorCategories.Heavy:
+                foreach (ArmorDatabase armorDatabase in heavyArmor)
+                    if (armorType == armorDatabase.armorTypes)
+                        return armorDatabase;
+                break;
+        }
+        return null;
+    }
 }
 
 [System.Serializable]
