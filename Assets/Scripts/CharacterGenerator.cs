@@ -52,7 +52,7 @@ public class CharacterGenerator : MonoBehaviour
                     }
                 }
                 //Equip gear
-
+                //Sam and Hector were here
             }
         }
     }
