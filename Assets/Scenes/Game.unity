@@ -1053,6 +1053,8 @@ MonoBehaviour:
   canavs: {fileID: 5679249}
   characterPrefab: {fileID: 7787437361019796203, guid: a24300294afc6494893318c4f76e82b0,
     type: 3}
+  itemDatabase: {fileID: 11400000, guid: 728ac8cbe67f61c4ca23ae20f8e49cef, type: 2}
+  itemGenerator: {fileID: 0}
 --- !u!4 &1237223483
 Transform:
   m_ObjectHideFlags: 0
