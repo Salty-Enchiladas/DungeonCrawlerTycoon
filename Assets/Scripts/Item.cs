@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class Item : MonoBehaviour
+[System.Serializable]
+public class Item
 {
     [Header("Item Values")]
     public string itemName;

@@ -66,8 +66,10 @@ public class ItemDatabase : ScriptableObject
         }
         return null;
     }
+
 }
 
+#region Weapon Stuff
 [System.Serializable]
 public class WeaponDatabase
 {
@@ -88,37 +90,11 @@ public class WeaponValues
     public int maxStats;
 }
 
-[System.Serializable]
-public class ArmorDatabase
-{
-    public ArmorCategories armorCategory;
-    public ArmorTypes armorTypes;
-    public List<Sprite> armorIcons;
-}
-
-[System.Serializable]
-public class ArmorValues
-{
-    public ArmorCategories armorCategory;
-    public RarityType rarityType;
-    public int minArmor;
-    public int maxArmor;
-    public int minStats;
-    public int maxStats;
-}
-
 public enum WeaponCategories
 {
     OneHanded,
     TwoHanded,
     OffHand
-}
-public enum ArmorCategories
-{
-    Accessory,
-    Light,
-    Medium,
-    Heavy
 }
 
 public enum WeaponTypes
@@ -142,6 +118,38 @@ public enum WeaponTypes
     GreatSword,
     Wands
 }
+#endregion
+
+#region Armor Stuff
+[System.Serializable]
+public class ArmorDatabase
+{
+    public ArmorCategories armorCategory;
+    public ArmorTypes armorTypes;
+    public List<Sprite> armorIcons;
+}
+
+[System.Serializable]
+public class ArmorValues
+{
+    public ArmorCategories armorCategory;
+    public RarityType rarityType;
+    public int minArmor;
+    public int maxArmor;
+    public int minStats;
+    public int maxStats;
+}
+
+
+public enum ArmorCategories
+{
+    Accessory,
+    Light,
+    Medium,
+    Heavy
+}
+
+
 public enum ArmorTypes
 {
     Belt,
@@ -156,3 +164,4 @@ public enum ArmorTypes
     Necklace,
     Rings
 }
+#endregion

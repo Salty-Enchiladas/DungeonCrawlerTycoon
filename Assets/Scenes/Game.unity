@@ -439,7 +439,6 @@ GameObject:
   m_Component:
   - component: {fileID: 247504908}
   - component: {fileID: 247504909}
-  - component: {fileID: 247504910}
   m_Layer: 0
   m_Name: Sorcerer
   m_TagString: Untagged
@@ -474,35 +473,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 0
-  armor: []
-  primaryWeapon: {fileID: 247504910}
-  secondaryWeapon: {fileID: 0}
   characterIcon: {fileID: 0}
---- !u!114 &247504910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247504907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 2
-  targetCount: 2
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &343962365
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,7 +500,6 @@ GameObject:
   m_Component:
   - component: {fileID: 343962366}
   - component: {fileID: 343962368}
-  - component: {fileID: 343962367}
   m_Layer: 0
   m_Name: Goblin 3
   m_TagString: Untagged
@@ -535,31 +521,6 @@ Transform:
   m_Father: {fileID: 50060379}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &343962367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343962365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 1
-  targetCount: 1
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
 --- !u!114 &343962368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,10 +534,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 1
-  armor: []
-  primaryWeapon: {fileID: 343962367}
-  secondaryWeapon: {fileID: 0}
   characterIcon: {fileID: 0}
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +652,6 @@ GameObject:
   m_Component:
   - component: {fileID: 924975870}
   - component: {fileID: 924975872}
-  - component: {fileID: 924975871}
   m_Layer: 0
   m_Name: Goblin 4
   m_TagString: Untagged
@@ -700,31 +673,6 @@ Transform:
   m_Father: {fileID: 50060379}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &924975871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924975869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 1
-  targetCount: 1
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
 --- !u!114 &924975872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,10 +686,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 1
-  armor: []
-  primaryWeapon: {fileID: 924975871}
-  secondaryWeapon: {fileID: 0}
   characterIcon: {fileID: 0}
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1054,7 +1015,9 @@ MonoBehaviour:
   characterPrefab: {fileID: 7787437361019796203, guid: a24300294afc6494893318c4f76e82b0,
     type: 3}
   itemDatabase: {fileID: 11400000, guid: 728ac8cbe67f61c4ca23ae20f8e49cef, type: 2}
-  itemGenerator: {fileID: 0}
+  itemGenerator: {fileID: 1237223485}
+  armorSlots: 4
+  weaponSlots: 2
 --- !u!4 &1237223483
 Transform:
   m_ObjectHideFlags: 0
@@ -1140,8 +1103,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1580610608}
   - component: {fileID: 1580610609}
-  - component: {fileID: 1580610611}
-  - component: {fileID: 1580610610}
   m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
@@ -1176,60 +1137,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 0
-  armor: []
-  primaryWeapon: {fileID: 1580610611}
-  secondaryWeapon: {fileID: 1580610610}
   characterIcon: {fileID: 0}
---- !u!114 &1580610610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580610607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 1
-  targetCount: 1
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
---- !u!114 &1580610611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580610607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 1
-  targetCount: 1
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &1890979441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,7 +1164,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1890979442}
   - component: {fileID: 1890979443}
-  - component: {fileID: 1890979444}
   m_Layer: 0
   m_Name: Goblin 1
   m_TagString: Untagged
@@ -1275,35 +1198,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 1
-  armor: []
-  primaryWeapon: {fileID: 2049438160}
-  secondaryWeapon: {fileID: 0}
   characterIcon: {fileID: 0}
---- !u!114 &1890979444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890979441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 1
-  targetCount: 1
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &2024121557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1357,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2049438158}
   - component: {fileID: 2049438159}
-  - component: {fileID: 2049438160}
   m_Layer: 0
   m_Name: Goblin 2
   m_TagString: Untagged
@@ -1481,35 +1391,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 1
-  armor: []
-  primaryWeapon: {fileID: 2049438160}
-  secondaryWeapon: {fileID: 0}
   characterIcon: {fileID: 0}
---- !u!114 &2049438160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049438157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 0
-  weaponDamage: 1
-  targetCount: 1
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &2058822982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,7 +1418,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2058822983}
   - component: {fileID: 2058822984}
-  - component: {fileID: 2058822985}
   m_Layer: 0
   m_Name: Cleric
   m_TagString: Untagged
@@ -1555,35 +1452,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 0
-  armor: []
-  primaryWeapon: {fileID: 2058822985}
-  secondaryWeapon: {fileID: 0}
   characterIcon: {fileID: 0}
---- !u!114 &2058822985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058822982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec4d39806a1be14f946bd5af3ea7fa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: 
-  rarity: 0
-  maxStackCount: 0
-  price: 0
-  actionType: 1
-  weaponDamage: 1
-  targetCount: 3
-  armorValue: 0
-  power: 0
-  accuracy: 0
-  constitution: 0
-  speed: 0
-  luck: 0
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &2084915430
 GameObject:
   m_ObjectHideFlags: 0

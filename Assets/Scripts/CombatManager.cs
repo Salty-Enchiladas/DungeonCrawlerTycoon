@@ -51,7 +51,7 @@ public static class CombatManager
 
                 Debug.Log(character.name + "'s Turn!");
 
-                if(!character.primaryWeapon)
+                if(character.primaryWeapon == null)
                 {
                     Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
                     Weapon unarmedWeapon = new Weapon();
@@ -77,7 +77,7 @@ public static class CombatManager
                 }
 
                 //if the Character is dual wielding weapons they will try to attack or heal with their offhand
-                if (character.secondaryWeapon && character.secondaryWeapon.actionType == Weapon.ActionType.Damage)
+                if (character.secondaryWeapon != null && character.secondaryWeapon.actionType == Weapon.ActionType.Damage)
                 {
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.secondaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.secondaryWeapon.targetCount);
 
@@ -89,7 +89,7 @@ public static class CombatManager
                     foreach (Character target in targets)
                         DealDamage(character, character.secondaryWeapon, target, playerTeam, enemyTeam);
                 }
-                else if (character.secondaryWeapon && character.secondaryWeapon.actionType == Weapon.ActionType.Heal)
+                else if (character.secondaryWeapon != null && character.secondaryWeapon.actionType == Weapon.ActionType.Heal)
                 {
                     Heal(character, character.secondaryWeapon, playerTeam, enemyTeam);
                 }

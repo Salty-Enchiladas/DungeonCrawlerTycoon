@@ -15,7 +15,7 @@ public class ItemGenerator : MonoBehaviour
     public ItemDatabase itemDatabase;
     public Rarities rarities;
 
-    public Equipment GenerateEquipment(Equipment item, InventoryItem _inventoryItem, int statMin, int statMax)
+    public Equipment GenerateEquipment(Equipment equipment, InventoryItem _inventoryItem, int statMin, int statMax)
     {
         int pow = 0;
         int acc = 0;
@@ -29,7 +29,7 @@ public class ItemGenerator : MonoBehaviour
         _inventoryItem.itemDescription.Speed.gameObject.SetActive(false);
         _inventoryItem.itemDescription.Luck.gameObject.SetActive(false);
 
-        Rarity rarity = rarities.GetRarity(item.rarity);
+        Rarity rarity = rarities.GetRarity(equipment.rarity);
 
         _inventoryItem.itemDescription.itemName.color = rarity.color;
         _inventoryItem.itemDescription.itemInfo.color = rarity.color;
@@ -49,35 +49,40 @@ public class ItemGenerator : MonoBehaviour
 
                     _inventoryItem.itemDescription.Power.gameObject.SetActive(true);
                     _inventoryItem.itemDescription.Power.text = pow + " Power";
+                    equipment.power = pow;
                     break;
                 case 2:
                     acc++;
 
                     _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(true);
                     _inventoryItem.itemDescription.Accuracy.text = acc + " Accuracy";
+                    equipment.accuracy = acc;
                     break;
                 case 3:
                     con++;
 
                     _inventoryItem.itemDescription.Constituion.gameObject.SetActive(true);
                     _inventoryItem.itemDescription.Constituion.text = con + " Constitution";
+                    equipment.constitution = con;
                     break;
                 case 4:
                     spd++;
 
                     _inventoryItem.itemDescription.Speed.gameObject.SetActive(true);
                     _inventoryItem.itemDescription.Speed.text = spd + " Speed";
+                    equipment.speed = spd;
                     break;
                 case 5:
                     lck++;
 
                     _inventoryItem.itemDescription.Luck.gameObject.SetActive(true);
                     _inventoryItem.itemDescription.Luck.text = lck + " Luck";
+                    equipment.luck = lck;
                     break;
             }
         }
 
-        return null;
+        return equipment;
     }
 
     public Weapon GenerateWeapon(WeaponCategories weaponCategory)
@@ -106,7 +111,7 @@ public class ItemGenerator : MonoBehaviour
 
         WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
         _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
-
+        weapon.itemName = weaponDatabase.weaponType.ToString();
         if (weaponValues.minDamage != 0)
         {
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
@@ -117,7 +122,6 @@ public class ItemGenerator : MonoBehaviour
 
         _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
-
         return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
     }
 
@@ -139,6 +143,7 @@ public class ItemGenerator : MonoBehaviour
         _inventoryItem.itemDescription.itemName.text = itemType;
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + armorDatabase.armorTypes;
         _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(armorDatabase.armorIcons);
+        armor.itemName = itemType;
 
         if (armorValues.minArmor != 0)
         {

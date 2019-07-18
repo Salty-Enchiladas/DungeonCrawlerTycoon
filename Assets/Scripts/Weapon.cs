@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public class Weapon : Equipment
 {
     public enum ActionType { Damage, Heal}
@@ -8,13 +9,6 @@ public class Weapon : Equipment
 
     public int weaponDamage;
     public int targetCount;
-
-    public int armorValue;
-    public int power;
-    public int accuracy;
-    public int constitution;
-    public int speed;
-    public int luck;
 
     public override void Equip(Character _character)
     {

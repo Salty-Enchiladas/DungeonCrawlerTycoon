@@ -1,18 +1,12 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public class Armor : Equipment
 {
     public enum ArmorType { Light, Medium, Heavy}
 
     [Space, Header("Weapon Values")]
     public ArmorType armorType;
-
-    public int armorValue;
-    public int power;
-    public int accuracy;
-    public int constitution;
-    public int speed;
-    public int luck;
 
     public override void Equip(Character _character)
     {
