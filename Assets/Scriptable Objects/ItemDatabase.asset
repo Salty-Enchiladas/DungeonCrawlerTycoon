@@ -501,7 +501,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 267c0bcb6496bff4e95fc3a5917454d8, type: 3}
   accessories:
   - armorCategory: 0
-    armorTypes: 9
+    armorTypes: 8
     armorIcons:
     - {fileID: 21300000, guid: 8dd8d5230f0d78a4b92fd684dc21743f, type: 3}
     - {fileID: 21300000, guid: c97df0ca4ba34e34ba4474b95e23b1ae, type: 3}
@@ -663,7 +663,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 31b0e5fb101b57e4887ea3acc8e43617, type: 3}
     - {fileID: 21300000, guid: 02e298809c9156f4c8e09a7012de5dfe, type: 3}
   - armorCategory: 0
-    armorTypes: 10
+    armorTypes: 9
     armorIcons:
     - {fileID: 21300000, guid: 34b32557051790c4baba7ef0479d57b3, type: 3}
     - {fileID: 21300000, guid: 239a1210dce413046aa80466ca2b8a8a, type: 3}
@@ -879,45 +879,6 @@ MonoBehaviour:
   - armorCategory: 1
     armorTypes: 4
     armorIcons:
-    - {fileID: 21300000, guid: a08074cc7b05c6b419e060d5ae08a6a9, type: 3}
-    - {fileID: 21300000, guid: b5a89011f4a9f52498e4347f002bb0de, type: 3}
-    - {fileID: 21300000, guid: f82e8949c3a7def48a6cf319b43ac9f7, type: 3}
-    - {fileID: 21300000, guid: 563c4a4f022172246afc49dee9e5b41a, type: 3}
-    - {fileID: 21300000, guid: e669740e2b0e7ae4fa1fe44b4c2c04d9, type: 3}
-    - {fileID: 21300000, guid: 432405db3d0e54046b72b1f6c79aa5d5, type: 3}
-    - {fileID: 21300000, guid: e9898ce1ca3605048bb857128474fa97, type: 3}
-    - {fileID: 21300000, guid: f738df0eacab3e5468871ba22f87538a, type: 3}
-    - {fileID: 21300000, guid: d7c2413bc5e29de45a9d075163577823, type: 3}
-    - {fileID: 21300000, guid: b68c81e06c319ec44b4fb0243a2d1112, type: 3}
-    - {fileID: 21300000, guid: 1cbcad65193d7a34b9901b0a41fa18ed, type: 3}
-    - {fileID: 21300000, guid: 35ac242833ed1cf43aec2e04fb9c3fe5, type: 3}
-    - {fileID: 21300000, guid: de5c1c2a187ee2845945e4fea2113916, type: 3}
-    - {fileID: 21300000, guid: f766d5e39f503a44abf18d21db4cf0bb, type: 3}
-    - {fileID: 21300000, guid: 17d51dfa611aee64a88cd195a1830aa5, type: 3}
-    - {fileID: 21300000, guid: 19b87ff86f75a5d428f143735bd5240e, type: 3}
-    - {fileID: 21300000, guid: 8325aa24a016b554ba477200608a20f9, type: 3}
-    - {fileID: 21300000, guid: 9b2728b6fffb23b4b8e5b78f5e8158d5, type: 3}
-    - {fileID: 21300000, guid: 203b93da5bdb05245be746b7648b3202, type: 3}
-    - {fileID: 21300000, guid: 396fe94b867327d4b9e25c407892c898, type: 3}
-    - {fileID: 21300000, guid: f027c1d5a69fdb9418a0bf59bef53c63, type: 3}
-    - {fileID: 21300000, guid: 2f236962b99d3f94c87b19c9f511d9d5, type: 3}
-    - {fileID: 21300000, guid: 4c7de5852caf96c46b0d93912965683b, type: 3}
-    - {fileID: 21300000, guid: 110e881e65f465a41b1170be440d2b20, type: 3}
-    - {fileID: 21300000, guid: 239cc149f8ed3e94da8629708c0e6333, type: 3}
-    - {fileID: 21300000, guid: a85afcc2d5897cb45b6a42ad71d66dc1, type: 3}
-    - {fileID: 21300000, guid: 87478dcca87d48f418b60ce41cc6817a, type: 3}
-    - {fileID: 21300000, guid: 625e782e7c08c664fa8c90db9298f003, type: 3}
-    - {fileID: 21300000, guid: 9b0cd95e98decc14d8fba7e2ab565ab8, type: 3}
-    - {fileID: 21300000, guid: 91b7458095a4e674eabc6540a199b2ac, type: 3}
-    - {fileID: 21300000, guid: e2e08fde68bee9a45bd71be0b4183f57, type: 3}
-    - {fileID: 21300000, guid: c4a430f6185cd0a4dbed00ff980527b0, type: 3}
-    - {fileID: 21300000, guid: 32ba2fd6a31e1494bad8082d06b7a390, type: 3}
-    - {fileID: 21300000, guid: e30d16f8d54b5e94ba9976573ae2ebc5, type: 3}
-    - {fileID: 21300000, guid: 69724b9cec3c6c64ba3c8619f60696f2, type: 3}
-    - {fileID: 21300000, guid: 8430715b6999810459c7a8e9f40ab5ed, type: 3}
-  - armorCategory: 1
-    armorTypes: 5
-    armorIcons:
     - {fileID: 21300000, guid: 05d89071c73a6e14b929ffa4b8c19081, type: 3}
     - {fileID: 21300000, guid: 01c3fcf7ad1350a4899a8d33a0483df5, type: 3}
     - {fileID: 21300000, guid: 9bd220aea95f0ae4684c1078a6f26dd7, type: 3}
@@ -935,7 +896,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 2f6866568581d38409b6f1f598ac82da, type: 3}
     - {fileID: 21300000, guid: 1bce745dae0d65040878af1f37241c54, type: 3}
   - armorCategory: 1
-    armorTypes: 6
+    armorTypes: 5
     armorIcons:
     - {fileID: 21300000, guid: f6bee263f50bfd84f841b4d9fed3aa40, type: 3}
     - {fileID: 21300000, guid: ccd377756110d0c4fa2ba16e02394aa8, type: 3}
@@ -972,7 +933,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 998c5ee29bd82a44ea1eefa8ace9cd1c, type: 3}
     - {fileID: 21300000, guid: 348a31605cafc6a428bbf8580114c663, type: 3}
   - armorCategory: 1
-    armorTypes: 7
+    armorTypes: 6
     armorIcons:
     - {fileID: 21300000, guid: 69c351dbbb80c764a8a3abaf78194179, type: 3}
     - {fileID: 21300000, guid: 6cd51161803c7cb429501c20c97b824c, type: 3}
@@ -991,7 +952,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 65f598bb78d99e54ea45c9bf8619ad6e, type: 3}
     - {fileID: 21300000, guid: e2eed8e5fa0d07d43b9b3444996bcb84, type: 3}
   - armorCategory: 1
-    armorTypes: 8
+    armorTypes: 7
     armorIcons:
     - {fileID: 21300000, guid: 0f1c903415c92564b816bc1f26d34ea8, type: 3}
     - {fileID: 21300000, guid: 584885cde74a07144b57f7ec518d3a62, type: 3}
@@ -1105,23 +1066,6 @@ MonoBehaviour:
   - armorCategory: 2
     armorTypes: 4
     armorIcons:
-    - {fileID: 21300000, guid: 5c7ac4a1391105648a6dc973f5fd02f0, type: 3}
-    - {fileID: 21300000, guid: 702ad0d8c6bae534e932d0e22f8ec553, type: 3}
-    - {fileID: 21300000, guid: e2ef355a9655bab48a63d57895d9e469, type: 3}
-    - {fileID: 21300000, guid: 1e5c1d6867b5655428a7d834d81a602c, type: 3}
-    - {fileID: 21300000, guid: 6d8dac8eaa398104196b1a5f6ef7aab0, type: 3}
-    - {fileID: 21300000, guid: 880cf8f79755d5a4a8089790476d3419, type: 3}
-    - {fileID: 21300000, guid: e843d7cfcfffc2541aafb2c9808f6b3d, type: 3}
-    - {fileID: 21300000, guid: f93419c83e77b7d4e831fafb2006569c, type: 3}
-    - {fileID: 21300000, guid: 0e1f6dd44ef5dc24fa230469248e50a2, type: 3}
-    - {fileID: 21300000, guid: f3ec5fa466d81a649809fc44859076a0, type: 3}
-    - {fileID: 21300000, guid: ad62926fe149ecb42b9503c254131950, type: 3}
-    - {fileID: 21300000, guid: 8bb359d215fad2e479d7edf98fc99304, type: 3}
-    - {fileID: 21300000, guid: 70730622d671f3a4fb462d4add80d14c, type: 3}
-    - {fileID: 21300000, guid: ee3d3e79b20092340b534ebb1ebd37e7, type: 3}
-  - armorCategory: 2
-    armorTypes: 5
-    armorIcons:
     - {fileID: 21300000, guid: a68d5cbfc507ee543a7dd53a8dee3124, type: 3}
     - {fileID: 21300000, guid: bfb02e21607fd594d9f36bb4e83dd7b1, type: 3}
     - {fileID: 21300000, guid: deb435be12d225c44aeeaa7a903c5d71, type: 3}
@@ -1137,7 +1081,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 405860647a67647468df6034fac77ac5, type: 3}
     - {fileID: 21300000, guid: 966121fa11f4d284f94f1ea3e2355023, type: 3}
   - armorCategory: 2
-    armorTypes: 6
+    armorTypes: 5
     armorIcons:
     - {fileID: 21300000, guid: 148a6500a957cbd4698199ce96df25b4, type: 3}
     - {fileID: 21300000, guid: e3620a7043147994fa8dc8cdc45abb82, type: 3}
@@ -1163,7 +1107,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 41acb23d05c36ec419d39fa75d9cff06, type: 3}
     - {fileID: 21300000, guid: 7d1df14e22aba6c41ba1000a6336719a, type: 3}
   - armorCategory: 2
-    armorTypes: 7
+    armorTypes: 6
     armorIcons:
     - {fileID: 21300000, guid: bb5942e00b68ece49b3b8784b6c68e95, type: 3}
     - {fileID: 21300000, guid: 4e3c43f021e9c4c4cb6a869e9e69d353, type: 3}
@@ -1181,7 +1125,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: fae02bca91f8c634ea7d74352aec4cb8, type: 3}
     - {fileID: 21300000, guid: 46af9a5b7a3edd74c97604f4df751a65, type: 3}
   - armorCategory: 2
-    armorTypes: 8
+    armorTypes: 7
     armorIcons:
     - {fileID: 21300000, guid: 226a94017569a864a87b906401d44c6a, type: 3}
     - {fileID: 21300000, guid: 772ef041c2a1196488cb5eed152fd18e, type: 3}
@@ -1276,7 +1220,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 33a882ddba746c34e9a63e09d6aeda7f, type: 3}
     - {fileID: 21300000, guid: ed6798febc09984499fb3747220f35fb, type: 3}
   - armorCategory: 3
-    armorTypes: 5
+    armorTypes: 4
     armorIcons:
     - {fileID: 21300000, guid: bf2a9190806304d488d7bc1184172233, type: 3}
     - {fileID: 21300000, guid: 4e6f3b018932df941ab614abefd1b511, type: 3}
@@ -1301,7 +1245,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 29789f3e4ba222445adee9001581b75e, type: 3}
     - {fileID: 21300000, guid: 44c6d25e30379a24d9eed33b7c384e7d, type: 3}
   - armorCategory: 3
-    armorTypes: 6
+    armorTypes: 5
     armorIcons:
     - {fileID: 21300000, guid: 6647c900263dc924889430f309d243e1, type: 3}
     - {fileID: 21300000, guid: 2f0af1603cd09ba4794a94bc057665a3, type: 3}
@@ -1344,7 +1288,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: da641a9e8106d934fa4325c61e7742f1, type: 3}
     - {fileID: 21300000, guid: 5a6d068f323dd6342b4c9a1a5ee97725, type: 3}
   - armorCategory: 3
-    armorTypes: 7
+    armorTypes: 6
     armorIcons:
     - {fileID: 21300000, guid: d26e50b234d267c4b8cc9debdd0b0ce2, type: 3}
     - {fileID: 21300000, guid: be3fdad23314095438ffdd942f86cdc5, type: 3}
@@ -1361,7 +1305,7 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 93adbefe22a42c9428b0c52608855911, type: 3}
     - {fileID: 21300000, guid: 68a4eaaf81be06648b6d1f65021af9dd, type: 3}
   - armorCategory: 3
-    armorTypes: 8
+    armorTypes: 7
     armorIcons:
     - {fileID: 21300000, guid: 933e46f13636864418e28ae6324887f8, type: 3}
     - {fileID: 21300000, guid: dd266d722c3f3e64aabe243a3868662b, type: 3}

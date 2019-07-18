@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Team : MonoBehaviour
+public class Team
 {
-    public List<Character> characters;
+    public List<Character> characters = new List<Character>();
 }

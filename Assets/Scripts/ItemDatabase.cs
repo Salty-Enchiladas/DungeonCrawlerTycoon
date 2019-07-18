@@ -41,6 +41,7 @@ public class ItemDatabase : ScriptableObject
 
     public ArmorDatabase GetArmorDatabase(ArmorCategories armorCategory, ArmorTypes armorType)
     {
+        Debug.Log("category: " + armorCategory + "| type: " + armorType.ToString());
         switch(armorCategory)
         {
             case ArmorCategories.Accessory:
@@ -64,6 +65,7 @@ public class ItemDatabase : ScriptableObject
                         return armorDatabase;
                 break;
         }
+        Debug.Log("reached the end of getarmordatabase");
         return null;
     }
 
@@ -155,8 +157,7 @@ public enum ArmorTypes
     Belt,
     Boots,
     Bracers,
-    Chestplate,
-    Cloak,
+    Chestplate, 
     Gloves,
     Helmet,
     Legplate,

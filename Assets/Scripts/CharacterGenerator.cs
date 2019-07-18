@@ -13,14 +13,11 @@ public class CharacterGenerator : MonoBehaviour
 
     public int armorSlots = 4;
     public int weaponSlots = 2;
-    
-    private void Start() {
-        GenerateCharacter();
-    }
 
-    public void GenerateCharacter()
+    public Character GenerateCharacter()
     {
         Character character = Instantiate(characterPrefab, canavs);
+        character.InitializeStats();
 
         #region EquipArmor
         ArmorTypes[] armorTypes = (ArmorTypes[])Enum.GetValues(typeof(ArmorTypes));
@@ -114,6 +111,8 @@ public class CharacterGenerator : MonoBehaviour
             }
         }
         #endregion
+
+        return character;
     }
 }
 

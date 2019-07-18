@@ -49,7 +49,7 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
-        InitializeStats();
+        //InitializeStats();
     }
 
     private void OnEnable()
@@ -70,7 +70,7 @@ public class Character : MonoBehaviour
         Luck.OnStatsUpdated -= UpdateLuck;
     }
 
-    void InitializeStats()
+    public void InitializeStats()
     {
         Power.BaseValue = 1;
         Accuracy.BaseValue = 1;

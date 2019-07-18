@@ -8,4 +8,6 @@ public class Item
     public RarityType rarity;
     public int maxStackCount;
     public int price;
+
+    public InventoryItem inventoryItem;
 }

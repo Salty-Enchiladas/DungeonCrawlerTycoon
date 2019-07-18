@@ -23,6 +23,7 @@ public class ItemGenerator : MonoBehaviour
         int spd = 0;
         int lck = 0;
 
+        equipment.inventoryItem = _inventoryItem;
         _inventoryItem.itemDescription.Power.gameObject.SetActive(false);
         _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(false);
         _inventoryItem.itemDescription.Constituion.gameObject.SetActive(false);
@@ -36,49 +37,55 @@ public class ItemGenerator : MonoBehaviour
 
         List<int> tempStats = new List<int>() { 1, 2, 3, 4, 5 };
         List<int> stats = CollectionUtilities.GetRandomItems(tempStats, rarity.statCount);
+        foreach(int num in stats)
+            print("stat slot: " + num);
 
         int statCount = Random.Range(statMin, statMax + 1);
-        for (int i = 0; i < statCount; i++)
+        print("statcount: " + stats.Count);
+        if(stats.Count > 0)
         {
-            int stat = CollectionUtilities.GetRandomItem(stats);
-
-            switch (stat)
+            for (int i = 0; i < statCount; i++)
             {
-                case 1:
-                    pow++;
+                int stat = CollectionUtilities.GetRandomItem(stats);
 
-                    _inventoryItem.itemDescription.Power.gameObject.SetActive(true);
-                    _inventoryItem.itemDescription.Power.text = pow + " Power";
-                    equipment.power = pow;
-                    break;
-                case 2:
-                    acc++;
+                switch (stat)
+                {
+                    case 1:
+                        pow++;
 
-                    _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(true);
-                    _inventoryItem.itemDescription.Accuracy.text = acc + " Accuracy";
-                    equipment.accuracy = acc;
-                    break;
-                case 3:
-                    con++;
+                        _inventoryItem.itemDescription.Power.gameObject.SetActive(true);
+                        _inventoryItem.itemDescription.Power.text = pow + " Power";
+                        equipment.power = pow;
+                        break;
+                    case 2:
+                        acc++;
 
-                    _inventoryItem.itemDescription.Constituion.gameObject.SetActive(true);
-                    _inventoryItem.itemDescription.Constituion.text = con + " Constitution";
-                    equipment.constitution = con;
-                    break;
-                case 4:
-                    spd++;
+                        _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(true);
+                        _inventoryItem.itemDescription.Accuracy.text = acc + " Accuracy";
+                        equipment.accuracy = acc;
+                        break;
+                    case 3:
+                        con++;
 
-                    _inventoryItem.itemDescription.Speed.gameObject.SetActive(true);
-                    _inventoryItem.itemDescription.Speed.text = spd + " Speed";
-                    equipment.speed = spd;
-                    break;
-                case 5:
-                    lck++;
+                        _inventoryItem.itemDescription.Constituion.gameObject.SetActive(true);
+                        _inventoryItem.itemDescription.Constituion.text = con + " Constitution";
+                        equipment.constitution = con;
+                        break;
+                    case 4:
+                        spd++;
 
-                    _inventoryItem.itemDescription.Luck.gameObject.SetActive(true);
-                    _inventoryItem.itemDescription.Luck.text = lck + " Luck";
-                    equipment.luck = lck;
-                    break;
+                        _inventoryItem.itemDescription.Speed.gameObject.SetActive(true);
+                        _inventoryItem.itemDescription.Speed.text = spd + " Speed";
+                        equipment.speed = spd;
+                        break;
+                    case 5:
+                        lck++;
+
+                        _inventoryItem.itemDescription.Luck.gameObject.SetActive(true);
+                        _inventoryItem.itemDescription.Luck.text = lck + " Luck";
+                        equipment.luck = lck;
+                        break;
+                }
             }
         }
 
@@ -136,6 +143,7 @@ public class ItemGenerator : MonoBehaviour
         Armor armor = new Armor();
         armor.rarity = rarity.rarity;
 
+        print("Trying to get: " + armorDatabase.armorCategory + " : " + rarity.rarity);
         ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, rarity.rarity);
 
         string itemType = " " + armorDatabase.armorTypes;
