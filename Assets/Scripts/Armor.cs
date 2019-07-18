@@ -7,6 +7,7 @@ public class Armor : Equipment
 
     [Space, Header("Weapon Values")]
     public ArmorType armorType;
+    public int armorValue;
 
     public override void Equip(Character _character)
     {

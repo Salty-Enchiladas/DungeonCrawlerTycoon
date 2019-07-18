@@ -21,8 +21,8 @@ public class Character : MonoBehaviour
     public Allegiance allegiance;
 
     public List<Armor> armor;
-    public Weapon primaryWeapon;
-    public Weapon secondaryWeapon;
+    public Weapon primaryWeapon = null;
+    public Weapon secondaryWeapon = null;
 
     [Space]
     public Image characterIcon;

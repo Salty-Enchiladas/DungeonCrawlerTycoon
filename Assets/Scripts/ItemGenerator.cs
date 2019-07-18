@@ -37,11 +37,8 @@ public class ItemGenerator : MonoBehaviour
 
         List<int> tempStats = new List<int>() { 1, 2, 3, 4, 5 };
         List<int> stats = CollectionUtilities.GetRandomItems(tempStats, rarity.statCount);
-        foreach(int num in stats)
-            print("stat slot: " + num);
 
         int statCount = Random.Range(statMin, statMax + 1);
-        print("statcount: " + stats.Count);
         if(stats.Count > 0)
         {
             for (int i = 0; i < statCount; i++)
@@ -115,14 +112,16 @@ public class ItemGenerator : MonoBehaviour
         Weapon weapon = new Weapon();
         weapon.rarity = rarity.rarity;
 
-
         WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
         _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
         weapon.itemName = weaponDatabase.weaponType.ToString();
+        weapon.targetCount = weaponValues.targetCount;
         if (weaponValues.minDamage != 0)
         {
+            int damage = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1);
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
-            _inventoryItem.itemDescription.extraStat.text = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1) + " Damage";
+            _inventoryItem.itemDescription.extraStat.text = damage + " Damage";
+            weapon.weaponDamage = damage;
         }
         else
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
@@ -143,7 +142,6 @@ public class ItemGenerator : MonoBehaviour
         Armor armor = new Armor();
         armor.rarity = rarity.rarity;
 
-        print("Trying to get: " + armorDatabase.armorCategory + " : " + rarity.rarity);
         ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, rarity.rarity);
 
         string itemType = " " + armorDatabase.armorTypes;
@@ -155,8 +153,10 @@ public class ItemGenerator : MonoBehaviour
 
         if (armorValues.minArmor != 0)
         {
+            int armorValue = Random.Range(armorValues.minArmor, armorValues.maxArmor + 1);
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
-            _inventoryItem.itemDescription.extraStat.text = Random.Range(armorValues.minArmor, armorValues.maxArmor + 1) + " Armor";
+            _inventoryItem.itemDescription.extraStat.text = armorValue + " Armor";
+            armor.armorValue = armorValue;
         }
         else
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);

@@ -53,19 +53,28 @@ public static class CombatManager
 
                 if(character.primaryWeapon == null)
                 {
-                    Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
                     Weapon unarmedWeapon = new Weapon();
+                    unarmedWeapon.targetCount = 1;
+
+                    Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
+
+                    Debug.Log(character.name + " is attacking: " + target.name);
+
+
+                    Debug.Log("Target Count: " + unarmedWeapon.targetCount);
+
                     DealDamage(character, unarmedWeapon, target, playerTeam, enemyTeam);
                 }
                 else if (character.primaryWeapon.actionType == Weapon.ActionType.Damage) //Attacks with the character's primary weapon
                 {
                     //Finds a list of targets at random according to the character's allegiance and how many target's this weapon hits
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.primaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.primaryWeapon.targetCount);
-
                     Debug.Log(character.name + " is attacking: ");
 
                     foreach (Character c in targets)
                         Debug.Log(c.name);
+
+                    Debug.Log("Target Count: " + character.primaryWeapon.targetCount);
 
                     //Deals damage to all targets
                     foreach (Character target in targets)
@@ -81,6 +90,7 @@ public static class CombatManager
                 {
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.secondaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.secondaryWeapon.targetCount);
 
+                    Debug.Log("Target Count: " + character.secondaryWeapon.targetCount);
                     Debug.Log(character.name + " is attacking: ");
 
                     foreach (Character c in targets)
@@ -173,7 +183,7 @@ public static class CombatManager
         Debug.Log("team size: " + team.characters.Count);
         foreach(Character character in team.characters)
         {
-            Debug.Log(character.name + "'s HP: " + character.HealthPercentage);
+            Debug.Log(character.name + "'s HP: " + character.Health.Value);
             if(character.HealthPercentage > 0)
                 teamAlive = true;
         }
@@ -273,6 +283,7 @@ public static class CombatManager
             Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
 
             Weapon unarmedWeapon = new Weapon();
+            unarmedWeapon.targetCount = 1;
             DealDamage(character, unarmedWeapon, target, playerTeam, enemyTeam);
         }
     }

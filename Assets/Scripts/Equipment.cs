@@ -7,7 +7,6 @@ public class Equipment : Item
 {
     protected Character character;
 
-    public int armorValue;
     public int power;
     public int accuracy;
     public int constitution;

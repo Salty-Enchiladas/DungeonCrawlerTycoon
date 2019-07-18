@@ -5,7 +5,7 @@ public class Weapon : Equipment
 {
     public enum ActionType { Damage, Heal}
     [Space, Header("Weapon Values")]
-    public ActionType actionType;
+    public ActionType actionType = ActionType.Damage;
 
     public int weaponDamage;
     public int targetCount;
@@ -13,8 +13,7 @@ public class Weapon : Equipment
     public override void Equip(Character _character)
     {
         character = _character;
-
-        character.ArmorRating.AddModifier(new StatModifier(armorValue, StatModType.Flat, this));
+        
         character.Power.AddModifier(new StatModifier(power, StatModType.Flat, this));
         character.Accuracy.AddModifier(new StatModifier(accuracy, StatModType.Flat, this));
         character.Constitution.AddModifier(new StatModifier(constitution, StatModType.Flat, this));
@@ -24,7 +23,6 @@ public class Weapon : Equipment
 
     public override void UnEquip()
     {
-        character.ArmorRating.RemoveAllModifiersFromSource(this);
         character.Power.RemoveAllModifiersFromSource(this);
         character.Accuracy.RemoveAllModifiersFromSource(this);
         character.Constitution.RemoveAllModifiersFromSource(this);
