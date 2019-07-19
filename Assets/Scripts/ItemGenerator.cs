@@ -90,9 +90,9 @@ public class ItemGenerator : MonoBehaviour
     }
 
 #region Weapon Methods
-    public Weapon GenerateWeapon(WeaponCategories weaponCategory)
+    public Weapon GenerateWeapon(WeaponCategories weaponCategory, Transform slot)
     {
-        InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, slot);
 
         WeaponDatabase weaponDatabase = new WeaponDatabase();
         switch (weaponCategory)
@@ -134,9 +134,9 @@ public class ItemGenerator : MonoBehaviour
         return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
     }
 
-    public Weapon GenerateWeapon(Specialization charSpec)
+    public Weapon GenerateWeapon(Specialization charSpec, Transform slot)
     {
-        InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, slot);
 
         WeaponTypes selectedType = CollectionUtilities.GetRandomItem(charSpec.weaponTypes);
         WeaponDatabase weaponDatabase = itemDatabase.GetWeaponDatabase(selectedType);
@@ -168,12 +168,45 @@ public class ItemGenerator : MonoBehaviour
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
         return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
     }
+
+    public Weapon GenerateWeapon(WeaponTypes weaponType, Transform slot)
+    {
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, slot);
+        WeaponDatabase weaponDatabase = itemDatabase.GetWeaponDatabase(weaponType);
+
+        Rarity rarity = rarities.GetRandomRarity();
+
+        Weapon weapon = new Weapon();
+        weapon.rarity = rarity.rarity;
+        weapon.weaponCategory = weaponDatabase.weaponCategory;
+
+        WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
+        _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
+        weapon.itemName = weaponDatabase.weaponType.ToString();
+        weapon.targetCount = weaponValues.targetCount;
+        int actionTypeRoll = Random.Range(0, Enum.GetNames(typeof(Weapon.ActionType)).Length);
+        weapon.actionType = (Weapon.ActionType)actionTypeRoll;
+
+        if (weaponValues.minDamage != 0)
+        {
+            int damage = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1);
+            _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.extraStat.text = damage + " Damage";
+            weapon.weaponDamage = damage;
+        }
+        else
+            _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
+
+        _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
+        _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
+        return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
+    }
     #endregion
 
     #region Armor Methods
-    public Armor GenerateArmor(ArmorCategories armorCategory, ArmorTypes armorType)
+    public Armor GenerateArmor(ArmorCategories armorCategory, ArmorTypes armorType, Transform slot)
     {
-        InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, slot);
         ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(armorCategory, armorType);
         Rarity rarity = rarities.GetRandomRarity();
 
@@ -202,12 +235,12 @@ public class ItemGenerator : MonoBehaviour
         return (Armor)GenerateEquipment(armor, _inventoryItem, armorValues.minStats, armorValues.maxStats);
     }
 
-    public Armor GenerateArmor(Specialization charSpec, ArmorTypes armorType)
+    public Armor GenerateArmor(Specialization charSpec, ArmorTypes armorType, Transform slot)
     {
-        InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, slot);
 
         ArmorCategories selectedCategory = CollectionUtilities.GetRandomItem(charSpec.armorCategories, new List<ArmorCategories>(){ArmorCategories.Accessory});
-        Debug.Log("Category: " + selectedCategory + " | Type: " + armorType);
+        //Debug.Log("Category: " + selectedCategory + " | Type: " + armorType);
         ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(selectedCategory, armorType);
         Rarity rarity = rarities.GetRandomRarity();
 

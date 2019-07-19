@@ -51,6 +51,28 @@ public class ItemDatabase : ScriptableObject
         return null;
     }
 
+    public WeaponCategories? GetWeaponCategory(WeaponTypes weaponType)
+    {
+        foreach (WeaponDatabase database in oneHandedWeapons)
+        {
+            if (database.weaponType == weaponType)
+                return database.weaponCategory;
+        }
+
+        foreach (WeaponDatabase database in twoHandedWeapons)
+        {
+            if (database.weaponType == weaponType)
+                return database.weaponCategory;
+        }
+
+        foreach (WeaponDatabase database in offHandWeapons)
+        {
+            if (database.weaponType == weaponType)
+                return database.weaponCategory;
+        }
+        return null;
+    }
+
     public ArmorValues GetArmorValues(ArmorCategories armorCategory, RarityType rarityType)
     {
         foreach(ArmorValues armorValue in armorValues)

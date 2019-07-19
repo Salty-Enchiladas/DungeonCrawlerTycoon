@@ -12,6 +12,9 @@ public class EncounterGenerator : MonoBehaviour
     Team playerTeam;
     Team enemyTeam;
 
+    List<Character> playerTeamChars = new List<Character>();
+    List<Character> enemyTeamChars = new List<Character>();
+
     Coroutine combat;
 
     public void GenerateEncounter()
@@ -24,56 +27,63 @@ public class EncounterGenerator : MonoBehaviour
 
         if(playerTeam != null)
         {
-            foreach (Character c in playerTeam.characters)
+
+            foreach (Character c in playerTeamChars)
             {
-                for (int i = 0; i < c.armor.Count; i++)
-                    Destroy(c.armor[i].inventoryItem.gameObject);
+                if (c)
+                {
+                    for (int i = 0; i < c.armor.Count; i++)
+                        Destroy(c.armor[i].inventoryItem.gameObject);
 
-                if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
-                    Destroy(c.primaryWeapon.inventoryItem.gameObject);
+                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
+                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
 
-                if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
-                    Destroy(c.secondaryWeapon.inventoryItem.gameObject);
+                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
+                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
 
-                Destroy(c.gameObject);
+                    Destroy(c.gameObject);
+                }
             }
         }
 
         if(enemyTeam != null)
         {
-            foreach (Character c in enemyTeam.characters)
+            foreach (Character c in enemyTeamChars)
             {
-                for (int i = 0; i < c.armor.Count; i++)
-                    Destroy(c.armor[i].inventoryItem.gameObject);
+                if (c)
+                {
+                    for (int i = 0; i < c.armor.Count; i++)
+                        Destroy(c.armor[i].inventoryItem.gameObject);
 
-                if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
-                    Destroy(c.primaryWeapon.inventoryItem.gameObject);
+                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
+                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
 
-                if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
-                    Destroy(c.secondaryWeapon.inventoryItem.gameObject);
+                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
+                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
 
-                Destroy(c.gameObject);
+                    Destroy(c.gameObject);
+                }
             }
         }
 
         playerTeam = new Team();
         for(int i = 0; i < teamSize; i++)
         {
-            Character player = characterGenerator.GenerateCharacter();
-            player.name = "Player" + i;
-            Debug.Log(player.name + ": " + player.Power.Value + " | " + player.Accuracy.Value + " | " + player.Constitution.Value + " | " + player.Speed.Value + " | " + player.Luck.Value);
-            player.allegiance = Character.Allegiance.Player;
+            Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player);
+            player.characterName = "Player" + (i + 1);
+            //Debug.Log(player.characterName + ": " + player.Power.Value + " | " + player.Accuracy.Value + " | " + player.Constitution.Value + " | " + player.Speed.Value + " | " + player.Luck.Value);
             playerTeam.characters.Add(player);
+            playerTeamChars.Add(player);
         }
 
         enemyTeam = new Team();
         for (int i = 0; i < teamSize; i++)
         {
-            Character enemy = characterGenerator.GenerateCharacter();
-            enemy.name = "Enemy" + i;
-            Debug.Log(enemy.name + ": " + enemy.Power.Value + " | " + enemy.Accuracy.Value + " | " + enemy.Constitution.Value + " | " + enemy.Speed.Value + " | " + enemy.Luck.Value);
-            enemy.allegiance = Character.Allegiance.Enemy;
+            Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy);
+            enemy.characterName = "Enemy" + (i + 1);
+            //Debug.Log(enemy.characterName + ": " + enemy.Power.Value + " | " + enemy.Accuracy.Value + " | " + enemy.Constitution.Value + " | " + enemy.Speed.Value + " | " + enemy.Luck.Value);
             enemyTeam.characters.Add(enemy);
+            enemyTeamChars.Add(enemy);
         }
 
         combat = StartCoroutine(CombatManager.SimulateFight(playerTeam, enemyTeam));

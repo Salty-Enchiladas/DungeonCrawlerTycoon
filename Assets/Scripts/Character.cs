@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class Character : MonoBehaviour
 {
     static readonly int baseHitChance = 60;
-    static readonly int maximumArmor = 100;
+    static readonly int maximumArmor = 400;
 
-    static readonly float accuracyHitChanceRatio = 2.0f;
-    static readonly float criticalHitChanceRatio = 1.0f;
+    static readonly float accuracyHitChanceRatio = 1.0f;
+    static readonly float criticalHitChanceRatio = .5f;
 
-    public static readonly float criticalDamageModifier = 2.0f;
+    public static readonly float criticalDamageModifier = 1.5f;
     static readonly float damageModifier = 1.0f;
     static readonly float armorModifier = 1.0f;
-    static readonly float constitutionHealthMultiplier = 10.0f;
+    static readonly float constitutionHealthMultiplier = 50.0f;
+
+    //Find a way to lower healing
 
     public static readonly Weapon unarmedWeapon;
 
@@ -23,14 +26,28 @@ public class Character : MonoBehaviour
     public Specialization specialization;
 
     public List<Armor> armor;
+    public List<Transform> armorSlots;
+
     public Weapon primaryWeapon;
     public Weapon secondaryWeapon;
+    public Transform primaryWeaponSlot;
+    public Transform secondaryWeaponSlot;
+    public List<Sprite> characterIcons;
 
-    [Space]
+    [Space, Header("UI")]
     public Image characterIcon;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI classText;
+    public TextMeshProUGUI powerText;
+    public TextMeshProUGUI accuracyText;
+    public TextMeshProUGUI constitutionText;
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI luckText;
+    public Image healthBar;
 
     public float HealthPercentage{get{ return Health.Value / Health.BaseValue;}}
 
+    [Space, Header("Stats")]
     public CharacterStat Power;
     public CharacterStat Accuracy;
     public CharacterStat Constitution;
@@ -56,6 +73,7 @@ public class Character : MonoBehaviour
         Constitution.OnStatsUpdated += UpdateAccuracy;
         Speed.OnStatsUpdated += UpdateSpeed;
         Luck.OnStatsUpdated += UpdateLuck;
+        Health.OnStatsUpdated += UpdateHealth;
     }
 
     private void OnDisable()
@@ -65,6 +83,7 @@ public class Character : MonoBehaviour
         Constitution.OnStatsUpdated -= UpdateAccuracy;
         Speed.OnStatsUpdated -= UpdateSpeed;
         Luck.OnStatsUpdated -= UpdateLuck;
+        Health.OnStatsUpdated -= UpdateHealth;
     }
 
     public void InitializeStats()
@@ -78,32 +97,57 @@ public class Character : MonoBehaviour
         Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
         ArmorRating.BaseValue = Constitution.Value * armorModifier;
         Damage.BaseValue = Power.Value * damageModifier;
+
+        characterIcon.sprite = characterIcons[Random.Range(0, characterIcons.Count)];
+
+        UpdateUI();
     }
 
     void UpdatePower()
     {
         Damage.BaseValue = Power.Value * damageModifier;
+        UpdateUI();
     }
 
     void UpdateAccuracy()
     {
-
+        UpdateUI();
     }
 
     void UpdateConstitution()
     {
         Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
         ArmorRating.BaseValue = Constitution.Value * armorModifier;
+        UpdateUI();
     }
 
     void UpdateSpeed()
     {
-
+        UpdateUI();
     }
 
     void UpdateLuck()
     {
-        
+        UpdateUI();
+    }
+
+    void UpdateHealth()
+    {
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        nameText.text = "Name: " + characterName;
+        classText.text = "Class: " + specialization.specName;
+
+        powerText.text = "Pow: \n" + Power.Value;
+        accuracyText.text = "Acc: \n" + Accuracy.Value;
+        constitutionText.text = "Con: \n" + Constitution.Value;
+        speedText.text = "Spd: \n" + Speed.Value;
+        luckText.text = "Lck: \n" + Luck.Value;
+
+        healthBar.fillAmount = HealthPercentage;
     }
 }
 //Set the ArmorRating stat to cumulative armorValue from all armor
