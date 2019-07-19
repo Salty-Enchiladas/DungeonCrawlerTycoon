@@ -89,6 +89,7 @@ public class ItemGenerator : MonoBehaviour
         return equipment;
     }
 
+#region Weapon Methods
     public Weapon GenerateWeapon(WeaponCategories weaponCategory)
     {
         InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
@@ -111,6 +112,7 @@ public class ItemGenerator : MonoBehaviour
 
         Weapon weapon = new Weapon();
         weapon.rarity = rarity.rarity;
+        weapon.weaponCategory = weaponDatabase.weaponCategory;
 
         WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
         _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
@@ -132,12 +134,47 @@ public class ItemGenerator : MonoBehaviour
         return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
     }
 
-    public Armor GenerateArmor(ArmorCategories armorCategory, ArmorTypes armorType)
+    public Weapon GenerateWeapon(Specialization charSpec)
     {
         InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
 
-        ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(armorCategory, armorType);
+        WeaponTypes selectedType = CollectionUtilities.GetRandomItem(charSpec.weaponTypes);
+        WeaponDatabase weaponDatabase = itemDatabase.GetWeaponDatabase(selectedType);
 
+        Rarity rarity = rarities.GetRandomRarity();
+
+        Weapon weapon = new Weapon();
+        weapon.rarity = rarity.rarity;
+        weapon.weaponCategory = weaponDatabase.weaponCategory;
+
+        WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, rarity.rarity);
+        _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
+        weapon.itemName = weaponDatabase.weaponType.ToString();
+        weapon.targetCount = weaponValues.targetCount;
+        int actionTypeRoll = Random.Range(0, Enum.GetNames(typeof(Weapon.ActionType)).Length);
+        weapon.actionType = (Weapon.ActionType)actionTypeRoll;
+
+        if (weaponValues.minDamage != 0)
+        {
+            int damage = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1);
+            _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.extraStat.text = damage + " Damage";
+            weapon.weaponDamage = damage;
+        }
+        else
+            _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
+
+        _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
+        _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
+        return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
+    }
+    #endregion
+
+    #region Armor Methods
+    public Armor GenerateArmor(ArmorCategories armorCategory, ArmorTypes armorType)
+    {
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
+        ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(armorCategory, armorType);
         Rarity rarity = rarities.GetRandomRarity();
 
         Armor armor = new Armor();
@@ -164,4 +201,41 @@ public class ItemGenerator : MonoBehaviour
 
         return (Armor)GenerateEquipment(armor, _inventoryItem, armorValues.minStats, armorValues.maxStats);
     }
+
+    public Armor GenerateArmor(Specialization charSpec, ArmorTypes armorType)
+    {
+        InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
+
+        ArmorCategories selectedCategory = CollectionUtilities.GetRandomItem(charSpec.armorCategories);
+        ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(selectedCategory, armorType);
+
+        Rarity rarity = rarities.GetRandomRarity();
+
+        Armor armor = new Armor();
+        armor.rarity = rarity.rarity;
+
+        //null reference
+        ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, rarity.rarity);
+
+        string itemType = " " + armorDatabase.armorTypes;
+        itemType = itemType.Replace('_', ' ');
+        _inventoryItem.itemDescription.itemName.text = itemType;
+        _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + armorDatabase.armorTypes;
+        _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(armorDatabase.armorIcons);
+        armor.itemName = itemType;
+
+        if (armorValues.minArmor != 0)
+        {
+            int armorValue = Random.Range(armorValues.minArmor, armorValues.maxArmor + 1);
+            _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.extraStat.text = armorValue + " Armor";
+            armor.armorValue = armorValue;
+        }
+        else
+            _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
+
+        return (Armor)GenerateEquipment(armor, _inventoryItem, armorValues.minStats, armorValues.maxStats);
+    }
+
+    #endregion
 }

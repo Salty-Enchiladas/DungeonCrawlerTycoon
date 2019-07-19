@@ -17,8 +17,10 @@ public class Character : MonoBehaviour
 
     public static readonly Weapon unarmedWeapon;
 
+    public string characterName;
     public enum Allegiance {  Player, Enemy }
     public Allegiance allegiance;
+    public Specialization specialization;
 
     public List<Armor> armor;
     public Weapon primaryWeapon;

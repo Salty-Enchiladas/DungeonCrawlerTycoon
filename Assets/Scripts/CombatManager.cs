@@ -236,6 +236,8 @@ public static class CombatManager
 
             if (lowestCharacter.HealthPercentage >= 1) continue;
 
+            Debug.Log(character.name + " is healing: " + lowestCharacter.name);
+
             //Roll for hit
             int roll = Random.Range(1, 101);
 
@@ -253,11 +255,15 @@ public static class CombatManager
                 //Figures out how much health the character is missing to avoid overhealing
                 float missingHealth = lowestCharacter.Health.BaseValue - lowestCharacter.Health.BaseValue;
 
+                Debug.Log(character.name + " healed " + lowestCharacter.name + " for " + missingHealth);
+
                 if (healAmount > missingHealth)
                     lowestCharacter.Health.AddModifier(new StatModifier(missingHealth, StatModType.Flat));
                 else
                     lowestCharacter.Health.AddModifier(new StatModifier(healAmount, StatModType.Flat));
             }
+            else
+                Debug.Log(character.name + "'s heal missed!");
 
             healedTargets.Add(lowestCharacter);
         }

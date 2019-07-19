@@ -810,6 +810,10 @@ MonoBehaviour:
   canavs: {fileID: 5679249}
   characterPrefab: {fileID: 7787437361019796203, guid: a24300294afc6494893318c4f76e82b0,
     type: 3}
+  specializations:
+  - {fileID: 11400000, guid: 32c93b641f7e25d4d83cc06078c47804, type: 2}
+  - {fileID: 11400000, guid: caade3755df9e4b46b091c78111a5420, type: 2}
+  - {fileID: 11400000, guid: f818f6fa388a0d74a83beadf0d6be254, type: 2}
   itemDatabase: {fileID: 11400000, guid: 728ac8cbe67f61c4ca23ae20f8e49cef, type: 2}
   itemGenerator: {fileID: 1237223485}
   armorSlots: 4

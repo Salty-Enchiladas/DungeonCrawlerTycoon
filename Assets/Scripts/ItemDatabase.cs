@@ -28,6 +28,29 @@ public class ItemDatabase : ScriptableObject
         return weaponValues[0];
     }
 
+    public WeaponDatabase GetWeaponDatabase(WeaponTypes weaponType)
+    {
+        foreach(WeaponDatabase database in oneHandedWeapons)
+        {
+            if(database.weaponType == weaponType)
+                return database;
+        }
+
+        foreach (WeaponDatabase database in twoHandedWeapons)
+        {
+            if (database.weaponType == weaponType)
+                return database;
+        }
+
+        foreach (WeaponDatabase database in offHandWeapons)
+        {
+            if (database.weaponType == weaponType)
+                return database;
+        }
+
+        return null;
+    }
+
     public ArmorValues GetArmorValues(ArmorCategories armorCategory, RarityType rarityType)
     {
         foreach(ArmorValues armorValue in armorValues)
@@ -41,7 +64,6 @@ public class ItemDatabase : ScriptableObject
 
     public ArmorDatabase GetArmorDatabase(ArmorCategories armorCategory, ArmorTypes armorType)
     {
-        Debug.Log("category: " + armorCategory + "| type: " + armorType.ToString());
         switch(armorCategory)
         {
             case ArmorCategories.Accessory:
@@ -65,10 +87,9 @@ public class ItemDatabase : ScriptableObject
                         return armorDatabase;
                 break;
         }
-        Debug.Log("reached the end of getarmordatabase");
+
         return null;
     }
-
 }
 
 #region Weapon Stuff

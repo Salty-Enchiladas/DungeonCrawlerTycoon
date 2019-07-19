@@ -10,6 +10,9 @@ public class Weapon : Equipment
     public int weaponDamage;
     public int targetCount;
 
+    [HideInInspector]
+    public WeaponCategories weaponCategory;
+
     public override void Equip(Character _character)
     {
         character = _character;
