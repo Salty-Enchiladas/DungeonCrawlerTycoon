@@ -49,23 +49,9 @@ public static class CombatManager
                 if (character.HealthPercentage <= 0) continue;
                 //Check for potion use here
 
-                Debug.Log(character.name + "'s Turn!");
+                Debug.Log(character.name + "'s Turn!" + " Weapon: " + character.primaryWeapon.itemName);
 
-                if(character.primaryWeapon == null)
-                {
-                    Weapon unarmedWeapon = new Weapon();
-                    unarmedWeapon.targetCount = 1;
-
-                    Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
-
-                    Debug.Log(character.name + " is attacking: " + target.name);
-
-
-                    Debug.Log("Target Count: " + unarmedWeapon.targetCount);
-
-                    DealDamage(character, unarmedWeapon, target, playerTeam, enemyTeam);
-                }
-                else if (character.primaryWeapon.actionType == Weapon.ActionType.Damage) //Attacks with the character's primary weapon
+                if (character.primaryWeapon.actionType == Weapon.ActionType.Damage) //Attacks with the character's primary weapon
                 {
                     //Finds a list of targets at random according to the character's allegiance and how many target's this weapon hits
                     List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.primaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.primaryWeapon.targetCount);
@@ -74,6 +60,7 @@ public static class CombatManager
                     foreach (Character c in targets)
                         Debug.Log(c.name);
 
+                    Debug.Log("Weapon Name: " + character.primaryWeapon.itemName);
                     Debug.Log("Target Count: " + character.primaryWeapon.targetCount);
 
                     //Deals damage to all targets
@@ -107,8 +94,6 @@ public static class CombatManager
 
             yield return new WaitForEndOfFrame();
         }
-
-        //yield return new WaitUntil(() => Simulating(ref combatants, playerTeam, enemyTeam));
     }
 
     static void AddCombatants(ref SortedDictionary<int, List<Character>> combatants, Team team)

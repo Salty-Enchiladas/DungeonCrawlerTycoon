@@ -21,8 +21,8 @@ public class Character : MonoBehaviour
     public Allegiance allegiance;
 
     public List<Armor> armor;
-    public Weapon primaryWeapon = null;
-    public Weapon secondaryWeapon = null;
+    public Weapon primaryWeapon;
+    public Weapon secondaryWeapon;
 
     [Space]
     public Image characterIcon;
@@ -46,11 +46,6 @@ public class Character : MonoBehaviour
     CharacterStat TravelSpeed;
     CharacterStat DropChance;
     CharacterStat ShopDiscount;
-
-    private void Start()
-    {
-        //InitializeStats();
-    }
 
     private void OnEnable()
     {

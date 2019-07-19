@@ -87,8 +87,3 @@ public class EncounterGenerator : MonoBehaviour
         method.Invoke(new object(), null);
     }
 }
-
-//Player team
-//Enemy Team
-//Set allegiances
-//Fight

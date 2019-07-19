@@ -215,10 +215,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allegiance: 0
-  armor: {fileID: 0}
-  primaryWeapon: {fileID: 0}
-  secondaryWeapon: {fileID: 0}
+  armor: []
+  primaryWeapon:
+    itemName: Unarmed
+    rarity: 0
+    maxStackCount: 0
+    price: 0
+    inventoryItem: {fileID: 0}
+    power: 0
+    accuracy: 0
+    constitution: 0
+    speed: 0
+    luck: 0
+    actionType: 0
+    weaponDamage: 0
+    targetCount: 1
+  secondaryWeapon:
+    itemName: Unarmed
+    rarity: 0
+    maxStackCount: 0
+    price: 0
+    inventoryItem: {fileID: 0}
+    power: 0
+    accuracy: 0
+    constitution: 0
+    speed: 0
+    luck: 0
+    actionType: 0
+    weaponDamage: 0
+    targetCount: 1
   characterIcon: {fileID: 7047041997906052309}
+  Power:
+    BaseValue: 0
+  Accuracy:
+    BaseValue: 0
+  Constitution:
+    BaseValue: 0
+  Speed:
+    BaseValue: 0
+  Luck:
+    BaseValue: 0
+  Health:
+    BaseValue: 0
+  ArmorRating:
+    BaseValue: 0
+  Damage:
+    BaseValue: 0
 --- !u!1 &7047041997819714649
 GameObject:
   m_ObjectHideFlags: 0

@@ -116,6 +116,7 @@ public class ItemGenerator : MonoBehaviour
         _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
         weapon.itemName = weaponDatabase.weaponType.ToString();
         weapon.targetCount = weaponValues.targetCount;
+
         if (weaponValues.minDamage != 0)
         {
             int damage = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1);
