@@ -90,7 +90,7 @@ public static class CombatManager
                 {
                     Heal(character, character.secondaryWeapon, playerTeam, enemyTeam);
                 }
-                yield return new WaitForSeconds(1f);
+                //yield return new WaitForSeconds(.25f);
             }
 
             yield return new WaitForEndOfFrame();
