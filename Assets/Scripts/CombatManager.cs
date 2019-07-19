@@ -253,7 +253,7 @@ public static class CombatManager
                     healAmount *= Character.criticalDamageModifier;
 
                 //Figures out how much health the character is missing to avoid overhealing
-                float missingHealth = lowestCharacter.Health.BaseValue - lowestCharacter.Health.BaseValue;
+                float missingHealth = lowestCharacter.Health.BaseValue - lowestCharacter.Health.Value;
 
                 Debug.Log(character.name + " healed " + lowestCharacter.name + " for " + missingHealth);
 

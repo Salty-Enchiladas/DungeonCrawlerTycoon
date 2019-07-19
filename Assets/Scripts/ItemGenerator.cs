@@ -206,15 +206,14 @@ public class ItemGenerator : MonoBehaviour
     {
         InventoryItem _inventoryItem = Instantiate(inventoryItem, canvas);
 
-        ArmorCategories selectedCategory = CollectionUtilities.GetRandomItem(charSpec.armorCategories);
+        ArmorCategories selectedCategory = CollectionUtilities.GetRandomItem(charSpec.armorCategories, new List<ArmorCategories>(){ArmorCategories.Accessory});
+        Debug.Log("Category: " + selectedCategory + " | Type: " + armorType);
         ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(selectedCategory, armorType);
-
         Rarity rarity = rarities.GetRandomRarity();
 
         Armor armor = new Armor();
         armor.rarity = rarity.rarity;
 
-        //null reference
         ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, rarity.rarity);
 
         string itemType = " " + armorDatabase.armorTypes;

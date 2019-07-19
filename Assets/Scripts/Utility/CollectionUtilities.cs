@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace OuterRimStudios.Utilities
 {
@@ -25,6 +26,43 @@ namespace OuterRimStudios.Utilities
         {
             return list[Random.Range(0, list.Count)];
         }
+
+        /// <summary>Get a random element of a given list.</summary>
+        /// <typeparam name="T">The Type of the item to be returned.</typeparam>
+        /// <param name="list">The list of objects to choose from.</param>
+        /// <param name="excludedItems"> The list of items to ignore.</param>
+        /// <returns>Returns a random element from the entered list, excluding elements in the execluded items list.</returns>
+        public static T GetRandomItem<T>(this List<T> list, List<T> excludedItems)
+        {
+            List<T> chosenOnes = new List<T>();
+
+            foreach(T t in list)
+            {
+                if (!excludedItems.Contains(t))
+                    chosenOnes.Add(t);
+            }
+
+            return chosenOnes[Random.Range(0, chosenOnes.Count)];
+        }
+
+        /// <summary>Get a random element of a given array.</summary>
+        /// <typeparam name="T">The Type of the item to be returned.</typeparam>
+        /// <param name="array">The array of objects to choose from.</param>
+        /// <param name="excludedItems"> The array of items to ignore.</param>
+        /// <returns>Returns a random element from the entered array, excluding elements in the execluded items array.</returns>
+        public static T GetRandomItem<T>(this T[] array, T[] excludedItems)
+        {
+            List<T> chosenOnes = new List<T>();
+
+            foreach (T t in array)
+            {
+                if (!excludedItems.Contains(t))
+                    chosenOnes.Add(t);
+            }
+
+            return chosenOnes[Random.Range(0, chosenOnes.Count)];
+        }
+
         #endregion
 
         #region GetRandomItems
