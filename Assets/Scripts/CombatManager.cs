@@ -198,7 +198,7 @@ public static class CombatManager
 
             //Apply armor resistance to damage value
             damage -= damage * target.DamageResistance;
-            //Debug.Log(character.name + " did " + damage + " damage to " + target.name);
+            Debug.LogError(character.name + " did " + damage + " damage to " + target.name);
 
             //Apply damage to target
             target.Health.AddModifier(new StatModifier(-damage, StatModType.Flat));

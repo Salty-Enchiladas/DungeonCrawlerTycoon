@@ -15,7 +15,7 @@ public class Character : MonoBehaviour
     static readonly float damageModifier = 1.0f;
     static readonly float healingModifier = .5f;
     static readonly float armorModifier = 1.0f;
-    static readonly float constitutionHealthMultiplier = 100.0f;
+    static readonly float constitutionHealthMultiplier = 5.0f;
 
     //Find a way to lower healing
 
@@ -31,6 +31,8 @@ public class Character : MonoBehaviour
 
     public Weapon primaryWeapon;
     public Weapon secondaryWeapon;
+    [HideInInspector]public bool hasPrimary = false;
+    [HideInInspector] public bool hasSecondary = false;
     public Transform primaryWeaponSlot;
     public Transform secondaryWeaponSlot;
     public List<Sprite> characterIcons;
@@ -45,6 +47,7 @@ public class Character : MonoBehaviour
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI luckText;
     public Image healthBar;
+    public TextMeshProUGUI healthValues;
 
     public float HealthPercentage{get{ return Health.Value / Health.BaseValue;}}
 
@@ -72,7 +75,7 @@ public class Character : MonoBehaviour
     {
         Power.OnStatsUpdated += UpdatePower;
         Accuracy.OnStatsUpdated += UpdateAccuracy;
-        Constitution.OnStatsUpdated += UpdateAccuracy;
+        Constitution.OnStatsUpdated += UpdateConstitution;
         Speed.OnStatsUpdated += UpdateSpeed;
         Luck.OnStatsUpdated += UpdateLuck;
         Health.OnStatsUpdated += UpdateHealth;
@@ -82,7 +85,7 @@ public class Character : MonoBehaviour
     {
         Power.OnStatsUpdated -= UpdatePower;
         Accuracy.OnStatsUpdated -= UpdateAccuracy;
-        Constitution.OnStatsUpdated -= UpdateAccuracy;
+        Constitution.OnStatsUpdated -= UpdateConstitution;
         Speed.OnStatsUpdated -= UpdateSpeed;
         Luck.OnStatsUpdated -= UpdateLuck;
         Health.OnStatsUpdated -= UpdateHealth;
@@ -152,6 +155,7 @@ public class Character : MonoBehaviour
         luckText.text = "Lck: \n" + Luck.Value;
 
         healthBar.fillAmount = HealthPercentage;
+        healthValues.text = Health.Value + " / " + Health.BaseValue;
     }
 }
 //Set the ArmorRating stat to cumulative armorValue from all armor

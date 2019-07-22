@@ -61,11 +61,8 @@ public class CharacterGenerator : MonoBehaviour
 
         List<WeaponTypes> randomWeaponTypes = CollectionUtilities.GetRandomItems(spec.weaponTypes, weaponSlots);
 
-        print("Spec Name: " + spec.specName + "Weapon Count: " +  randomWeaponTypes.Count);
-
         for (int i = 0; i < weaponSlots; i++)
         {
-            print("Weapon Type: " + randomWeaponTypes[i].ToString());
             int roll = Random.Range(0, weaponChance);
             if (roll == 0) //Recieved Gear
             {
@@ -73,31 +70,38 @@ public class CharacterGenerator : MonoBehaviour
                 WeaponCategories weaponCategory = (WeaponCategories)itemDatabase.GetWeaponCategory(randomWeaponTypes[i]);
                 if (weaponCategory == WeaponCategories.TwoHanded)
                 {
-                    if(character.primaryWeapon == null || character.secondaryWeapon == null)
-                        break;
+                    if (character.hasPrimary || character.hasSecondary)
+                        break;             
                     weapon = itemGenerator.GenerateWeapon(randomWeaponTypes[i], character.primaryWeaponSlot);
                     character.primaryWeapon = weapon;
+                    character.hasPrimary = true;
                     break;
                 }
                 else if(weaponCategory == WeaponCategories.OffHand)
                 {
-                    if(character.secondaryWeapon != null)
+                    if (character.hasPrimary && character.primaryWeapon.weaponCategory == WeaponCategories.TwoHanded)
+                        break;
+
+                    if(!character.hasSecondary)
                     {
                         weapon = itemGenerator.GenerateWeapon(randomWeaponTypes[i], character.secondaryWeaponSlot);
                         character.secondaryWeapon = weapon;
+                        character.hasSecondary = true;
                     }
                 }
                 else if(weaponCategory == WeaponCategories.OneHanded)
                 {
-                    if(character.primaryWeapon != null)
+                    if(!character.hasPrimary)
                     {
                         weapon = itemGenerator.GenerateWeapon(randomWeaponTypes[i], character.primaryWeaponSlot);
                         character.primaryWeapon = weapon;
+                        character.hasPrimary = true;
                     }
-                    else if(character.secondaryWeapon != null)
+                    else if(!character.hasSecondary)
                     {
                         weapon = itemGenerator.GenerateWeapon(randomWeaponTypes[i], character.secondaryWeaponSlot);
                         character.secondaryWeapon = weapon;
+                        character.hasSecondary = true;
                     }
                 }
 

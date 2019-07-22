@@ -1093,8 +1093,8 @@ MonoBehaviour:
   itemGenerator: {fileID: 1237223485}
   playerTeamSlot: {fileID: 1051608383}
   enemyTeamSlot: {fileID: 1925168579}
-  armorChance: 0
-  weaponChance: 0
+  armorChance: 3
+  weaponChance: 3
   armorSlots: 4
   weaponSlots: 2
 --- !u!4 &1237223483
