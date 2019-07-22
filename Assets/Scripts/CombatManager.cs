@@ -90,7 +90,7 @@ public static class CombatManager
                 {
                     Heal(character, character.secondaryWeapon, playerTeam, enemyTeam);
                 }
-                //yield return new WaitForSeconds(.25f);
+                yield return new WaitForSeconds(.25f);
             }
 
             yield return new WaitForEndOfFrame();
@@ -243,7 +243,7 @@ public static class CombatManager
             //Character hits
             if (roll <= character.HitChance)
             {
-                float healAmount = weapon.weaponDamage + character.Damage.Value;
+                float healAmount = weapon.weaponDamage + character.Healing.Value;
 
                 roll = Random.Range(1, 101);
 
@@ -270,7 +270,10 @@ public static class CombatManager
         //If there were no friendlies healed then the character will deal damage instead using an unarmed weapon (It only uses the Power Stat to determine damage)
         if (healedTargets.Count <= 0)
         {
-            Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
+            Team team = character.allegiance == Character.Allegiance.Player ? enemyTeam : playerTeam;
+
+            if (!CheckTeamStatus(team)) return;
+            Character target = CollectionUtilities.GetRandomItem(team.characters);
 
             Weapon unarmedWeapon = new Weapon();
             unarmedWeapon.targetCount = 1;

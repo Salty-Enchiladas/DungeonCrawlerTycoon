@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
 
     public static readonly float criticalDamageModifier = 1.5f;
     static readonly float damageModifier = 1.0f;
+    static readonly float healingModifier = .5f;
     static readonly float armorModifier = 1.0f;
     static readonly float constitutionHealthMultiplier = 100.0f;
 
@@ -57,6 +58,7 @@ public class Character : MonoBehaviour
     public CharacterStat Health;
     public CharacterStat ArmorRating;
     public CharacterStat Damage;
+    public CharacterStat Healing;
 
     public float DamageResistance { get { return ((Constitution.Value * armorModifier) + ArmorRating.Value) / maximumArmor; } }
     public float HitChance { get { return Accuracy.Value * accuracyHitChanceRatio; } }
@@ -97,6 +99,7 @@ public class Character : MonoBehaviour
         Health.BaseValue = Constitution.Value * constitutionHealthMultiplier;
         ArmorRating.BaseValue = Constitution.Value * armorModifier;
         Damage.BaseValue = Power.Value * damageModifier;
+        Healing.BaseValue = Power.Value * healingModifier;
 
         characterIcon.sprite = characterIcons[Random.Range(0, characterIcons.Count)];
 
@@ -106,6 +109,7 @@ public class Character : MonoBehaviour
     void UpdatePower()
     {
         Damage.BaseValue = Power.Value * damageModifier;
+        Healing.BaseValue = Power.Value * healingModifier;
         UpdateUI();
     }
 

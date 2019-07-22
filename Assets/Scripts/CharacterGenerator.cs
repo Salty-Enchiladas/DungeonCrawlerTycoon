@@ -61,8 +61,11 @@ public class CharacterGenerator : MonoBehaviour
 
         List<WeaponTypes> randomWeaponTypes = CollectionUtilities.GetRandomItems(spec.weaponTypes, weaponSlots);
 
+        print("Spec Name: " + spec.specName + "Weapon Count: " +  randomWeaponTypes.Count);
+
         for (int i = 0; i < weaponSlots; i++)
         {
+            print("Weapon Type: " + randomWeaponTypes[i].ToString());
             int roll = Random.Range(0, weaponChance);
             if (roll == 0) //Recieved Gear
             {
@@ -70,7 +73,7 @@ public class CharacterGenerator : MonoBehaviour
                 WeaponCategories weaponCategory = (WeaponCategories)itemDatabase.GetWeaponCategory(randomWeaponTypes[i]);
                 if (weaponCategory == WeaponCategories.TwoHanded)
                 {
-                    if(character.primaryWeapon != null || character.secondaryWeapon != null)
+                    if(character.primaryWeapon == null || character.secondaryWeapon == null)
                         break;
                     weapon = itemGenerator.GenerateWeapon(randomWeaponTypes[i], character.primaryWeaponSlot);
                     character.primaryWeapon = weapon;
