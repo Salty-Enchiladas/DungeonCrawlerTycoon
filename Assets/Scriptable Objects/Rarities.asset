@@ -36,4 +36,4 @@ MonoBehaviour:
   - rarity: 5
     color: {r: 0.8584906, g: 0.1822268, b: 0.1822268, a: 1}
     statCount: 5
-    rarityChance: 0.1
+    rarityChance: 100

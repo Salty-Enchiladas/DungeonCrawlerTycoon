@@ -27,7 +27,6 @@ public class EncounterGenerator : MonoBehaviour
 
         if(playerTeam != null)
         {
-
             foreach (Character c in playerTeamChars)
             {
                 if (c)
@@ -71,6 +70,10 @@ public class EncounterGenerator : MonoBehaviour
         {
             Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player);
             player.characterName = "Player" + (i + 1);
+
+            Debug.LogError("Character Name: " + player.characterName + "Challenge Rating: " + player.GetChallengeRating()); 
+
+
             //Debug.Log(player.characterName + ": " + player.Power.Value + " | " + player.Accuracy.Value + " | " + player.Constitution.Value + " | " + player.Speed.Value + " | " + player.Luck.Value);
             playerTeam.characters.Add(player);
             playerTeamChars.Add(player);
@@ -81,6 +84,7 @@ public class EncounterGenerator : MonoBehaviour
         {
             Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy);
             enemy.characterName = "Enemy" + (i + 1);
+
             //Debug.Log(enemy.characterName + ": " + enemy.Power.Value + " | " + enemy.Accuracy.Value + " | " + enemy.Constitution.Value + " | " + enemy.Speed.Value + " | " + enemy.Luck.Value);
             enemyTeam.characters.Add(enemy);
             enemyTeamChars.Add(enemy);

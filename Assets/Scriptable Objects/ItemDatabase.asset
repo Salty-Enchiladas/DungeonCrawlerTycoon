@@ -1367,8 +1367,8 @@ MonoBehaviour:
   - weaponCategory: 0
     rarityType: 5
     targetCount: 1
-    minDamage: 24
-    maxDamage: 30
+    minDamage: 21
+    maxDamage: 24
     minStats: 9
     maxStats: 10
   - weaponCategory: 1
@@ -1409,8 +1409,8 @@ MonoBehaviour:
   - weaponCategory: 1
     rarityType: 5
     targetCount: 1
-    minDamage: 48
-    maxDamage: 60
+    minDamage: 41
+    maxDamage: 48
     minStats: 17
     maxStats: 20
   - weaponCategory: 2
@@ -1459,37 +1459,37 @@ MonoBehaviour:
   - armorCategory: 1
     rarityType: 0
     minArmor: 1
-    maxArmor: 5
+    maxArmor: 4
     minStats: 0
     maxStats: 0
   - armorCategory: 1
     rarityType: 1
-    minArmor: 6
-    maxArmor: 10
+    minArmor: 5
+    maxArmor: 8
     minStats: 1
     maxStats: 4
   - armorCategory: 1
     rarityType: 2
-    minArmor: 11
-    maxArmor: 15
+    minArmor: 9
+    maxArmor: 12
     minStats: 5
     maxStats: 8
   - armorCategory: 1
     rarityType: 3
-    minArmor: 16
-    maxArmor: 20
+    minArmor: 13
+    maxArmor: 16
     minStats: 9
     maxStats: 12
   - armorCategory: 1
     rarityType: 4
-    minArmor: 21
-    maxArmor: 25
+    minArmor: 17
+    maxArmor: 20
     minStats: 13
     maxStats: 16
   - armorCategory: 1
     rarityType: 5
-    minArmor: 30
-    maxArmor: 34
+    minArmor: 21
+    maxArmor: 24
     minStats: 17
     maxStats: 20
   - armorCategory: 2
@@ -1524,8 +1524,8 @@ MonoBehaviour:
     maxStats: 16
   - armorCategory: 2
     rarityType: 5
-    minArmor: 35
-    maxArmor: 39
+    minArmor: 31
+    maxArmor: 36
     minStats: 17
     maxStats: 20
   - armorCategory: 3
@@ -1549,19 +1549,19 @@ MonoBehaviour:
   - armorCategory: 3
     rarityType: 3
     minArmor: 25
-    maxArmor: 30
+    maxArmor: 32
     minStats: 9
     maxStats: 12
   - armorCategory: 3
     rarityType: 4
-    minArmor: 31
-    maxArmor: 35
+    minArmor: 33
+    maxArmor: 40
     minStats: 13
     maxStats: 16
   - armorCategory: 3
     rarityType: 5
-    minArmor: 40
-    maxArmor: 45
+    minArmor: 41
+    maxArmor: 48
     minStats: 17
     maxStats: 20
   - armorCategory: 0

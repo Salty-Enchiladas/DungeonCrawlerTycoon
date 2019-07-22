@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
 
 public class Character : MonoBehaviour
 {
@@ -156,6 +157,35 @@ public class Character : MonoBehaviour
 
         healthBar.fillAmount = HealthPercentage;
         healthValues.text = Health.Value + " / " + Health.BaseValue;
+    }
+    
+    public int GetChallengeRating()
+    {
+        int statCount = (int)(Power.BaseValue + Accuracy.BaseValue + Constitution.BaseValue + Speed.BaseValue);
+
+        for(int i = 0; i < armor.Count; i++)
+        {
+            statCount += armor[i].power;
+            statCount += armor[i].accuracy;
+            statCount += armor[i].constitution;
+            statCount += armor[i].speed;
+        }
+        if(primaryWeapon != null)
+        {
+            statCount += primaryWeapon.power;
+            statCount += primaryWeapon.accuracy;
+            statCount += primaryWeapon.constitution;
+            statCount += primaryWeapon.speed;
+        }
+
+        if(secondaryWeapon != null)
+        {
+            statCount += secondaryWeapon.power;
+            statCount += secondaryWeapon.accuracy;
+            statCount += secondaryWeapon.constitution;
+            statCount += secondaryWeapon.speed;
+        }
+        return Mathf.CeilToInt(statCount / 5.0f);
     }
 }
 //Set the ArmorRating stat to cumulative armorValue from all armor

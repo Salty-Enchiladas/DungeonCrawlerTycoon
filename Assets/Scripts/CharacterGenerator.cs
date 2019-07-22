@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class CharacterGenerator : MonoBehaviour
 {
+    public static CharacterGenerator Instance;
     public Transform canavs;
     public Character characterPrefab;
 
@@ -22,6 +23,11 @@ public class CharacterGenerator : MonoBehaviour
 
     public int armorSlots = 4;
     public int weaponSlots = 2;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public Character GenerateCharacter(Character.Allegiance allegiance)
     {
@@ -109,7 +115,6 @@ public class CharacterGenerator : MonoBehaviour
             }
         }
         #endregion
-
         return character;
     }
 }

@@ -84,6 +84,17 @@ public class ItemDatabase : ScriptableObject
         return armorValues[0];
     }
 
+    public ArmorValues GetArmorValues(RarityType rarityType)
+    {
+        foreach (ArmorValues armorValue in armorValues)
+        {
+            if (armorValue.rarityType == rarityType)
+                return armorValue;
+        }
+
+        return armorValues[0];
+    }
+
     public ArmorDatabase GetArmorDatabase(ArmorCategories armorCategory, ArmorTypes armorType)
     {
         switch(armorCategory)
@@ -208,4 +219,5 @@ public enum ArmorTypes
     Necklace,
     Rings
 }
+
 #endregion
