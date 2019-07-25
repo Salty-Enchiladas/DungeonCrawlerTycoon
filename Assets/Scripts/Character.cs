@@ -66,7 +66,7 @@ public class Character : MonoBehaviour
 
     public float DamageResistance { get { return ((Constitution.Value * armorModifier) + ArmorRating.Value) / maximumArmor; } }
     public float HitChance { get { return Accuracy.Value * accuracyHitChanceRatio; } }
-    public float CritChance { get { return Accuracy.Value * criticalHitChanceRatio; } }
+    public float CritChance { get { return Luck.Value * criticalHitChanceRatio; } }
 
     CharacterStat TravelSpeed;
     CharacterStat DropChance;
@@ -161,7 +161,7 @@ public class Character : MonoBehaviour
     
     public int GetChallengeRating()
     {
-        int statCount = (int)(Power.BaseValue + Accuracy.BaseValue + Constitution.BaseValue + Speed.BaseValue);
+        int statCount = (int)(Power.BaseValue + Accuracy.BaseValue + Constitution.BaseValue + Speed.BaseValue + Luck.BaseValue);
 
         for(int i = 0; i < armor.Count; i++)
         {
@@ -169,6 +169,7 @@ public class Character : MonoBehaviour
             statCount += armor[i].accuracy;
             statCount += armor[i].constitution;
             statCount += armor[i].speed;
+            statCount += armor[i].luck;
         }
         if(primaryWeapon != null)
         {
@@ -176,6 +177,7 @@ public class Character : MonoBehaviour
             statCount += primaryWeapon.accuracy;
             statCount += primaryWeapon.constitution;
             statCount += primaryWeapon.speed;
+            statCount += primaryWeapon.luck;
         }
 
         if(secondaryWeapon != null)
@@ -184,8 +186,9 @@ public class Character : MonoBehaviour
             statCount += secondaryWeapon.accuracy;
             statCount += secondaryWeapon.constitution;
             statCount += secondaryWeapon.speed;
+            statCount += secondaryWeapon.luck;
         }
-        return Mathf.CeilToInt(statCount / 5.0f);
+        return Mathf.CeilToInt(statCount / 5.0f); //Divided by 5 because each challenge rating increases Stat Count by 5.
     }
 }
 //Set the ArmorRating stat to cumulative armorValue from all armor

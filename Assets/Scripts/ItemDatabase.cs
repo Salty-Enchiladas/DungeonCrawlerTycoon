@@ -123,6 +123,17 @@ public class ItemDatabase : ScriptableObject
 
         return null;
     }
+
+    public ArmorValues GetArmorValues(ArmorCategories armorCategory, int statCount)
+    {
+        foreach (ArmorValues armorValue in armorValues)
+        {
+            if (armorValue.armorCategory == armorCategory && statCount >= armorValue.minStats && statCount <= armorValue.maxStats)
+                return armorValue;
+        }
+
+        return armorValues[0];
+    }
 }
 
 #region Weapon Stuff

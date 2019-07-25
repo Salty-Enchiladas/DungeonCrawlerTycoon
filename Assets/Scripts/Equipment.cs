@@ -13,13 +13,6 @@ public class Equipment : Item
     public int speed;
     public int luck;
 
-    public virtual void Equip(Character _character)
-    {
-
-    }
-
-    public virtual void UnEquip()
-    {
-
-    }
+    public virtual void Equip(Character _character) { }
+    public virtual void UnEquip() { }
 }
