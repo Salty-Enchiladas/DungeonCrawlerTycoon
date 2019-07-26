@@ -13,6 +13,11 @@ public class Weapon : Equipment
     [HideInInspector]
     public WeaponCategories weaponCategory;
 
+    public Weapon()
+    {
+        EquipmentType = EquipmentType.Weapon;
+    }
+
     public override void Equip(Character _character)
     {
         character = _character;

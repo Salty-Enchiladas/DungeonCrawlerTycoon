@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using UnityEditor;
+using OuterRimStudios.Utilities;
 
 public class EncounterGenerator : MonoBehaviour
 {
@@ -65,6 +66,8 @@ public class EncounterGenerator : MonoBehaviour
             }
         }
 
+        //ADD CHALLENGE RATING FOR CHARACTER GENERATION
+
         playerTeam = new Team();
         for(int i = 0; i < teamSize; i++)
         {
@@ -72,6 +75,85 @@ public class EncounterGenerator : MonoBehaviour
             player.characterName = "Player" + (i + 1);
 
             Debug.LogError("Character Name: " + player.characterName + "Challenge Rating: " + player.GetChallengeRating()); 
+
+
+            //Debug.Log(player.characterName + ": " + player.Power.Value + " | " + player.Accuracy.Value + " | " + player.Constitution.Value + " | " + player.Speed.Value + " | " + player.Luck.Value);
+            playerTeam.characters.Add(player);
+            playerTeamChars.Add(player);
+        }
+
+        enemyTeam = new Team();
+        for (int i = 0; i < teamSize; i++)
+        {
+            Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy);
+            enemy.characterName = "Enemy" + (i + 1);
+
+            //Debug.Log(enemy.characterName + ": " + enemy.Power.Value + " | " + enemy.Accuracy.Value + " | " + enemy.Constitution.Value + " | " + enemy.Speed.Value + " | " + enemy.Luck.Value);
+            enemyTeam.characters.Add(enemy);
+            enemyTeamChars.Add(enemy);
+        }
+
+        combat = StartCoroutine(CombatManager.SimulateFight(playerTeam, enemyTeam));
+    }
+
+    public void GenerateEncounter(int challengeRating)
+    {
+        if (combat != null)
+        {
+            StopCoroutine(combat);
+            ClearConsole();
+        }
+
+        if (playerTeam != null)
+        {
+            foreach (Character c in playerTeamChars)
+            {
+                if (c)
+                {
+                    for (int i = 0; i < c.armor.Count; i++)
+                        Destroy(c.armor[i].inventoryItem.gameObject);
+
+                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
+                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
+
+                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
+                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
+
+                    Destroy(c.gameObject);
+                }
+            }
+        }
+
+        if (enemyTeam != null)
+        {
+            foreach (Character c in enemyTeamChars)
+            {
+                if (c)
+                {
+                    for (int i = 0; i < c.armor.Count; i++)
+                        Destroy(c.armor[i].inventoryItem.gameObject);
+
+                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
+                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
+
+                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
+                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
+
+                    Destroy(c.gameObject);
+                }
+            }
+        }
+
+        //ADD CHALLENGE RATING FOR CHARACTER GENERATION
+        //GET ALL COMBINATIONS OF NUMBERS THAT CAN ADD UP TO CHALLENGE RATING
+
+        playerTeam = new Team();
+        for (int i = 0; i < teamSize; i++)
+        {
+            Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player);
+            player.characterName = "Player" + (i + 1);
+
+            Debug.LogError("Character Name: " + player.characterName + "Challenge Rating: " + player.GetChallengeRating());
 
 
             //Debug.Log(player.characterName + ": " + player.Power.Value + " | " + player.Accuracy.Value + " | " + player.Constitution.Value + " | " + player.Speed.Value + " | " + player.Luck.Value);

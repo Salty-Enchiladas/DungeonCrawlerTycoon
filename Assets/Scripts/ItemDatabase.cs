@@ -17,11 +17,24 @@ public class ItemDatabase : ScriptableObject
     public List<WeaponValues> weaponValues;
     public List<ArmorValues> armorValues;
 
+    //take in weapontypes list and weapon category to search for. return all weapon types in the list that are of the category
+
     public WeaponValues GetWeaponValues(WeaponCategories weaponCategory, RarityType rarityType)
     {
         foreach (WeaponValues weaponValue in weaponValues)
         {
             if (weaponValue.weaponCategory == weaponCategory && weaponValue.rarityType == rarityType)
+                return weaponValue;
+        }
+
+        return weaponValues[0];
+    }
+
+    public WeaponValues GetWeaponValues(WeaponCategories weaponCategories, int statCount)
+    {
+        foreach (WeaponValues weaponValue in weaponValues)
+        {
+            if (weaponValue.weaponCategory == weaponCategories && statCount >= weaponValue.minStats && statCount <= weaponValue.maxStats)
                 return weaponValue;
         }
 
@@ -49,6 +62,92 @@ public class ItemDatabase : ScriptableObject
         }
 
         return null;
+    }
+
+    public List<WeaponDatabase> GetWeaponDatabases(List<WeaponTypes> weaponTypes, List<WeaponCategories> weaponCategories)
+    {
+        List<WeaponDatabase> weaponDatabases = new List<WeaponDatabase>();
+
+        if (weaponCategories.Contains(WeaponCategories.OneHanded))
+        {
+            foreach (WeaponDatabase database in oneHandedWeapons)
+            {
+                foreach (WeaponTypes type in weaponTypes)
+                {
+                    if (database.weaponType == type)
+                        weaponDatabases.Add(database);
+                }
+            }
+        }
+
+        if (weaponCategories.Contains(WeaponCategories.TwoHanded))
+        {
+            foreach (WeaponDatabase database in twoHandedWeapons)
+            {
+                foreach (WeaponTypes type in weaponTypes)
+                {
+                    if (database.weaponType == type)
+                        weaponDatabases.Add(database);
+                }
+            }
+        }
+
+        if (weaponCategories.Contains(WeaponCategories.OffHand))
+        {
+            foreach (WeaponDatabase database in twoHandedWeapons)
+            {
+                foreach (WeaponTypes type in weaponTypes)
+                {
+                    if (database.weaponType == type)
+                        weaponDatabases.Add(database);
+                }
+            }
+        }
+
+        return weaponDatabases;
+    }
+
+    public List<WeaponDatabase> GetWeaponDatabases(List<WeaponTypes> weaponTypes, WeaponCategories weaponCategory)
+    {
+        List<WeaponDatabase> weaponDatabases = new List<WeaponDatabase>();
+
+        if (weaponCategory == WeaponCategories.OneHanded)
+        {
+            foreach (WeaponDatabase database in oneHandedWeapons)
+            {
+                foreach (WeaponTypes type in weaponTypes)
+                {
+                    if (database.weaponType == type)
+                        weaponDatabases.Add(database);
+                }
+            }
+        }
+
+        if (weaponCategory == WeaponCategories.TwoHanded)
+        {
+            foreach (WeaponDatabase database in twoHandedWeapons)
+            {
+                foreach (WeaponTypes type in weaponTypes)
+                {
+                    if (database.weaponType == type)
+                        weaponDatabases.Add(database);
+                }
+            }
+        }
+
+        if (weaponCategory == WeaponCategories.OffHand)
+        {
+            foreach (WeaponDatabase database in twoHandedWeapons)
+            {
+                foreach (WeaponTypes type in weaponTypes)
+                {
+                    if (database.weaponType == type)
+                        weaponDatabases.Add(database);
+                }
+            }
+        }
+
+        return weaponDatabases;
     }
 
     public WeaponCategories? GetWeaponCategory(WeaponTypes weaponType)

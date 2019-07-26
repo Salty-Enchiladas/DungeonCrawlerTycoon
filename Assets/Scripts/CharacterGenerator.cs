@@ -117,6 +117,67 @@ public class CharacterGenerator : MonoBehaviour
         #endregion
         return character;
     }
+
+    public Character GenerateCharacter(Character.Allegiance allegiance, int challengeRating)
+    {
+        Character character = Instantiate(characterPrefab, allegiance == Character.Allegiance.Player ? playerTeamSlot : enemyTeamSlot);
+        character.allegiance = allegiance;
+        Specialization spec = CollectionUtilities.GetRandomItem(specializations);
+        character.specialization = spec;
+        character.InitializeStats();
+
+        List<Equipment> equipment = itemGenerator.GenerateEquipment(challengeRating, character.specialization);
+
+        foreach(Equipment item in equipment)
+        {
+            if(item.EquipmentType == EquipmentType.Armor)
+            {
+                character.armor.Add((Armor)item);
+                item.Equip(character);
+            }
+            else if (item.EquipmentType == EquipmentType.Weapon)
+            {
+                Weapon weapon = (Weapon)item;
+
+                if (weapon.weaponCategory == WeaponCategories.TwoHanded)
+                {
+                    if (character.hasPrimary || character.hasSecondary)
+                        break;
+                    character.primaryWeapon = weapon;
+                    character.hasPrimary = true;
+                    break;
+                }
+                else if (weapon.weaponCategory == WeaponCategories.OffHand)
+                {
+                    if (character.hasPrimary && character.primaryWeapon.weaponCategory == WeaponCategories.TwoHanded)
+                        break;
+
+                    if (!character.hasSecondary)
+                    {
+                        character.secondaryWeapon = weapon;
+                        character.hasSecondary = true;
+                    }
+                }
+                else if (weapon.weaponCategory == WeaponCategories.OneHanded)
+                {
+                    if (!character.hasPrimary)
+                    {
+                        character.primaryWeapon = weapon;
+                        character.hasPrimary = true;
+                    }
+                    else if (!character.hasSecondary)
+                    {
+                        character.secondaryWeapon = weapon;
+                        character.hasSecondary = true;
+                    }
+                }
+
+                weapon.Equip(character);
+            }
+        }
+
+        return character;
+    }
 }
 
 //Picks either Player or Enemy

@@ -91,7 +91,7 @@ public class ItemGenerator : MonoBehaviour
         return equipment;
     }
 
-    public Equipment GenerateEquipment(Equipment equipment, int statCount)
+    public Equipment ApplyStats(Equipment equipment, int statCount)
     {
         int pow = 0;
         int acc = 0;
@@ -140,9 +140,9 @@ public class ItemGenerator : MonoBehaviour
         return equipment;
     }
 
-    public void RandomStats(int challengeRating, Specialization spec)
+    public List<Equipment> GenerateEquipment(int challengeRating, Specialization spec)
     {
-        if (challengeRating == 1) return;
+        if (challengeRating == 1) return new List<Equipment>(0);
         int statPointMax = (challengeRating * 5) - 5;
         int statPoints = Random.Range(statPointMax - 4, statPointMax);
 
@@ -176,33 +176,114 @@ public class ItemGenerator : MonoBehaviour
         List<Armor> armorGenerated = new List<Armor>();
         for (int i = 0; i < armorCount; i++)
         {
-            armorGenerated.Add(GenerateArmor(spec, randomArmorTypes[i], statPoints));
             int gearStartStats = Random.Range(0, _statMax);
+            armorGenerated.Add(GenerateArmor(spec, randomArmorTypes[i], gearStartStats));
             statPoints -= gearStartStats;
             stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
         }
 
-        //Do line 173 - 175 for weapons
-        #endregion
-        
-        //THIS WILL BE THE START OF THE WEAPON STUFF
+        #region Weapons
+        List<WeaponCategories> weaponCategories = new List<WeaponCategories>();
+        if (weaponCount == 1)
+        {
+            weaponCategories.Add(WeaponCategories.TwoHanded);
+            weaponCategories.Add(WeaponCategories.OneHanded);
+            weaponCategories.Add(WeaponCategories.OffHand);
+        }
+        else if (weaponCount == 2)
+        {
+            weaponCategories.Add(WeaponCategories.OneHanded);
+            weaponCategories.Add(WeaponCategories.OffHand);
+        }
+
+        WeaponCategories weaponOne = CollectionUtilities.GetRandomItem(weaponCategories);
+        WeaponCategories? weaponTwo = null;
+
+        switch(weaponOne)
+        {
+            case WeaponCategories.TwoHanded:
+                break;
+            case WeaponCategories.OneHanded:
+                if(weaponCategories.Contains(WeaponCategories.TwoHanded))
+                    weaponCategories.Remove(WeaponCategories.TwoHanded);
+                weaponTwo = CollectionUtilities.GetRandomItem(weaponCategories);
+                break;
+            case WeaponCategories.OffHand:
+                if (weaponCategories.Contains(WeaponCategories.TwoHanded))
+                    weaponCategories.Remove(WeaponCategories.TwoHanded);
+
+                if (weaponCategories.Contains(WeaponCategories.OffHand))
+                    weaponCategories.Remove(WeaponCategories.OffHand);
+
+                weaponTwo = CollectionUtilities.GetRandomItem(weaponCategories);
+                break;
+        }
+
+        List<WeaponDatabase> weaponOneDatabases = itemDatabase.GetWeaponDatabases(spec.weaponTypes, weaponOne);
+        WeaponDatabase randomWeaponOneDatabase = CollectionUtilities.GetRandomItem(weaponOneDatabases);
+
+        List<WeaponDatabase> weaponTwoDatabases = new List<WeaponDatabase>();
+        WeaponDatabase randomWeaponTwoDatabase = null;
+
+        if (weaponTwo != null)
+        {
+            weaponTwoDatabases = itemDatabase.GetWeaponDatabases(spec.weaponTypes, weaponOne);
+            randomWeaponTwoDatabase = CollectionUtilities.GetRandomItem(weaponTwoDatabases);
+        }
+
+        List<Weapon> weaponsGenerated = new List<Weapon>();
         for (int i = 0; i < weaponCount; i++)
         {
+            Weapon weapon;// = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, statPoints);
             //check for one handed weapon
             //if _statMax is over 10. set it to 10, add extra back into statpoints
             //set Stat.statMax to 10
             //if not one handed, set Stat.statMax to 20
 
-            int gearStartStats = Random.Range(0, _statMax);
-            statPoints -= gearStartStats;
-            stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
+            if((i == 0 ? randomWeaponOneDatabase.weaponCategory : randomWeaponTwoDatabase.weaponCategory) == WeaponCategories.OneHanded)
+            {
+                int gearStartStats = _statMax == 0 ? 0 : Random.Range(0, _statMax / 2);
+                weapon = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, gearStartStats);
+                statPoints -= gearStartStats;
+                stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 10) * 100)) });
+            }
+            else
+            {
+                int gearStartStats = Random.Range(0, _statMax);
+                weapon = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, gearStartStats);
+                statPoints -= gearStartStats;
+                stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
+            }
+            weaponsGenerated.Add(weapon);
+        }
+        #endregion
+        #endregion
+
+        StartCoroutine(AllocateStats(statPoints, stats));
+        List<Equipment> equipment = new List<Equipment>();
+
+        int statIndex = 0;
+        foreach (Armor armor in armorGenerated)
+        {
+            equipment.Add(ApplyStats(armor, stats[statIndex].statValue));
+            statIndex++;
         }
 
+        foreach (Weapon weapon in weaponsGenerated)
+        {
+            equipment.Add(ApplyStats(weapon, stats[statIndex].statValue));
+            statIndex++;
+        }
+        return equipment;
+    }
+
+    IEnumerator AllocateStats(int statPoints, List<Stat> stats)
+    {
         int iterations = 0;
         for (; ; )
         {
             if (statPoints == 0) break;
-            for (int slot = 0; slot < gearSlots; slot++)
+            for (int slot = 0; slot < stats.Count; slot++)
             {
                 if (statPoints == 0) break;
                 iterations++;
@@ -218,6 +299,7 @@ public class ItemGenerator : MonoBehaviour
                     stats[slot].rollChance += chanceIncrease;
             }
         }
+        yield break;
     }
 
     #region Weapon Methods
@@ -332,6 +414,32 @@ public class ItemGenerator : MonoBehaviour
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
         return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
     }
+
+    public Weapon GenerateWeapon(Specialization charSpec, WeaponTypes weaponType, int statCount)
+    {
+        WeaponDatabase weaponDatabase = itemDatabase.GetWeaponDatabase(weaponType);
+
+        Weapon weapon = new Weapon();
+
+        WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, statCount);
+
+        weapon.rarity = weaponValues.rarityType;
+        weapon.weaponCategory = weaponDatabase.weaponCategory;
+        
+        weapon.itemName = weaponDatabase.weaponType.ToString();
+        weapon.targetCount = weaponValues.targetCount;
+        int actionTypeRoll = Random.Range(0, Enum.GetNames(typeof(Weapon.ActionType)).Length);
+        weapon.actionType = (Weapon.ActionType)actionTypeRoll;
+
+        if (weaponValues.minDamage != 0)
+        {
+            int damage = Random.Range(weaponValues.minDamage, weaponValues.maxDamage + 1);
+            weapon.weaponDamage = damage;
+        }
+
+        return weapon;
+    }
+
     #endregion
 
     #region Armor Methods

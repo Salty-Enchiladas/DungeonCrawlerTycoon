@@ -9,6 +9,11 @@ public class Armor : Equipment
     public ArmorType armorType;
     public int armorValue;
 
+    public Armor()
+    {
+        EquipmentType = EquipmentType.Armor;
+    }
+
     public override void Equip(Character _character)
     {
         character = _character;

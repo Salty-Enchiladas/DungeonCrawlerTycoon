@@ -1,6 +1,7 @@
 ﻿//DOCUMENTATION:    https://github.com/OuterRimStudios/Utilities/wiki/Math-Utilities
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace OuterRimStudios.Utilities
 {
@@ -96,6 +97,22 @@ namespace OuterRimStudios.Utilities
             direction.x = heading.x / distance;
             direction.y = heading.y / distance;
             return distance;
+        }
+        #endregion
+
+        #region GetDivisors
+        /// <summary> Get all of the divisors of a dividend</summary>
+        /// <param name="dividend">the number to be divided by another number</param>
+        /// <returns>list of ints that the dividend cleanly divides with</returns>
+        public static List<int> GetDivisors(int dividend)
+        {
+            List<int> divisors = new List<int>();
+            for(int i = 1; i <= dividend; i++)
+            {
+                if(dividend % i == 0)
+                    divisors.Add(i);
+            }
+            return divisors;
         }
         #endregion
     }

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EquipmentType { Armor, Weapon }
+
 [System.Serializable]
 public class Equipment : Item
 {
     protected Character character;
+    public EquipmentType EquipmentType { get; protected set; }
 
     public int power;
     public int accuracy;
