@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specName: Cleric
   armorCategories: 010000000200000000000000
-  weaponTypes: 050000000300000003000000
+  weaponTypes: 050000000300000011000000
   actionTypes: 0000000001000000

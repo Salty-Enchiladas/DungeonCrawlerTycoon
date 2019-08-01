@@ -3,10 +3,9 @@
 [System.Serializable]
 public class Armor : Equipment
 {
-    public enum ArmorType { Light, Medium, Heavy}
-
-    [Space, Header("Weapon Values")]
-    public ArmorType armorType;
+    [Space, Header("Armor Values")]
+    public ArmorTypes armorType;
+    public ArmorCategories armorCategory;
     public int armorValue;
 
     public Armor()

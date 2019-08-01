@@ -12,6 +12,7 @@ public class Weapon : Equipment
 
     [HideInInspector]
     public WeaponCategories weaponCategory;
+    public WeaponTypes weaponType;
 
     public Weapon()
     {

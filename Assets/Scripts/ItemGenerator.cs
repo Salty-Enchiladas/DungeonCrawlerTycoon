@@ -17,14 +17,8 @@ public class ItemGenerator : MonoBehaviour
 
     private static int chanceIncrease = 20;
 
-    public Equipment GenerateEquipment(Equipment equipment, InventoryItem _inventoryItem, int statMin, int statMax)
+    public void SetStatUI(Equipment equipment, InventoryItem _inventoryItem)
     {
-        int pow = 0;
-        int acc = 0;
-        int con = 0;
-        int spd = 0;
-        int lck = 0;
-
         equipment.inventoryItem = _inventoryItem;
         _inventoryItem.itemDescription.Power.gameObject.SetActive(false);
         _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(false);
@@ -37,58 +31,35 @@ public class ItemGenerator : MonoBehaviour
         _inventoryItem.itemDescription.itemName.color = rarity.color;
         _inventoryItem.itemDescription.itemInfo.color = rarity.color;
 
-        List<int> tempStats = new List<int>() { 1, 2, 3, 4, 5 };
-        List<int> stats = CollectionUtilities.GetRandomItems(tempStats, rarity.statCount);
-
-        int statCount = Random.Range(statMin, statMax + 1);
-        if(stats.Count > 0)
+        if(equipment.power > 0)
         {
-            for (int i = 0; i < statCount; i++)
-            {
-                int stat = CollectionUtilities.GetRandomItem(stats);
-
-                switch (stat)
-                {
-                    case 1:
-                        pow++;
-
-                        _inventoryItem.itemDescription.Power.gameObject.SetActive(true);
-                        _inventoryItem.itemDescription.Power.text = pow + " Power";
-                        equipment.power = pow;
-                        break;
-                    case 2:
-                        acc++;
-
-                        _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(true);
-                        _inventoryItem.itemDescription.Accuracy.text = acc + " Accuracy";
-                        equipment.accuracy = acc;
-                        break;
-                    case 3:
-                        con++;
-
-                        _inventoryItem.itemDescription.Constituion.gameObject.SetActive(true);
-                        _inventoryItem.itemDescription.Constituion.text = con + " Constitution";
-                        equipment.constitution = con;
-                        break;
-                    case 4:
-                        spd++;
-
-                        _inventoryItem.itemDescription.Speed.gameObject.SetActive(true);
-                        _inventoryItem.itemDescription.Speed.text = spd + " Speed";
-                        equipment.speed = spd;
-                        break;
-                    case 5:
-                        lck++;
-
-                        _inventoryItem.itemDescription.Luck.gameObject.SetActive(true);
-                        _inventoryItem.itemDescription.Luck.text = lck + " Luck";
-                        equipment.luck = lck;
-                        break;
-                }
-            }
+            _inventoryItem.itemDescription.Power.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.Power.text = equipment.power + " Power";
         }
 
-        return equipment;
+        if(equipment.accuracy > 0)
+        {
+            _inventoryItem.itemDescription.Accuracy.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.Accuracy.text = equipment.accuracy + " Accuracy";
+        }
+
+        if(equipment.constitution > 0)
+        {
+            _inventoryItem.itemDescription.Constituion.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.Constituion.text = equipment.constitution + " Constitution";
+        }
+
+        if(equipment.speed > 0)
+        {
+            _inventoryItem.itemDescription.Speed.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.Speed.text = equipment.speed + " Speed";
+        }
+
+        if(equipment.luck > 0)
+        {
+            _inventoryItem.itemDescription.Luck.gameObject.SetActive(true);
+            _inventoryItem.itemDescription.Luck.text = equipment.luck + " Luck";
+        }
     }
 
     public Equipment ApplyStats(Equipment equipment, int statCount)
@@ -99,11 +70,10 @@ public class ItemGenerator : MonoBehaviour
         int spd = 0;
         int lck = 0;
 
-        //equipment.rarity = Rarity
-       // Rarity rarity = rarities.GetRarity(equipment.rarity);
+        Rarity rarity = rarities.GetRarity(equipment.rarity);
 
         List<int> tempStats = new List<int>() { 1, 2, 3, 4, 5};
-        List<int> stats = CollectionUtilities.GetRandomItems(tempStats, 0); //rarity.statCount
+        List<int> stats = CollectionUtilities.GetRandomItems(tempStats, rarity.statCount);
 
         if (stats.Count > 0)
         {
@@ -140,7 +110,7 @@ public class ItemGenerator : MonoBehaviour
         return equipment;
     }
 
-    public List<Equipment> GenerateEquipment(int challengeRating, Specialization spec)
+    public List<Equipment> GenerateEquipment(int challengeRating, Character character)
     {
         if (challengeRating == 1) return new List<Equipment>(0);
         int statPointMax = (challengeRating * 5) - 5;
@@ -177,84 +147,91 @@ public class ItemGenerator : MonoBehaviour
         for (int i = 0; i < armorCount; i++)
         {
             int gearStartStats = Random.Range(0, _statMax);
-            armorGenerated.Add(GenerateArmor(spec, randomArmorTypes[i], gearStartStats));
+            armorGenerated.Add(GenerateArmor(character.specialization, randomArmorTypes[i], gearStartStats));
             statPoints -= gearStartStats;
-            stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
+            stats.Add(new Stat() { statValue = gearStartStats, statMax = 20, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
         }
 
         #region Weapons
-        List<WeaponCategories> weaponCategories = new List<WeaponCategories>();
-        if (weaponCount == 1)
+        List<Weapon> weaponsGenerated = new List<Weapon>();
+        if (weaponCount > 0)
         {
-            weaponCategories.Add(WeaponCategories.TwoHanded);
-            weaponCategories.Add(WeaponCategories.OneHanded);
-            weaponCategories.Add(WeaponCategories.OffHand);
-        }
-        else if (weaponCount == 2)
-        {
-            weaponCategories.Add(WeaponCategories.OneHanded);
-            weaponCategories.Add(WeaponCategories.OffHand);
-        }
+            List<WeaponCategories> weaponCategories = new List<WeaponCategories>();
 
-        WeaponCategories weaponOne = CollectionUtilities.GetRandomItem(weaponCategories);
-        WeaponCategories? weaponTwo = null;
+            foreach (WeaponTypes weaponType in character.specialization.weaponTypes)
+            {
+                WeaponCategories category = (WeaponCategories)itemDatabase.GetWeaponCategory(weaponType);
+                if (!weaponCategories.Contains(category))
+                    weaponCategories.Add(category);
+            }
 
-        switch(weaponOne)
-        {
-            case WeaponCategories.TwoHanded:
-                break;
-            case WeaponCategories.OneHanded:
-                if(weaponCategories.Contains(WeaponCategories.TwoHanded))
-                    weaponCategories.Remove(WeaponCategories.TwoHanded);
-                weaponTwo = CollectionUtilities.GetRandomItem(weaponCategories);
-                break;
-            case WeaponCategories.OffHand:
+            if (weaponCount == 2)
+            {
                 if (weaponCategories.Contains(WeaponCategories.TwoHanded))
                     weaponCategories.Remove(WeaponCategories.TwoHanded);
-
-                if (weaponCategories.Contains(WeaponCategories.OffHand))
-                    weaponCategories.Remove(WeaponCategories.OffHand);
-
-                weaponTwo = CollectionUtilities.GetRandomItem(weaponCategories);
-                break;
-        }
-
-        List<WeaponDatabase> weaponOneDatabases = itemDatabase.GetWeaponDatabases(spec.weaponTypes, weaponOne);
-        WeaponDatabase randomWeaponOneDatabase = CollectionUtilities.GetRandomItem(weaponOneDatabases);
-
-        List<WeaponDatabase> weaponTwoDatabases = new List<WeaponDatabase>();
-        WeaponDatabase randomWeaponTwoDatabase = null;
-
-        if (weaponTwo != null)
-        {
-            weaponTwoDatabases = itemDatabase.GetWeaponDatabases(spec.weaponTypes, weaponOne);
-            randomWeaponTwoDatabase = CollectionUtilities.GetRandomItem(weaponTwoDatabases);
-        }
-
-        List<Weapon> weaponsGenerated = new List<Weapon>();
-        for (int i = 0; i < weaponCount; i++)
-        {
-            Weapon weapon;// = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, statPoints);
-            //check for one handed weapon
-            //if _statMax is over 10. set it to 10, add extra back into statpoints
-            //set Stat.statMax to 10
-            //if not one handed, set Stat.statMax to 20
-
-            if((i == 0 ? randomWeaponOneDatabase.weaponCategory : randomWeaponTwoDatabase.weaponCategory) == WeaponCategories.OneHanded)
-            {
-                int gearStartStats = _statMax == 0 ? 0 : Random.Range(0, _statMax / 2);
-                weapon = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, gearStartStats);
-                statPoints -= gearStartStats;
-                stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 10) * 100)) });
             }
-            else
+
+            WeaponCategories weaponOne = CollectionUtilities.GetRandomItem(weaponCategories);
+            WeaponCategories? weaponTwo = null;
+
+            switch (weaponOne)
             {
-                int gearStartStats = Random.Range(0, _statMax);
-                weapon = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, gearStartStats);
-                statPoints -= gearStartStats;
-                stats.Add(new Stat() { statValue = gearStartStats, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
+                case WeaponCategories.TwoHanded:
+                    break;
+                case WeaponCategories.OneHanded:
+                    if (weaponCategories.Contains(WeaponCategories.TwoHanded))
+                        weaponCategories.Remove(WeaponCategories.TwoHanded);
+                    weaponTwo = CollectionUtilities.GetRandomItem(weaponCategories);
+                    break;
+                case WeaponCategories.OffHand:
+                    if (weaponCategories.Contains(WeaponCategories.TwoHanded))
+                        weaponCategories.Remove(WeaponCategories.TwoHanded);
+
+                    if (weaponCategories.Contains(WeaponCategories.OffHand))
+                        weaponCategories.Remove(WeaponCategories.OffHand);
+                    
+                    weaponTwo = CollectionUtilities.GetRandomItem(weaponCategories);
+                    break;
             }
-            weaponsGenerated.Add(weapon);
+
+
+            List<WeaponDatabase> weaponOneDatabases = itemDatabase.GetWeaponDatabases(character.specialization.weaponTypes, weaponOne);
+            Debug.Log("Weapon Count: " + weaponCount + " --  Weapon: " + weaponOne + " -- WeaponDatabase: " + weaponOneDatabases.Count);
+            WeaponDatabase randomWeaponOneDatabase = CollectionUtilities.GetRandomItem(weaponOneDatabases);
+
+            List<WeaponDatabase> weaponTwoDatabases = new List<WeaponDatabase>();
+            WeaponDatabase randomWeaponTwoDatabase = null;
+
+            if (weaponTwo != null)
+            {
+                weaponTwoDatabases = itemDatabase.GetWeaponDatabases(character.specialization.weaponTypes, weaponOne);
+                randomWeaponTwoDatabase = CollectionUtilities.GetRandomItem(weaponTwoDatabases);
+            }
+            
+            for (int i = 0; i < weaponCount; i++)
+            {
+                Weapon weapon;// = GenerateWeapon(spec, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, statPoints);
+                              //check for one handed weapon
+                              //if _statMax is over 10. set it to 10, add extra back into statpoints
+                              //set Stat.statMax to 10
+                              //if not one handed, set Stat.statMax to 20
+
+                if ((i == 0 ? randomWeaponOneDatabase.weaponCategory : randomWeaponTwoDatabase.weaponCategory) == WeaponCategories.OneHanded)
+                {
+                    int gearStartStats = _statMax == 0 ? 0 : Random.Range(0, _statMax / 2);
+                    weapon = GenerateWeapon(character.specialization, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, gearStartStats);
+                    statPoints -= gearStartStats;
+                    stats.Add(new Stat() { statValue = gearStartStats, statMax = 10, rollChance = (100 - (int)((float)(gearStartStats / 10) * 100)) });
+                }
+                else
+                {
+                    int gearStartStats = Random.Range(0, _statMax);
+                    weapon = GenerateWeapon(character.specialization, i == 0 ? randomWeaponOneDatabase.weaponType : randomWeaponTwoDatabase.weaponType, gearStartStats);
+                    statPoints -= gearStartStats;
+                    stats.Add(new Stat() { statValue = gearStartStats, statMax = 20, rollChance = (100 - (int)((float)(gearStartStats / 20) * 100)) });
+                }
+                weaponsGenerated.Add(weapon);
+            }
         }
         #endregion
         #endregion
@@ -266,14 +243,75 @@ public class ItemGenerator : MonoBehaviour
         foreach (Armor armor in armorGenerated)
         {
             equipment.Add(ApplyStats(armor, stats[statIndex].statValue));
+
+            InventoryItem _inventoryItem = Instantiate(inventoryItem, character.armorSlots[statIndex]);
+
+            ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(armor.armorCategory, armor.armorType);
+            ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, armor.rarity);
+
+            string itemType = " " + armorDatabase;
+            itemType = itemType.Replace('_', ' ');
+            _inventoryItem.itemDescription.itemName.text = itemType;
+            _inventoryItem.itemDescription.itemInfo.text = armor.rarity.ToString() + " " + armorDatabase.armorTypes;
+            _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(armorDatabase.armorIcons);
+
+            if (armorValues.minArmor != 0)
+            {
+                _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
+                _inventoryItem.itemDescription.extraStat.text = armor.armorValue + " Armor";
+            }
+            else
+                _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
+
+            SetStatUI(armor, _inventoryItem);
             statIndex++;
         }
 
-        foreach (Weapon weapon in weaponsGenerated)
+        for (int i = 0; i < weaponsGenerated.Count; i++)
         {
+            Weapon weapon = weaponsGenerated[i];
+
             equipment.Add(ApplyStats(weapon, stats[statIndex].statValue));
+
+            Transform slot = character.primaryWeaponSlot;
+
+            if(i == 0)
+            {
+                if(weapon.weaponCategory == WeaponCategories.OffHand)
+                    slot = character.secondaryWeaponSlot;
+            }
+            else
+            {
+                switch (weapon.weaponCategory)
+                {
+                    case WeaponCategories.OneHanded:
+                    case WeaponCategories.OffHand:
+                        slot = character.secondaryWeaponSlot;
+                        break;
+                }
+            }
+
+            InventoryItem _inventoryItem = Instantiate(inventoryItem, slot);
+
+            WeaponDatabase weaponDatabase = itemDatabase.GetWeaponDatabase(weapon.weaponType);
+            WeaponValues weaponValues = itemDatabase.GetWeaponValues(weaponDatabase.weaponCategory, weapon.rarity);
+
+            _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
+            _inventoryItem.itemDescription.itemInfo.text = weapon.rarity.ToString() + " " + weaponDatabase.weaponType;
+            _inventoryItem.icon.sprite = CollectionUtilities.GetRandomItem(weaponDatabase.weaponIcons);
+
+            if (weaponValues.minDamage != 0)
+            {
+                _inventoryItem.itemDescription.extraStat.gameObject.SetActive(true);
+                _inventoryItem.itemDescription.extraStat.text = weapon.weaponDamage + " Damage";
+            }
+            else
+                _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
+
+            SetStatUI(weapon, _inventoryItem);
             statIndex++;
         }
+
         return equipment;
     }
 
@@ -344,7 +382,11 @@ public class ItemGenerator : MonoBehaviour
 
         _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
-        return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
+
+        int statCount = Random.Range(weaponValues.minStats, weaponValues.maxStats);
+        Weapon _weapon = (Weapon)ApplyStats(weapon, statCount);
+        SetStatUI(_weapon, _inventoryItem);
+        return _weapon;
     }
 
     public Weapon GenerateWeapon(Specialization charSpec, Transform slot)
@@ -379,7 +421,12 @@ public class ItemGenerator : MonoBehaviour
 
         _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
-        return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
+
+
+        int statCount = Random.Range(weaponValues.minStats, weaponValues.maxStats);
+        Weapon _weapon = (Weapon)ApplyStats(weapon, statCount);
+        SetStatUI(_weapon, _inventoryItem);
+        return _weapon;
     }
 
     public Weapon GenerateWeapon(WeaponTypes weaponType, Transform slot)
@@ -412,7 +459,11 @@ public class ItemGenerator : MonoBehaviour
 
         _inventoryItem.itemDescription.itemName.text = " " + weaponDatabase.weaponType;
         _inventoryItem.itemDescription.itemInfo.text = rarity.rarity.ToString() + " " + weaponDatabase.weaponType;
-        return (Weapon)GenerateEquipment(weapon, _inventoryItem, weaponValues.minStats, weaponValues.maxStats);
+
+        int statCount = Random.Range(weaponValues.minStats, weaponValues.maxStats);
+        Weapon _weapon = (Weapon)ApplyStats(weapon, statCount);
+        SetStatUI(_weapon, _inventoryItem);
+        return _weapon;
     }
 
     public Weapon GenerateWeapon(Specialization charSpec, WeaponTypes weaponType, int statCount)
@@ -425,6 +476,7 @@ public class ItemGenerator : MonoBehaviour
 
         weapon.rarity = weaponValues.rarityType;
         weapon.weaponCategory = weaponDatabase.weaponCategory;
+        weapon.weaponType = weaponType;
         
         weapon.itemName = weaponDatabase.weaponType.ToString();
         weapon.targetCount = weaponValues.targetCount;
@@ -471,7 +523,10 @@ public class ItemGenerator : MonoBehaviour
         else
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
 
-        return (Armor)GenerateEquipment(armor, _inventoryItem, armorValues.minStats, armorValues.maxStats);
+        int statCount = Random.Range(armorValues.minStats, armorValues.maxStats);
+        Armor _armor = (Armor)ApplyStats(armor, statCount);
+        SetStatUI(_armor, _inventoryItem);
+        return _armor;
     }
 
     public Armor GenerateArmor(Specialization charSpec, ArmorTypes armorType, Transform slot)
@@ -505,16 +560,24 @@ public class ItemGenerator : MonoBehaviour
         else
             _inventoryItem.itemDescription.extraStat.gameObject.SetActive(false);
 
-        return (Armor)GenerateEquipment(armor, _inventoryItem, armorValues.minStats, armorValues.maxStats);
+        int statCount = Random.Range(armorValues.minStats, armorValues.maxStats);
+        Armor _armor = (Armor)ApplyStats(armor, statCount);
+        SetStatUI(_armor, _inventoryItem);
+        return _armor;
     }
 
     public Armor GenerateArmor(Specialization spec, ArmorTypes armorType, int statCount)
     {
         ArmorCategories selectedCategory = CollectionUtilities.GetRandomItem(spec.armorCategories, new List<ArmorCategories>() { ArmorCategories.Accessory });
-        //Debug.Log("Category: " + selectedCategory + " | Type: " + armorType);
-        ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(selectedCategory, armorType);
 
+        if (armorType == ArmorTypes.Rings || armorType == ArmorTypes.Necklace)
+            selectedCategory = ArmorCategories.Accessory;
+        
+        ArmorDatabase armorDatabase = itemDatabase.GetArmorDatabase(selectedCategory, armorType);
+        
         Armor armor = new Armor();
+        armor.armorCategory = selectedCategory;
+        armor.armorType = armorType;
         ArmorValues armorValues = itemDatabase.GetArmorValues(armorDatabase.armorCategory, statCount);
 
         armor.rarity = armorValues.rarityType;

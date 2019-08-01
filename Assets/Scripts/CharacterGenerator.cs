@@ -126,7 +126,7 @@ public class CharacterGenerator : MonoBehaviour
         character.specialization = spec;
         character.InitializeStats();
 
-        List<Equipment> equipment = itemGenerator.GenerateEquipment(challengeRating, character.specialization);
+        List<Equipment> equipment = itemGenerator.GenerateEquipment(challengeRating, character);
 
         foreach(Equipment item in equipment)
         {

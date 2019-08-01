@@ -1275,6 +1275,7 @@ GameObject:
   - component: {fileID: 1237223485}
   - component: {fileID: 1237223482}
   - component: {fileID: 1237223484}
+  - component: {fileID: 1237223486}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1305,8 +1306,8 @@ MonoBehaviour:
   itemGenerator: {fileID: 1237223485}
   playerTeamSlot: {fileID: 1051608383}
   enemyTeamSlot: {fileID: 1925168579}
-  armorChance: 0
-  weaponChance: 0
+  armorChance: 2
+  weaponChance: 2
   armorSlots: 4
   weaponSlots: 2
 --- !u!4 &1237223483
@@ -1336,7 +1337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterGenerator: {fileID: 1237223482}
-  teamSize: 4
+  maxTeamSize: 4
 --- !u!114 &1237223485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1353,6 +1354,18 @@ MonoBehaviour:
   inventoryItem: {fileID: 448075668, guid: 2681861629139a64bb0723d60c60daa9, type: 3}
   itemDatabase: {fileID: 11400000, guid: 728ac8cbe67f61c4ca23ae20f8e49cef, type: 2}
   rarities: {fileID: 11400000, guid: 7a60dd6630dd751438985b4778fa756a, type: 2}
+--- !u!114 &1237223486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237223481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e986910e1b59f0840b660f0fce2f60ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1335265318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1480,11 +1493,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1237223484}
         m_MethodName: GenerateEncounter
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
