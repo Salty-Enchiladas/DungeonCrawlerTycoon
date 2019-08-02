@@ -9,7 +9,7 @@ public class Character : MonoBehaviour
     static readonly int baseHitChance = 60;
     static readonly int maximumArmor = 400;
 
-    static readonly float accuracyHitChanceRatio = 1.0f;
+    static readonly float extraAttackRatio = 1.0f;
     static readonly float criticalHitChanceRatio = .5f;
 
     public static readonly float criticalDamageModifier = 1.5f;
@@ -20,7 +20,7 @@ public class Character : MonoBehaviour
 
     //Find a way to lower healing
 
-    public static readonly Weapon unarmedWeapon;
+    public static readonly Weapon unarmedWeapon = new Weapon();
 
     public string characterName;
     public enum Allegiance {  Player, Enemy }
@@ -30,12 +30,8 @@ public class Character : MonoBehaviour
     public List<Armor> armor;
     public List<Transform> armorSlots;
 
-    public Weapon primaryWeapon;
-    public Weapon secondaryWeapon;
-    [HideInInspector]public bool hasPrimary = false;
-    [HideInInspector] public bool hasSecondary = false;
-    public Transform primaryWeaponSlot;
-    public Transform secondaryWeaponSlot;
+    public List<Weapon> weapons;
+    public List<Transform> weaponSlots;
     public List<Sprite> characterIcons;
 
     [Space, Header("UI")]
@@ -43,7 +39,7 @@ public class Character : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI classText;
     public TextMeshProUGUI powerText;
-    public TextMeshProUGUI accuracyText;
+    public TextMeshProUGUI zealText;
     public TextMeshProUGUI constitutionText;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI luckText;
@@ -54,7 +50,7 @@ public class Character : MonoBehaviour
 
     [Space, Header("Stats")]
     public CharacterStat Power;
-    public CharacterStat Accuracy;
+    public CharacterStat Zeal;
     public CharacterStat Constitution;
     public CharacterStat Speed;
     public CharacterStat Luck;
@@ -65,7 +61,7 @@ public class Character : MonoBehaviour
     public CharacterStat Healing;
 
     public float DamageResistance { get { return ((Constitution.Value * armorModifier) + ArmorRating.Value) / maximumArmor; } }
-    public float HitChance { get { return Accuracy.Value * accuracyHitChanceRatio; } }
+    public float ExtraAttackChance { get { return Zeal.Value * extraAttackRatio; } }
     public float CritChance { get { return Luck.Value * criticalHitChanceRatio; } }
 
     CharacterStat TravelSpeed;
@@ -75,7 +71,7 @@ public class Character : MonoBehaviour
     private void OnEnable()
     {
         Power.OnStatsUpdated += UpdatePower;
-        Accuracy.OnStatsUpdated += UpdateAccuracy;
+        Zeal.OnStatsUpdated += UpdateZeal;
         Constitution.OnStatsUpdated += UpdateConstitution;
         Speed.OnStatsUpdated += UpdateSpeed;
         Luck.OnStatsUpdated += UpdateLuck;
@@ -85,7 +81,7 @@ public class Character : MonoBehaviour
     private void OnDisable()
     {
         Power.OnStatsUpdated -= UpdatePower;
-        Accuracy.OnStatsUpdated -= UpdateAccuracy;
+        Zeal.OnStatsUpdated -= UpdateZeal;
         Constitution.OnStatsUpdated -= UpdateConstitution;
         Speed.OnStatsUpdated -= UpdateSpeed;
         Luck.OnStatsUpdated -= UpdateLuck;
@@ -95,7 +91,7 @@ public class Character : MonoBehaviour
     public void InitializeStats()
     {
         Power.BaseValue = 1;
-        Accuracy.BaseValue = 1;
+        Zeal.BaseValue = 1;
         Constitution.BaseValue = 1;
         Speed.BaseValue = 1;
         Luck.BaseValue = 1;
@@ -117,7 +113,7 @@ public class Character : MonoBehaviour
         UpdateUI();
     }
 
-    void UpdateAccuracy()
+    void UpdateZeal()
     {
         UpdateUI();
     }
@@ -150,7 +146,7 @@ public class Character : MonoBehaviour
         classText.text = "Class: " + specialization.specName;
 
         powerText.text = "Pow: \n" + Power.Value;
-        accuracyText.text = "Acc: \n" + Accuracy.Value;
+        zealText.text = "Zea: \n" + Zeal.Value;
         constitutionText.text = "Con: \n" + Constitution.Value;
         speedText.text = "Spd: \n" + Speed.Value;
         luckText.text = "Lck: \n" + Luck.Value;
@@ -161,33 +157,26 @@ public class Character : MonoBehaviour
     
     public int GetChallengeRating()
     {
-        int statCount = (int)(Power.BaseValue + Accuracy.BaseValue + Constitution.BaseValue + Speed.BaseValue + Luck.BaseValue);
+        int statCount = (int)(Power.BaseValue + Zeal.BaseValue + Constitution.BaseValue + Speed.BaseValue + Luck.BaseValue);
 
         for(int i = 0; i < armor.Count; i++)
         {
             statCount += armor[i].power;
-            statCount += armor[i].accuracy;
+            statCount += armor[i].zeal;
             statCount += armor[i].constitution;
             statCount += armor[i].speed;
             statCount += armor[i].luck;
         }
-        if(primaryWeapon != null)
+
+        for(int i = 0; i < weapons.Count; i++)
         {
-            statCount += primaryWeapon.power;
-            statCount += primaryWeapon.accuracy;
-            statCount += primaryWeapon.constitution;
-            statCount += primaryWeapon.speed;
-            statCount += primaryWeapon.luck;
+            statCount += weapons[i].power;
+            statCount += weapons[i].zeal;
+            statCount += weapons[i].constitution;
+            statCount += weapons[i].speed;
+            statCount += weapons[i].luck;
         }
 
-        if(secondaryWeapon != null)
-        {
-            statCount += secondaryWeapon.power;
-            statCount += secondaryWeapon.accuracy;
-            statCount += secondaryWeapon.constitution;
-            statCount += secondaryWeapon.speed;
-            statCount += secondaryWeapon.luck;
-        }
         return Mathf.CeilToInt(statCount / 5.0f); //Divided by 5 because each challenge rating increases Stat Count by 5.
     }
 }

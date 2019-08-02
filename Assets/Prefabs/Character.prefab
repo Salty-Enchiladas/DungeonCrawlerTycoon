@@ -2313,7 +2313,7 @@ GameObject:
   - component: {fileID: 6822914765167286118}
   - component: {fileID: 6822914765167286117}
   m_Layer: 5
-  m_Name: Accuracy
+  m_Name: Zeal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2366,7 +2366,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Acc: \n25"
+  m_text: "Zea: \n25"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2999,38 +2999,10 @@ MonoBehaviour:
   - {fileID: 1519488527305123606}
   - {fileID: 1519488526469393579}
   - {fileID: 1519488526004718587}
-  primaryWeapon:
-    itemName: Unarmed
-    rarity: 0
-    maxStackCount: 0
-    price: 0
-    inventoryItem: {fileID: 0}
-    power: 0
-    accuracy: 0
-    constitution: 0
-    speed: 0
-    luck: 0
-    actionType: 0
-    weaponDamage: 0
-    targetCount: 1
-    weaponCategory: 0
-  secondaryWeapon:
-    itemName: Unarmed
-    rarity: 0
-    maxStackCount: 0
-    price: 0
-    inventoryItem: {fileID: 0}
-    power: 0
-    accuracy: 0
-    constitution: 0
-    speed: 0
-    luck: 0
-    actionType: 0
-    weaponDamage: 0
-    targetCount: 1
-    weaponCategory: 0
-  primaryWeaponSlot: {fileID: 1519488526216537196}
-  secondaryWeaponSlot: {fileID: 1519488526382444876}
+  weapons: []
+  weaponSlots:
+  - {fileID: 1519488526216537196}
+  - {fileID: 1519488526382444876}
   characterIcons:
   - {fileID: 21300000, guid: 7e08d4c1301e29a4c9f58b5e49684609, type: 3}
   - {fileID: 21300000, guid: 14577dfe1968b56499f0d6c758a18b7a, type: 3}
@@ -3219,7 +3191,7 @@ MonoBehaviour:
   nameText: {fileID: 153621152}
   classText: {fileID: 142315686}
   powerText: {fileID: 6822914764553319316}
-  accuracyText: {fileID: 6822914765167286117}
+  zealText: {fileID: 6822914765167286117}
   constitutionText: {fileID: 6822914764174652256}
   speedText: {fileID: 6822914765694228221}
   luckText: {fileID: 6822914765188326435}
@@ -3227,7 +3199,7 @@ MonoBehaviour:
   healthValues: {fileID: 1993023098}
   Power:
     BaseValue: 0
-  Accuracy:
+  Zeal:
     BaseValue: 0
   Constitution:
     BaseValue: 0

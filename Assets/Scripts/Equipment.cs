@@ -11,7 +11,7 @@ public class Equipment : Item
     public EquipmentType EquipmentType { get; protected set; }
 
     public int power;
-    public int accuracy;
+    public int zeal;
     public int constitution;
     public int speed;
     public int luck;

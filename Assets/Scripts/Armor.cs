@@ -19,7 +19,7 @@ public class Armor : Equipment
 
         character.ArmorRating.AddModifier(new StatModifier(armorValue, StatModType.Flat, this));
         character.Power.AddModifier(new StatModifier(power, StatModType.Flat, this));
-        character.Accuracy.AddModifier(new StatModifier(accuracy, StatModType.Flat, this));
+        character.Zeal.AddModifier(new StatModifier(zeal, StatModType.Flat, this));
         character.Constitution.AddModifier(new StatModifier(constitution, StatModType.Flat, this));
         character.Speed.AddModifier(new StatModifier(speed, StatModType.Flat, this));
         character.Luck.AddModifier(new StatModifier(luck, StatModType.Flat, this));
@@ -29,7 +29,7 @@ public class Armor : Equipment
     {
         character.ArmorRating.RemoveAllModifiersFromSource(this);
         character.Power.RemoveAllModifiersFromSource(this);
-        character.Accuracy.RemoveAllModifiersFromSource(this);
+        character.Zeal.RemoveAllModifiersFromSource(this);
         character.Constitution.RemoveAllModifiersFromSource(this);
         character.Speed.RemoveAllModifiersFromSource(this);
         character.Luck.RemoveAllModifiersFromSource(this);

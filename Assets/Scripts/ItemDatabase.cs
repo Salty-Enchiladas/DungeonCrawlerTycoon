@@ -94,7 +94,7 @@ public class ItemDatabase : ScriptableObject
 
         if (weaponCategories.Contains(WeaponCategories.OffHand))
         {
-            foreach (WeaponDatabase database in twoHandedWeapons)
+            foreach (WeaponDatabase database in offHandWeapons)
             {
                 foreach (WeaponTypes type in weaponTypes)
                 {
@@ -137,7 +137,7 @@ public class ItemDatabase : ScriptableObject
 
         if (weaponCategory == WeaponCategories.OffHand)
         {
-            foreach (WeaponDatabase database in twoHandedWeapons)
+            foreach (WeaponDatabase database in offHandWeapons)
             {
                 foreach (WeaponTypes type in weaponTypes)
                 {
@@ -305,7 +305,6 @@ public class ArmorValues
     public int minStats;
     public int maxStats;
 }
-
 
 public enum ArmorCategories
 {

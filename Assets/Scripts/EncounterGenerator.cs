@@ -18,84 +18,6 @@ public class EncounterGenerator : MonoBehaviour
 
     Coroutine combat;
 
-    public void GenerateEncounter()
-    {
-        if(combat != null)
-        {
-            StopCoroutine(combat);
-            ClearConsole();
-        }
-
-        if(playerTeam != null)
-        {
-            foreach (Character c in playerTeamChars)
-            {
-                if (c)
-                {
-                    for (int i = 0; i < c.armor.Count; i++)
-                        Destroy(c.armor[i].inventoryItem.gameObject);
-
-                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
-                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
-
-                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
-                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
-
-                    Destroy(c.gameObject);
-                }
-            }
-        }
-
-        if(enemyTeam != null)
-        {
-            foreach (Character c in enemyTeamChars)
-            {
-                if (c)
-                {
-                    for (int i = 0; i < c.armor.Count; i++)
-                        Destroy(c.armor[i].inventoryItem.gameObject);
-
-                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
-                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
-
-                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
-                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
-
-                    Destroy(c.gameObject);
-                }
-            }
-        }
-
-        //ADD CHALLENGE RATING FOR CHARACTER GENERATION
-
-        playerTeam = new Team();
-        for(int i = 0; i < maxTeamSize; i++)
-        {
-            Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player);
-            player.characterName = "Player" + (i + 1);
-
-            Debug.LogError("Character Name: " + player.characterName + "Challenge Rating: " + player.GetChallengeRating()); 
-
-
-            //Debug.Log(player.characterName + ": " + player.Power.Value + " | " + player.Accuracy.Value + " | " + player.Constitution.Value + " | " + player.Speed.Value + " | " + player.Luck.Value);
-            playerTeam.characters.Add(player);
-            playerTeamChars.Add(player);
-        }
-
-        enemyTeam = new Team();
-        for (int i = 0; i < maxTeamSize; i++)
-        {
-            Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy);
-            enemy.characterName = "Enemy" + (i + 1);
-
-            //Debug.Log(enemy.characterName + ": " + enemy.Power.Value + " | " + enemy.Accuracy.Value + " | " + enemy.Constitution.Value + " | " + enemy.Speed.Value + " | " + enemy.Luck.Value);
-            enemyTeam.characters.Add(enemy);
-            enemyTeamChars.Add(enemy);
-        }
-
-        combat = StartCoroutine(CombatManager.SimulateFight(playerTeam, enemyTeam));
-    }
-
     public void GenerateEncounter(int challengeRating)
     {
         if (combat != null)
@@ -106,20 +28,17 @@ public class EncounterGenerator : MonoBehaviour
 
         if (playerTeam != null)
         {
-            foreach (Character c in playerTeamChars)
+            foreach (Character character in playerTeamChars)
             {
-                if (c)
+                if (character)
                 {
-                    for (int i = 0; i < c.armor.Count; i++)
-                        Destroy(c.armor[i].inventoryItem.gameObject);
+                    for (int i = 0; i < character.armor.Count; i++)
+                        Destroy(character.armor[i].inventoryItem.gameObject);
 
-                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
-                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
+                    for (int i = 0; i < character.weapons.Count; i++)
+                        Destroy(character.weapons[i].inventoryItem.gameObject);
 
-                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
-                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
-
-                    Destroy(c.gameObject);
+                    Destroy(character.gameObject);
                 }
             }
         }
@@ -133,11 +52,8 @@ public class EncounterGenerator : MonoBehaviour
                     for (int i = 0; i < c.armor.Count; i++)
                         Destroy(c.armor[i].inventoryItem.gameObject);
 
-                    if (c.primaryWeapon != null && c.primaryWeapon.inventoryItem)
-                        Destroy(c.primaryWeapon.inventoryItem.gameObject);
-
-                    if (c.secondaryWeapon != null && c.secondaryWeapon.inventoryItem)
-                        Destroy(c.secondaryWeapon.inventoryItem.gameObject);
+                    for (int i = 0; i < c.weapons.Count; i++)
+                        Destroy(c.weapons[i].inventoryItem.gameObject);
 
                     Destroy(c.gameObject);
                 }

@@ -155,7 +155,7 @@ MonoBehaviour:
   extraStat: {fileID: 2190691339227450851}
   target: {fileID: 2190691339538688670}
   Power: {fileID: 2190691340852254150}
-  Accuracy: {fileID: 2190691340000257303}
+  Zeal: {fileID: 2190691340000257303}
   Constituion: {fileID: 2190691339837394223}
   Speed: {fileID: 2190691339885394748}
   Luck: {fileID: 2190691339451548210}
@@ -175,6 +175,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190691340697120854, guid: 5c1b1230dd8283646a383e2abbc6e648,
+        type: 3}
+      propertyPath: m_text
+      value: +0 Zeal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2190691340697120848, guid: 5c1b1230dd8283646a383e2abbc6e648,
+        type: 3}
+      propertyPath: m_Name
+      value: Zeal
       objectReference: {fileID: 0}
     - target: {fileID: 2190691339632335627, guid: 5c1b1230dd8283646a383e2abbc6e648,
         type: 3}

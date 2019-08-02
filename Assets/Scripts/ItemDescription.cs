@@ -12,7 +12,7 @@ public class ItemDescription : MonoBehaviour
 
     [Space]
     public TextMeshProUGUI Power;
-    public TextMeshProUGUI Accuracy;
+    public TextMeshProUGUI Zeal;
     public TextMeshProUGUI Constituion;
     public TextMeshProUGUI Speed;
     public TextMeshProUGUI Luck;

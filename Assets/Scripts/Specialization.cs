@@ -8,5 +8,11 @@ public class Specialization : ScriptableObject
     public string specName;
     public List<ArmorCategories> armorCategories;
     public List<WeaponTypes> weaponTypes;
-    public List<Weapon.ActionType> actionTypes;
+    public ActionType actionType;
+}
+
+public enum ActionType
+{
+    Damage,
+    Healing
 }

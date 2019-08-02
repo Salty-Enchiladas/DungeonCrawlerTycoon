@@ -6,93 +6,101 @@ using System.Collections;
 
 public static class CombatManager
 {
+    static bool extraAttack;
+
     public static IEnumerator SimulateFight(Team playerTeam, Team enemyTeam)
     {
+        CombatLog.ClearLog();
         //Key = Speed stat | Value = List of characters with same Speed stat 
         SortedDictionary<int, List<Character>> combatants = new SortedDictionary<int, List<Character>>(new SpeedComp());
         AddCombatants(ref combatants, playerTeam);
         AddCombatants(ref combatants, enemyTeam);
 
-        /* foreach(KeyValuePair<int, List<Character>> keyValuePair in combatants)
-        {
-            Debug.Log("-- " + keyValuePair.Key + " --");
-            foreach (Character c in keyValuePair.Value)
-                Debug.Log(c.name);
-        } */
-
         //________GENERATE LOOT TABLE INFO_________
-
+        int roundCount = 0;
         for(;;)
         {
-            //Debug.Log("Simulating...");
-
             if (!CheckTeamStatus(playerTeam) || !CheckTeamStatus(enemyTeam))
             {
-                //Debug.Log("Player team alive = " + CheckTeamStatus(playerTeam));
-                //Debug.Log("Enemy team alive = " + CheckTeamStatus(enemyTeam));
+                CombatLog.Log(CheckTeamStatus(playerTeam) ? "Player Team Wins!" : "Enemy Team Winds!");
                 yield break;
             }
 
+            roundCount++;
+            CombatLog.Log("<b><i><size=50>Round " + roundCount + "</size></i></b>");
+            CombatLog.Log("_________________________________________________");
             List<Character> combatOrder = new List<Character>();
             combatOrder = GetCombatOrder(combatants);
 
-            /* Debug.Log("------Combat Order------");
+            CombatLog.Log("<b>Combat Order</b>");
             foreach (Character c in combatOrder)
-            {
-                Debug.Log(c.name);
-            }
-            Debug.Log("------------"); */
+                CombatLog.Log(c.characterName);
+            CombatLog.Log("------------");
+            CombatLog.Log("");
 
             //Loops through each Character in the combatOrder to take thier turn
             foreach (Character character in combatOrder)
             {
+                if (!CheckTeamStatus(playerTeam) || !CheckTeamStatus(enemyTeam))
+                    yield break;
                 if (character.HealthPercentage <= 0) continue;
                 //Check for potion use here
 
-                //Debug.Log(character.name + "'s Turn!" + " Weapon: " + character.primaryWeapon.itemName);
+                CombatLog.Log(character.characterName + "'s Turn!");
+                CombatLog.Log("Health: " + character.Health.Value);
+                CombatLog.Log("");
 
-                if (character.primaryWeapon.actionType == Weapon.ActionType.Damage) //Attacks with the character's primary weapon
+                if (character.weapons.Count > 0 && character.specialization.actionType == ActionType.Damage) //Attacks with the character's primary weapon
                 {
                     //Finds a list of targets at random according to the character's allegiance and how many target's this weapon hits
-                    List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.primaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.primaryWeapon.targetCount);
-                    //Debug.Log(character.name + " is attacking: ");
-
-                    //foreach (Character c in targets)
-                        //Debug.Log(c.name);
-
-                    //Debug.Log("Weapon Name: " + character.primaryWeapon.itemName);
-                    //Debug.Log("Target Count: " + character.primaryWeapon.targetCount);
+                    List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.weapons[0].targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.weapons[0].targetCount);
+                    CombatLog.Log("Target(s):");
+                    foreach (Character c in targets)
+                        CombatLog.Log(c.characterName);
+                    CombatLog.Log("");
 
                     //Deals damage to all targets
                     foreach (Character target in targets)
-                        DealDamage(character, character.primaryWeapon, target, playerTeam, enemyTeam);
+                        DealDamage(character, character.weapons[0], target, playerTeam, enemyTeam);
                 }
-                else if (character.primaryWeapon.actionType == Weapon.ActionType.Heal)  //If the weapon heals this will heal as many targets as the weapon dictates
+                else if (character.weapons.Count > 0 && character.specialization.actionType == ActionType.Healing)  //If the weapon heals this will heal as many targets as the weapon dictates
                 {
-                    Heal(character, character.primaryWeapon, playerTeam, enemyTeam);
+                    Heal(character, character.weapons[0], playerTeam, enemyTeam);
+                }
+                else
+                {
+                    //Finds a list of targets at random according to the character's allegiance and how many target's this weapon hits
+                    Character target = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItem(enemyTeam.characters) : CollectionUtilities.GetRandomItem(playerTeam.characters);
+
+                    CombatLog.Log("Target:" + target.characterName);
+                    CombatLog.Log("");
+
+                    //Deals damage to target
+                    DealDamage(character, Character.unarmedWeapon, target, playerTeam, enemyTeam);
                 }
 
                 //if the Character is dual wielding weapons they will try to attack or heal with their offhand
-                if (character.secondaryWeapon != null && character.secondaryWeapon.actionType == Weapon.ActionType.Damage)
+                if (character.weapons.Count > 1 && character.specialization.actionType == ActionType.Damage)
                 {
-                    List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.secondaryWeapon.targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.secondaryWeapon.targetCount);
+                    List<Character> targets = character.allegiance == Character.Allegiance.Player ? CollectionUtilities.GetRandomItems(enemyTeam.characters, character.weapons[1].targetCount) : CollectionUtilities.GetRandomItems(playerTeam.characters, character.weapons[1].targetCount);
 
-                    //Debug.Log("Target Count: " + character.secondaryWeapon.targetCount);
-                    //Debug.Log(character.name + " is attacking: ");
-
-                    //foreach (Character c in targets)
-                        //Debug.Log(c.name);
+                    CombatLog.Log("Target(s):");
+                    foreach (Character c in targets)
+                        CombatLog.Log(c.characterName);
+                    CombatLog.Log("");
 
                     foreach (Character target in targets)
-                        DealDamage(character, character.secondaryWeapon, target, playerTeam, enemyTeam);
+                        DealDamage(character, character.weapons[1], target, playerTeam, enemyTeam);
                 }
-                else if (character.secondaryWeapon != null && character.secondaryWeapon.actionType == Weapon.ActionType.Heal)
+                else if (character.weapons.Count > 1 && character.weapons[1] != null && character.specialization.actionType == ActionType.Healing)
                 {
-                    Heal(character, character.secondaryWeapon, playerTeam, enemyTeam);
+                    Heal(character, character.weapons[1], playerTeam, enemyTeam);
                 }
-                yield return new WaitForSeconds(.25f);
-            }
+                CombatLog.Log("End of " + character.characterName + "'s Turn.");
+                CombatLog.Log("_______________________");
 
+                yield return new WaitForSeconds(.025f);
+            }
             yield return new WaitForEndOfFrame();
         }
     }
@@ -181,17 +189,15 @@ public static class CombatManager
         int roll = Random.Range(1, 101);
 
         //Character hits
-        if (roll <= character.HitChance)
-        {
-            //Debug.Log(character.name + "'s attack hit " + target.name + "!");
-
+        //if (roll <= character.HitChance)
+        //{
             float damage = weapon.weaponDamage + character.Damage.Value;
             roll = Random.Range(1, 101);
 
             //Character crits
             if (roll <= character.CritChance)
             {
-                //Debug.Log(character.name + "'s attack was a crit!");
+                CombatLog.Log("<color=yellow>" + character.characterName + "'s attack was a crit!</color>");
                 damage *= Character.criticalDamageModifier;
             }
             //Debug.Log(target.name + " resisted " + target.DamageResistance + " damage.");
@@ -199,20 +205,33 @@ public static class CombatManager
             //Apply armor resistance to damage value
             damage -= damage * target.DamageResistance;
 
+            CombatLog.Log(character.characterName + "'s attack hit " + target.characterName + "for <color=red>" + damage + "</color>damage!");
+
             //Apply damage to target
             target.Health.AddModifier(new StatModifier(-damage, StatModType.Flat));
 
             //If Target is dead remove from team and combatants
             if (target.Health.Value <= 0)
             {
-                //Debug.Log(target.name + " Died!");
+                CombatLog.Log(target.characterName + " Died!");
                 Team team = target.allegiance == Character.Allegiance.Player ? playerTeam : enemyTeam;
                 team.characters.Remove(target);
             }
-            //else
-            //    Debug.Log(target.name + "'s health is " + target.Health.Value);
+            else
+                CombatLog.Log(target.characterName + "'s health is " + target.Health.Value);
+        //}
+        //else CombatLog.Log(character.characterName + "'s attack missed!");
+
+        roll = Random.Range(1, 101);
+
+        if (!extraAttack && roll <= character.ExtraAttackChance)
+        {
+            extraAttack = true;
+            CombatLog.Log("<color=blue>" + character.characterName + " attacks again!</color>");
+            DealDamage(character, weapon, target, playerTeam, enemyTeam);
         }
-        //else Debug.Log(character.name + "'s attack missed!");
+        else if (extraAttack)
+            extraAttack = false;
     }
     
     static void Heal(Character character, Weapon weapon, Team playerTeam, Team enemyTeam)
@@ -234,36 +253,48 @@ public static class CombatManager
 
             if (lowestCharacter.HealthPercentage >= 1) continue;
 
-            //Debug.Log(character.name + " is healing: " + lowestCharacter.name);
+            CombatLog.Log("Target: " + lowestCharacter.characterName);
 
             //Roll for hit
             int roll = Random.Range(1, 101);
 
-            //Character hits
-            if (roll <= character.HitChance)
-            {
+            ////Character hits
+            //if (roll <= character.HitChance)
+            //{
                 float healAmount = weapon.weaponDamage + character.Healing.Value;
 
                 roll = Random.Range(1, 101);
 
                 //Character crits
                 if (roll <= character.CritChance)
+                {
+                    CombatLog.Log("<color=yellow>" + character.characterName + "'s heal was a crit!</color>");
                     healAmount *= Character.criticalDamageModifier;
+                }
 
                 //Figures out how much health the character is missing to avoid overhealing
                 float missingHealth = lowestCharacter.Health.BaseValue - lowestCharacter.Health.Value;
 
-                //Debug.Log(character.name + " healed " + lowestCharacter.name + " for " + missingHealth);
+                CombatLog.Log(character.characterName + " healed " + lowestCharacter.characterName + " for <color=green>" + missingHealth + "</color>");
 
                 if (healAmount > missingHealth)
                     lowestCharacter.Health.AddModifier(new StatModifier(missingHealth, StatModType.Flat));
                 else
                     lowestCharacter.Health.AddModifier(new StatModifier(healAmount, StatModType.Flat));
-            }
+            //}
             //else
-            //    Debug.Log(character.name + "'s heal missed!");
+            //    CombatLog.Log(character.characterName + "'s heal missed!");
 
             healedTargets.Add(lowestCharacter);
+
+            if (!extraAttack && roll <= character.ExtraAttackChance)
+            {
+                extraAttack = true;
+                CombatLog.Log("<color=blue>" + character.characterName + " heals again!</color>");
+                Heal(character, weapon, playerTeam, enemyTeam);
+            }
+            else if (extraAttack)
+                extraAttack = false;
         }
 
         //If there were no friendlies healed then the character will deal damage instead using an unarmed weapon (It only uses the Power Stat to determine damage)
