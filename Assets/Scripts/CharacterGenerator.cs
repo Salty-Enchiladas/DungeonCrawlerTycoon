@@ -23,25 +23,30 @@ public class CharacterGenerator : MonoBehaviour
         Instance = this;
     }
 
-    public Character GenerateCharacter(Character.Allegiance allegiance, int challengeRating)
+    public Character GenerateCharacter(Character.Allegiance allegiance, int statPoints)
     {
         Character character = Instantiate(characterPrefab, allegiance == Character.Allegiance.Player ? playerTeamSlot : enemyTeamSlot);
         character.allegiance = allegiance;
         Specialization spec = CollectionUtilities.GetRandomItem(specializations);
         character.specialization = spec;
         character.InitializeStats();
+        statPoints = statPoints >= 5 ? statPoints - 5 : 0;
 
-        List<Equipment> equipment = itemGenerator.GenerateEquipment(challengeRating, character);
-
-        foreach(Equipment item in equipment)
+        Debug.Log("Character: " + character.characterName + " -- Stat Points: " + statPoints);
+        if (statPoints > 0)
         {
+            List<Equipment> equipment = itemGenerator.GenerateEquipment(statPoints, character);
 
-            if (item.EquipmentType == EquipmentType.Armor)
-                character.armor.Add((Armor)item);
-            else if (item.EquipmentType == EquipmentType.Weapon)
-                character.weapons.Add((Weapon)item);
+            foreach (Equipment item in equipment)
+            {
 
-            item.Equip(character);
+                if (item.EquipmentType == EquipmentType.Armor)
+                    character.armor.Add((Armor)item);
+                else if (item.EquipmentType == EquipmentType.Weapon)
+                    character.weapons.Add((Weapon)item);
+
+                item.Equip(character);
+            }
         }
 
         return character;

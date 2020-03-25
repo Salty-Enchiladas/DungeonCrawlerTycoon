@@ -60,31 +60,54 @@ public class EncounterGenerator : MonoBehaviour
             }
         }
 
-        int maxDistributives = challengeRating > maxTeamSize ? maxTeamSize : challengeRating;
-        List<int> challengeRatings = MathUtilities.GetRandomDistribution(challengeRating, maxDistributives, 1,20, 20);
+        //What do we do if a character is CR1? Characters start with 5 stats so they can not be 1-5 stats
 
-        int teamSize = challengeRatings.Count;
-
-        playerTeam = new Team();
-        for (int i = 0; i < teamSize; i++)
+        if(challengeRating == 1)
         {
-            Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player, challengeRatings[i]);
-            player.characterName = "Player" + (i + 1);
-            
+            Debug.Log("Player StatPoints: " + 5);
+            Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player, 5);
+            player.characterName = "Player";
             playerTeam.characters.Add(player);
             playerTeamChars.Add(player);
-        }
 
-        List<int> enemyChallengeRatings = MathUtilities.GetRandomDistribution(challengeRating, maxDistributives, 1, 20, 20);
-        int enemyTeamSize = enemyChallengeRatings.Count;
-
-        enemyTeam = new Team();
-        for (int i = 0; i < enemyTeamSize; i++)
-        {
-            Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy, enemyChallengeRatings[i]);
-            enemy.characterName = "Enemy" + (i + 1);
+            Debug.Log("Enemy StatPoints: " + 5);
+            Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy, 5);
+            enemy.characterName = "Enemy";
             enemyTeam.characters.Add(enemy);
             enemyTeamChars.Add(enemy);
+        }
+        else if(challengeRating > 1)
+        {
+            int crMaxStats = challengeRating * 5; // *5 because the max of each Challenge Rating increases by 5.
+            int crStatPoints = Random.Range(crMaxStats - 4, crMaxStats); //-4 because the range of a challenge rating is 4.
+
+            int maxDistributives = challengeRating > maxTeamSize ? maxTeamSize : challengeRating;
+            List<int> playerStatPoints = MathUtilities.GetRandomDistribution(crStatPoints, maxDistributives, 0, 20, 20);
+
+            int teamSize = playerStatPoints.Count;
+
+            playerTeam = new Team();
+            for (int i = 0; i < teamSize; i++)
+            {
+                Debug.Log("Player" + (i + 1) + " StatPoints: " + playerStatPoints[i]);
+                Character player = characterGenerator.GenerateCharacter(Character.Allegiance.Player, playerStatPoints[i]);
+                player.characterName = "Player" + (i + 1);
+                playerTeam.characters.Add(player);
+                playerTeamChars.Add(player);
+            }
+
+            List<int> enemyStatPoints = MathUtilities.GetRandomDistribution(crStatPoints, maxDistributives, 0, 20, 20);
+            int enemyTeamSize = enemyStatPoints.Count;
+
+            enemyTeam = new Team();
+            for (int i = 0; i < enemyTeamSize; i++)
+            {
+                Debug.Log("Enemy" + (i + 1) + " StatPoints: " + enemyStatPoints[i]);
+                Character enemy = characterGenerator.GenerateCharacter(Character.Allegiance.Enemy, enemyStatPoints[i]);
+                enemy.characterName = "Enemy" + (i + 1);
+                enemyTeam.characters.Add(enemy);
+                enemyTeamChars.Add(enemy);
+            }
         }
 
         combat = StartCoroutine(CombatManager.SimulateFight(playerTeam, enemyTeam));
